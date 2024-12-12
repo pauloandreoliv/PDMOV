@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cadastroLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -19,6 +20,7 @@
     <!-- Título -->
 
     <!-- Subtítulo -->
+
     <ImageView
         android:id="@+id/backArrow"
         android:layout_width="40dp"
@@ -26,8 +28,8 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_back_arrow"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="49dp" />
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="81dp" />
 
     <TextView
         android:id="@+id/titleTextView"
