@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "307532138000",
+    "project_id": "maispaulista-pdmov",
+    "storage_bucket": "maispaulista-pdmov.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307532138000:android:9ec6e59973495ff7a06c95",
+        "android_client_info": {
+          "package_name": "com.projeto.maispaulista"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB9lHaGXAv2dKOgbpLRP1jbrD40RnbPqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
