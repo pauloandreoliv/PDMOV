@@ -12,6 +12,9 @@ class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFir
         user: User,
         callback: (Boolean, String?) -> Unit
     ) {
+
+        //implementar logica de verificação de e-mail
+        
         //salvar dados no authentiication
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
