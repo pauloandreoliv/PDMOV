@@ -16,16 +16,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     android:layout_marginTop="32dp" />
-
-
-
-
-
-
-
-
-
-    ]]>
+]]>
 
     <ImageView
         android:id="@+id/headerImage"
@@ -36,16 +27,17 @@
         tools:layout_editor_absoluteY="16dp" />
 
     <EditText
-        android:id="@+id/cpfCnpjEditText"
+        android:id="@+id/emailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:background="@android:drawable/edit_text"
-        android:hint="CPF/CNPJ"
+        android:hint="E-MAIL"
         android:inputType="text"
         android:padding="12dp"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,9 +112,10 @@
         android:hint="SENHA"
         android:inputType="textPassword"
         android:padding="12dp"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cpfCnpjEditText" />
+        app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

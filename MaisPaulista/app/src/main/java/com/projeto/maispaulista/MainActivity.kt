@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_main)
 
 
@@ -42,31 +44,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-        val userRepository = UserRepository(auth, db)
-        userService = UserService(userRepository)
 
-        val etEmail = findViewById<EditText>(R.id.cpfCnpjEditText)
-        val etSenha = findViewById<EditText>(R.id.passwordEditText)
-        val btnLogin = findViewById<Button>(R.id.loginButton)
-
-        btnLogin.setOnClickListener {
-            val email = etEmail.text.toString()
-            val senha = etSenha.text.toString()
-
-            // Chamar o serviço para login
-            userService.fazerLogin(email, senha) { success, error ->
-                if (success) {
-                    Toast.makeText(this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
-                }
-
-            }
-        }
     }
 }

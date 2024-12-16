@@ -52,6 +52,8 @@ dependencies {
     implementation (libs.firebase.firestore.ktx)
     implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
+    implementation ("org.osmdroid:osmdroid-android:6.1.10")
+    implementation ("androidx.appcompat:appcompat:1.3.1")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
