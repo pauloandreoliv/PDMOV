@@ -31,4 +31,24 @@ class UserService(private val repository: UserRepository) {
             }
         }
     }
+
+    fun verificarUsuario(
+        email: String,
+        password: String,
+        callback: (Boolean, String?) -> Unit){
+        if (email.isEmpty() || password.isEmpty()) {
+            callback(false, "Por favor, preencha todos os campos.")
+            return
+        }
+
+        repository.getUserRepository(email, password) { success, error ->
+            if (success) {
+                Log.d("UserService", "Login realizado com sucesso.")
+                callback(true, null)
+            } else {
+                Log.e("UserService", "Error ao realizar o login: $error")
+                callback(false, error)
+            }
+        }
+    }
 }

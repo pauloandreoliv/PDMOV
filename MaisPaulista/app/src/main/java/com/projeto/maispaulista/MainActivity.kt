@@ -29,6 +29,12 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_main)
 
+        //instancias
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        val userRepository = UserRepository(auth, db)
+        userService = UserService(userRepository)
+
 
         // Configurar insets para o layout raiz
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootLayout)) { v, insets ->
@@ -42,6 +48,42 @@ class MainActivity : AppCompatActivity() {
         registerLink.setOnClickListener {
             val intent = Intent(this, CadastroActivity::class.java)
             startActivity(intent)
+        }
+
+        val etEmail = findViewById<EditText>(R.id.emailEditText)
+        val etSenha = findViewById<EditText>(R.id.passwordEditText)
+        val bntEntrar = findViewById<Button>(R.id.loginButton)
+
+
+
+        //clique botão para entrar
+        bntEntrar.setOnClickListener {
+            val email = etEmail.text.toString()
+            val senha = etSenha.text.toString()
+
+            if (email.isEmpty() || senha.isEmpty()) {
+                Toast.makeText(baseContext, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // serviço de login
+            userService.verificarUsuario(email, senha){ success, _ ->
+                runOnUiThread{
+                    if (success) {
+                        Toast.makeText(baseContext, "Login Realizado", Toast.LENGTH_SHORT).show()
+                        //redirecionar para pagina principal
+                        val intent = Intent(this, PrincipalActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(baseContext, "Erro desconhecido durante o Login.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            }
+
+
+
         }
 
 

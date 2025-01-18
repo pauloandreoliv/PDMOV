@@ -42,4 +42,27 @@ class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFir
             }
         }
     }
+
+
+    fun getUserRepository(
+        email: String,
+        password: String,
+        callback: (Boolean, String?) -> Unit) {
+
+        if (email.isBlank() || password.isBlank()) {
+            callback(false, "Email ou senha não podem estar vazios.")
+            return
+        }
+
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("Login", "Login realizado com sucesso.")
+                callback(true, null)
+            } else {
+                val errorMessage = task.exception?.localizedMessage ?: "Erro desconhecido."
+                Log.e("UserRepository", "Erro ao fazer login: $errorMessage")
+                callback(false, "Erro ao fazer login: $errorMessage")
+            }
+        }
+    }
 }

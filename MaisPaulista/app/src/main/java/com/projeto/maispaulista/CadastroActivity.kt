@@ -66,7 +66,7 @@ class CadastroActivity : AppCompatActivity() {
         addressLayout = findViewById(R.id.addressLayout)
 
 
-        //clique
+        //clique de cadastro
         btnCadastrar.setOnClickListener {
             val email = etEmail.text.toString()
             val senha = etSenha.text.toString()
