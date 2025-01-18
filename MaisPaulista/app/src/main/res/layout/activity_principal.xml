@@ -8,7 +8,6 @@
     android:background="#F0D508"
     tools:context=".PrincipalActivity">
 
-    <?xml version="1.0" encoding="utf-8"?>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:background="#FFFFF"
+                android:background="#FFFFFF"
                 android:orientation="horizontal"
                 android:padding="16dp">
 
@@ -104,7 +103,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="2"
-                android:gap="16dp"
                 android:rowCount="3">
 
                 <!-- Button 1 -->
@@ -408,7 +406,6 @@
                         android:src="@drawable/ic_link" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 </ScrollView>
