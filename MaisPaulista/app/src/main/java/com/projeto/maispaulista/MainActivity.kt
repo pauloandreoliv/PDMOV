@@ -17,6 +17,11 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.repository.UserRepository
 import com.projeto.maispaulista.service.UserService
+import android.app.AlertDialog
+import android.content.Context
+import android.os.Handler
+import android.os.Looper
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -50,6 +55,19 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+        fun showAlertDialog(context: Context, title: String, message: String) {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(title)
+            builder.setMessage(message)
+            builder.setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+
+
         val etEmail = findViewById<EditText>(R.id.emailEditText)
         val etSenha = findViewById<EditText>(R.id.passwordEditText)
         val bntEntrar = findViewById<Button>(R.id.loginButton)
@@ -62,30 +80,28 @@ class MainActivity : AppCompatActivity() {
             val senha = etSenha.text.toString()
 
             if (email.isEmpty() || senha.isEmpty()) {
-                Toast.makeText(baseContext, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+                showAlertDialog(this, "Informação login incompleto", "Preencha todos os campos!")
                 return@setOnClickListener
             }
 
             // serviço de login
-            userService.verificarUsuario(email, senha){ success, _ ->
-                runOnUiThread{
+            userService.verificarUsuario(email, senha) { success, _ ->
+                runOnUiThread {
                     if (success) {
-                        Toast.makeText(baseContext, "Login Realizado", Toast.LENGTH_SHORT).show()
-                        //redirecionar para pagina principal
-                        val intent = Intent(this, PrincipalActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        showAlertDialog(this, "Login Realizado", "Login realizado com sucesso!")
+
+                        // redirecionar para pagina principal
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(this, PrincipalActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }, 3000)
                     } else {
-                        Toast.makeText(baseContext, "Erro desconhecido durante o Login.", Toast.LENGTH_SHORT).show()
+                        showAlertDialog(this, "Erro de Login", "Erro desconhecido durante o Login.")
+                            }
+                        }
                     }
                 }
 
-            }
-
-
-
         }
-
-
     }
-}
