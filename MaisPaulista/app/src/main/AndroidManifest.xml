@@ -23,6 +23,9 @@
             android:name=".CadastroActivity"
             android:exported="false" />
         <activity
+            android:name=".RegisterResquestsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ConfigurationActivity"
             android:exported="false" />
         <activity

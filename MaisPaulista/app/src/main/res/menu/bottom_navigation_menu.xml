@@ -6,7 +6,8 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home"
-        android:title="Home"/>
+        android:title="Home"
+        android:iconBackground="@drawable/ic_home_bg"/>
     <item
         android:id="@+id/navigation_back"
         android:icon="@drawable/ic_back"
