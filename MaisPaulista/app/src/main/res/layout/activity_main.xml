@@ -9,14 +9,6 @@
     android:background="#FFFFFF"
     tools:context=".MainActivity">
 
-    <!-- Imagem ou ilustração --><![CDATA[
-
-    android:contentDescription="@string/illustration_description"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginTop="32dp" />
-]]>
 
     <ImageView
         android:id="@+id/headerImage"
@@ -24,7 +16,8 @@
         android:layout_height="363dp"
         android:src="@drawable/login"
         tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteY="16dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/emailEditText"
