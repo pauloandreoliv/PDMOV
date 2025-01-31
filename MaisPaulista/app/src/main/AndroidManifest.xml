@@ -38,6 +38,9 @@
             android:name=".AgendarConsultaActivity"
             android:exported="false" />
         <activity
+            android:name=".MinhasConsultasActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
