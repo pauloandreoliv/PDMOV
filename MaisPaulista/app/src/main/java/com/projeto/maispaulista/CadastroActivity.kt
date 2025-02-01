@@ -2,7 +2,6 @@ package com.projeto.maispaulista
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -40,7 +39,7 @@ class CadastroActivity : AppCompatActivity() {
         userService = UserService(userRepository)
 
 
-        setContentView(R.layout.activity_cadastro)
+        setContentView(R.layout.activity_registration)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cadastroLayout)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

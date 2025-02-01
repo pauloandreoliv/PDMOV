@@ -20,7 +20,13 @@
             android:name=".PrincipalActivity"
             android:exported="false" />
         <activity
+            android:name=".CityHallContactsActivity"
+            android:exported="false" />
+        <activity
             android:name=".CadastroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FrequentQuestionActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterResquestsActivity"
