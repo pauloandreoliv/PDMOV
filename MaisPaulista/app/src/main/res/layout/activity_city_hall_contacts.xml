@@ -65,13 +65,13 @@
 
             <TextView
                 android:id="@+id/subtitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="373dp"
+                android:layout_height="51dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:maxWidth="309dp"
                 android:padding="8dp"
-                android:text="Explore as dúvidas mais frequentes, talvez você encontre a resposta para sua dúvida"
+                android:text="Precisa entrar em contato com a gestão municipal? Nesta página você encontra os principais contatos oficiais"
                 android:textColor="#888888"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
