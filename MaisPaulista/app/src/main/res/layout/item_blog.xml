@@ -1,0 +1,39 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="#F9F9F9"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/blog_image"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/blog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/blog_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:textSize="14sp"/>
+
+    <ImageView
+        android:id="@+id/blog_link"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="#F0D508"
+        android:clickable="true"
+        android:contentDescription="Abrir link"
+        android:src="@drawable/ic_link"/>
+</LinearLayout>

@@ -51,9 +51,13 @@ dependencies {
     implementation(libs.google.firebase.auth.ktx)
     implementation (libs.firebase.firestore.ktx)
     implementation(libs.firebase.firestore)
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
     testImplementation(libs.junit)
     implementation ("org.osmdroid:osmdroid-android:6.1.10")
     implementation ("androidx.appcompat:appcompat:1.3.1")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
 }
