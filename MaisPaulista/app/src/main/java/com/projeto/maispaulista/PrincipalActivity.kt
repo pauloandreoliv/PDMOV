@@ -28,7 +28,6 @@ class PrincipalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_principal)
 
-
         Log.d("PrincipalActivity", "onCreate called")
 
         // Ajuste de margens para barra de status e navegação
@@ -42,8 +41,9 @@ class PrincipalActivity : AppCompatActivity() {
         setupRecyclerView()
         setupClickListeners()
         setupBottomNavigation()
-
     }
+
+    //Faz busca no Firestore e configura o RecyclerView
 
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.blog_recycler_view)
@@ -53,17 +53,13 @@ class PrincipalActivity : AppCompatActivity() {
         val query = FirebaseFirestore.getInstance().collection("blogs")
         val options = FirestoreRecyclerOptions.Builder<Blog>()
             .setQuery(query, Blog::class.java)
-            .setLifecycleOwner(this)
             .build()
-
         Log.d("PrincipalActivity", "FirestoreRecyclerOptions built")
 
-        blogAdapter = BlogAdapter(options)
+        blogAdapter = BlogAdapter(this, options)
         recyclerView.adapter = blogAdapter
-
         Log.d("PrincipalActivity", "Adapter set")
     }
-
 
 
     //logica de redirecionamentos
@@ -84,7 +80,7 @@ class PrincipalActivity : AppCompatActivity() {
         }
     }
 
-
+    //menu inferior
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
