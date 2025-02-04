@@ -11,8 +11,12 @@ class BlogRepository {
     private val firestore = FirebaseFirestore.getInstance()
 
     fun getBlogs(): Flow<List<Blog>> = flow {
-        val snapshot = firestore.collection("blogs").get().await()
-        val blogs = snapshot.toObjects(Blog::class.java)
-        emit(blogs)
+        try {
+            val snapshot = firestore.collection("blogs").get().await()
+            val blogs = snapshot.toObjects(Blog::class.java)
+            emit(blogs)
+        } catch (e: Exception) {
+            emit(emptyList())
+        }
     }
 }

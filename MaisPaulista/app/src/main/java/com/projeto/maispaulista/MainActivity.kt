@@ -23,6 +23,7 @@ import android.os.Handler
 import android.os.Looper
 
 
+
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
@@ -34,12 +35,11 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_main)
 
-        //instancias
+        // Instancias
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         val userRepository = UserRepository(auth, db)
         userService = UserService(userRepository)
-
 
         // Configurar insets para o layout raiz
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootLayout)) { v, insets ->
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
         fun showAlertDialog(context: Context, title: String, message: String) {
             val builder = AlertDialog.Builder(context)
             builder.setTitle(title)
@@ -67,14 +66,11 @@ class MainActivity : AppCompatActivity() {
             dialog.show()
         }
 
-
         val etEmail = findViewById<EditText>(R.id.emailEditText)
         val etSenha = findViewById<EditText>(R.id.passwordEditText)
         val bntEntrar = findViewById<Button>(R.id.loginButton)
 
-
-
-        //clique botão para entrar
+        // Clique no botão para entrar
         bntEntrar.setOnClickListener {
             val email = etEmail.text.toString()
             val senha = etSenha.text.toString()
@@ -84,24 +80,23 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // serviço de login
-            userService.verificarUsuario(email, senha) { success, _ ->
+            // Serviço de login
+            userService.verificarUsuario(email, senha) { success, errorMessage ->
                 runOnUiThread {
                     if (success) {
                         showAlertDialog(this, "Login Realizado", "Login realizado com sucesso!")
-
-                        // redirecionar para pagina principal
+                        // Redirecionar para página principal
                         Handler(Looper.getMainLooper()).postDelayed({
                             val intent = Intent(this, PrincipalActivity::class.java)
                             startActivity(intent)
                             finish()
                         }, 3000)
                     } else {
-                        showAlertDialog(this, "Erro de Login", "Erro desconhecido durante o Login.")
-                            }
-                        }
+                        showAlertDialog(this, "Erro de Login", "Erro: $errorMessage")
                     }
                 }
-
+            }
         }
     }
+}
+

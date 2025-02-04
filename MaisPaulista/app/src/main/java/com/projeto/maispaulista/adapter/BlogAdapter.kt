@@ -1,16 +1,21 @@
 package com.projeto.maispaulista.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.projeto.maispaulista.R
 import com.projeto.maispaulista.model.Blog
 import com.squareup.picasso.Picasso
 
-class BlogAdapter(private var blogList: List<Blog>) : RecyclerView.Adapter<BlogAdapter.BlogViewHolder>() {
+class BlogAdapter(options: FirestoreRecyclerOptions<Blog>) :
+    FirestoreRecyclerAdapter<Blog, BlogAdapter.BlogViewHolder>(options) {
 
     class BlogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.blog_image)
@@ -20,26 +25,32 @@ class BlogAdapter(private var blogList: List<Blog>) : RecyclerView.Adapter<BlogA
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BlogViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_blog, parent, false)
-        return BlogViewHolder(itemView)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_blog, parent, false)
+        Log.d("BlogAdapter", "onCreateViewHolder called")
+        return BlogViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: BlogViewHolder, position: Int) {
-        val blog = blogList[position]
-        Picasso.get().load(blog.imageUrl).into(holder.imageView)
-        holder.titleView.text = blog.title
-        holder.descriptionView.text = blog.description
+    override fun onBindViewHolder(holder: BlogViewHolder, position: Int, model: Blog) {
+        Log.d("BlogAdapter", "onBindViewHolder called for position $position with blog title ${model.title}")
+        Log.d("BlogAdapter", "Blog details - Image URL: ${model.imageUrl}, Description: ${model.description}, Link: ${model.link}")
+
+        Picasso.get().load(model.imageUrl).into(holder.imageView)
+        holder.titleView.text = model.title
+        holder.descriptionView.text = model.description
         holder.linkView.setOnClickListener {
-            // Abra o link
+            Log.d("BlogAdapter", "Link clicked for blog: ${model.title}")
+            // Ação ao clicar no link
         }
     }
 
-    override fun getItemCount(): Int {
-        return blogList.size
+    override fun onDataChanged() {
+        super.onDataChanged()
+        Log.d("BlogAdapter", "Data changed")
     }
 
-    fun updateBlogs(blogs: List<Blog>) {
-        this.blogList = blogs
-        notifyDataSetChanged() // Atualiza o RecyclerView
+    override fun onError(e: FirebaseFirestoreException) {
+        super.onError(e)
+        Log.e("BlogAdapter", "Error: ${e.message}")
     }
 }

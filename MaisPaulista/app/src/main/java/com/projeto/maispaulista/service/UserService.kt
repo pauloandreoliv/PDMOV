@@ -5,8 +5,8 @@ import com.projeto.maispaulista.model.User
 import com.projeto.maispaulista.repository.UserRepository
 
 
-class UserService(private val repository: UserRepository) {
 
+class UserService(private val repository: UserRepository) {
 
     fun cadastrarUsuario(
         email: String,
@@ -35,7 +35,8 @@ class UserService(private val repository: UserRepository) {
     fun verificarUsuario(
         email: String,
         password: String,
-        callback: (Boolean, String?) -> Unit){
+        callback: (Boolean, String?) -> Unit
+    ) {
         if (email.isEmpty() || password.isEmpty()) {
             callback(false, "Por favor, preencha todos os campos.")
             return
@@ -46,7 +47,7 @@ class UserService(private val repository: UserRepository) {
                 Log.d("UserService", "Login realizado com sucesso.")
                 callback(true, null)
             } else {
-                Log.e("UserService", "Error ao realizar o login: $error")
+                Log.e("UserService", "Erro ao realizar o login: $error")
                 callback(false, error)
             }
         }

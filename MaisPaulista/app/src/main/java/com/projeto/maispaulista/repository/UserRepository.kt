@@ -6,29 +6,27 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.model.User
 
 class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFirestore) {
+
     fun createUser(
         email: String,
         password: String,
         user: User,
         callback: (Boolean, String?) -> Unit
     ) {
-
-        //implementar logica de verificação de e-mail
-        
-        //salvar dados no authentiication
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val userId = auth.currentUser?.uid
-
                 if (userId != null) {
-                    // Salvar dados no Firestore
                     db.collection("users").document(userId).set(user)
                         .addOnSuccessListener {
                             Log.d("Cadastro", "Usuário salvo com sucesso no Firestore")
                             callback(true, null)
                         }
                         .addOnFailureListener { exception ->
-                            Log.e("Cadastro", "Erro ao salvar dados no Firestore: ${exception.message}")
+                            Log.e(
+                                "Cadastro",
+                                "Erro ao salvar dados no Firestore: ${exception.message}"
+                            )
                             callback(false, "Erro ao salvar dados: ${exception.message}")
                         }
                 } else {
@@ -43,17 +41,11 @@ class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFir
         }
     }
 
-
     fun getUserRepository(
         email: String,
         password: String,
-        callback: (Boolean, String?) -> Unit) {
-
-        if (email.isBlank() || password.isBlank()) {
-            callback(false, "Email ou senha não podem estar vazios.")
-            return
-        }
-
+        callback: (Boolean, String?) -> Unit
+    ) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d("Login", "Login realizado com sucesso.")
