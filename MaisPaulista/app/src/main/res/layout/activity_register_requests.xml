@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/registerResquestsLayout"
+    android:background="#FFFFFF"
     tools:context=".RegisterResquestsActivity">
 
     <ScrollView
@@ -82,7 +83,8 @@
             android:text="TIPO"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="281dp"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@id/subtitleTextView"/>
 
         <Spinner
             android:id="@+id/tipoSolicitacaoSpinner"
@@ -92,6 +94,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:padding="12dp"
+            android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,26 +110,41 @@
             android:text="Enviar"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            app:layout_constraintTop_toBottomOf="@id/imagemEdit"
+            app:layout_constraintTop_toBottomOf="@id/imagemLinearLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <EditText
-            android:id="@+id/imagemEdit"
+        <LinearLayout
+            android:id="@+id/imagemLinearLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:background="@android:drawable/edit_text"
-            android:drawableEnd="@drawable/ic_camera"
-            android:drawablePadding="8dp"
-            android:hint="ENDEREÇO"
-            android:padding="12dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imagemLabel" />
+            app:layout_constraintTop_toBottomOf="@id/imagemLabel">
+
+            <TextView
+                android:id="@+id/imagemTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:drawable/edit_text"
+                android:hint="ANEXAR IMAGEM"
+                android:padding="12dp"
+                android:textColor="@android:color/black" />
+
+            <ImageView
+                android:id="@+id/ic_camera"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_camera"
+                android:contentDescription="Ícone da câmera" />
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/DescriçãoEdit"
@@ -138,6 +156,7 @@
             android:background="@android:drawable/edit_text"
             android:hint="Descrição"
             android:padding="40dp"
+            android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -153,8 +172,9 @@
             android:background="@android:drawable/edit_text"
             android:drawableEnd="@drawable/maps"
             android:drawablePadding="8dp"
-            android:hint="ANEXAR IMAGEM"
+            android:hint="ENDEREÇO"
             android:padding="12dp"
+            android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -171,14 +191,14 @@
             app:layout_constraintTop_toBottomOf="@id/DescriçãoEdit" />
 
         <TextView
-            android:id="@+id/imagemLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
-            android:text="IMAGEM"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/enderecoEdit" />
+        android:id="@+id/imagemLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:text="IMAGEM"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enderecoEdit" />
 
         <TextView
             android:id="@+id/descricaoLabel"

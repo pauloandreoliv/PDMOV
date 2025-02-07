@@ -9,11 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.TextView
-import android.widget.Toast
-import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.repository.UserRepository
 import com.projeto.maispaulista.service.UserService
@@ -21,7 +18,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-
+import android.util.Log
+import com.projeto.maispaulista.adapter.Variaveis
 
 
 class MainActivity : AppCompatActivity() {
@@ -84,13 +82,22 @@ class MainActivity : AppCompatActivity() {
             userService.verificarUsuario(email, senha) { success, errorMessage ->
                 runOnUiThread {
                     if (success) {
-                        showAlertDialog(this, "Login Realizado", "Login realizado com sucesso!")
-                        // Redirecionar para página principal
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            val intent = Intent(this, PrincipalActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }, 3000)
+                        val currentUser = auth.currentUser
+                        if (currentUser != null) {
+                            val uid = currentUser.uid
+                            Variaveis.uid = uid  // Armazene o UID no Singleton
+                            Log.d("Login", "Login realizado com sucesso. UID: $uid")
+
+                            // Exibir alerta de sucesso e redirecionar
+                            showAlertDialog(this, "Login Realizado", "Login realizado com sucesso!")
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val intent = Intent(this, PrincipalActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }, 3000)
+                        } else {
+                            showAlertDialog(this, "Erro de Login", "Erro ao obter informações do usuário.")
+                        }
                     } else {
                         showAlertDialog(this, "Erro de Login", "Erro: $errorMessage")
                     }
@@ -99,4 +106,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-

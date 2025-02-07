@@ -32,6 +32,14 @@ class UserService(private val repository: UserRepository) {
         }
     }
 
+    suspend fun getUser(uid: String): User? {
+        return repository.getUser(uid)
+    }
+
+    suspend fun updateUser(user: User, callback: (Boolean, String?) -> Unit) {
+        repository.updateUser(user, callback)
+    }
+
     fun verificarUsuario(
         email: String,
         password: String,

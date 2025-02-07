@@ -32,6 +32,7 @@
         <activity
             android:name=".RegisterResquestsActivity"
             android:exported="false" />
+            android:windowSoftInputMode="adjustResize"
         <activity
             android:name=".MyRequestsActivity"
             android:exported="false" />
@@ -40,9 +41,11 @@
             android:exported="false" />
         <activity
             android:name=".ConfigurationActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".ScheduleConsultationsActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".MyConsultationsActivity"

@@ -1,14 +1,12 @@
 package com.projeto.maispaulista
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -17,6 +15,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.adapter.BlogAdapter
 import com.projeto.maispaulista.model.Blog
 import android.util.Log
+import androidx.core.content.ContextCompat
+import com.projeto.maispaulista.adapter.Variaveis
+
 class PrincipalActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
@@ -35,6 +36,13 @@ class PrincipalActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
         // Inicializa componentes
@@ -87,6 +95,7 @@ class PrincipalActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_settings -> {
+                    Variaveis.currentActivity = this::class.java
                     startActivity(Intent(this, ConfigurationActivity::class.java))
                     true
                 }
@@ -96,6 +105,7 @@ class PrincipalActivity : AppCompatActivity() {
                 }
                 R.id.navigation_back -> {
                     startActivity(Intent(this, MainActivity::class.java))
+                    Variaveis.uid = ""
                     true
                 }
                 else -> false

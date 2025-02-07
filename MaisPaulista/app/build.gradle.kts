@@ -62,6 +62,4 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.3.1")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-
 }
