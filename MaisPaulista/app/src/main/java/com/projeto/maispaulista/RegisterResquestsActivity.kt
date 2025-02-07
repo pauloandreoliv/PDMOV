@@ -129,6 +129,14 @@ class RegisterResquestsActivity : AppCompatActivity() {
         return filePath
     }
 
+
+    override fun onBackPressed() {
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     private fun salvarSolicitacao(tipoItem: String, descricao: String, imagemNome: String) {
         CoroutineScope(Dispatchers.Main).launch {
             val success = requestService.addRequest(tipoItem, descricao, imagemNome)

@@ -44,26 +44,82 @@ class ConfigurationActivity : AppCompatActivity() {
         val userRepository = UserRepository(auth, db)
         userService = UserService(userRepository)
 
-        val backArrow = findViewById<ImageView>(R.id.backArrow)
-        backArrow.setOnClickListener {
-            val intent = Intent(this, Variaveis.currentActivity)
-            startActivity(intent)
-            finish()
-        }
-
-        window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
-
         nomeEdit = findViewById(R.id.nomeEdit)
         cpfEdit = findViewById(R.id.cpfEdit)
         emailTextView = findViewById(R.id.emailTextView)
 
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.configurationLayout)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.seF
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        loadUserData()
+        val registerButton: Button = findViewById(R.id.registerButton)
+        registerButton.setOnClickListener {
+            updateUserData()
+        }
+
+        setupBottomNavigation()
+    }
+
+    private fun loadUserData() {
+        val currentUser = Variaveis.uid
+        if (currentUser == null) {
+            Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+            return
+        }
+        Log.d("ConfigurationActivity", "Carregando dados para UID: $currentUser")
+        CoroutineScope(Dispatchers.Main).launch {
+            val user = userService.getUser(currentUser)
+            user?.let {
+                Log.d("UserData", "Nome: ${it.nome}, Email: ${it.email}")
+                nomeEdit.setText(it.nome)
+                cpfEdit.setText(it.cpfCnpj)
+                emailTextView.text = it.email
+                currentPassword = it.password // Armazenar a senha atual
+            } ?: Log.e("UserData", "Usuário não encontrado no Firestore!")
+        }
+    }
+
+    private fun updateUserData() {
+        val user = User(
+            nome = nomeEdit.text.toString(),
+            email = emailTextView.text.toString(),
+            password = currentPassword, // Usar a senha atual
+            cpfCnpj = cpfEdit.text.toString()
+        )
+
+        CoroutineScope(Dispatchers.Main).launch {
+            // Atualizar os dados do usuário
+            userService.updateUser(user) { success, errorMessage ->
+                if (success) {
+                    Toast.makeText(this@ConfigurationActivity, "Dados atualizados com sucesso", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this@ConfigurationActivity, errorMessage ?: "Erro desconhecido ao atualizar dados", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun setupBottomNavigation() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_settings -> {
+                    startActivity(Intent(this, ConfigurationActivity::class.java))
+                    true
+                }
+                R.id.navigation_home -> {
+                    startActivity(Intent(this, PrincipalActivity::class.java))
+                    true
+                }
+                R.id.navigation_back -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+}

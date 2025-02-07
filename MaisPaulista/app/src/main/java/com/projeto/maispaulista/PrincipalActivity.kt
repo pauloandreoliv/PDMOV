@@ -113,6 +113,15 @@ class PrincipalActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onBackPressed() {
+
+        val intent = Intent(this, Variaveis.currentActivity)
+        startActivity(intent)
+        finish()
+    }
+
+
     override fun onStart() {
         super.onStart()
         blogAdapter.startListening()

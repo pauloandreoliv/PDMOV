@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.projeto.maispaulista.adapter.Variaveis
 import com.projeto.maispaulista.repository.UserRepository
 import com.projeto.maispaulista.service.UserService
 
@@ -100,6 +101,15 @@ class CadastroActivity : AppCompatActivity() {
             }
         }
 
+
+
+    }
+
+    override fun onBackPressed() {
+
+        val intent = Intent(this, Variaveis.currentActivity)
+        startActivity(intent)
+        finish()
     }
 
 }
