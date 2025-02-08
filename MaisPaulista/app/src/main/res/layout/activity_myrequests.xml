@@ -77,94 +77,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
-            <TextView
-                android:id="@+id/typeLabel"
-                android:layout_width="313dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/background_yellow"
-                android:text="Solicitação: N°555654 \nTipo: Denúncia\nData: 29/10/2024\nStatus: Pendente"
-                android:textColor="#FFFFFF"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+            <LinearLayout
+                android:id="@+id/requestsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/subtitleTextView"
-                tools:layout_editor_absoluteY="276dp"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/typeLabel1"
-                android:layout_width="313dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/background_green"
-                android:text="Solicitação: N°555654 \nTipo: Denúncia\nData: 29/10/2024\nStatus: Deferido"
-                android:textColor="#FFFFFF"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/typeLabel"
-                tools:layout_editor_absoluteY="276dp"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/typeLabel2"
-                android:layout_width="313dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/background_red"
-                android:text="Solicitação: N°555654 \nTipo: Denúncia\nData: 29/10/2024\nStatus: Indeferido"
-                android:textColor="#FFFFFF"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/typeLabel1"
-                tools:layout_editor_absoluteY="276dp"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/typeLabel3"
-                android:layout_width="313dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/background_green"
-                android:text="Solicitação: N°555654 \nTipo: Denúncia\nData: 29/10/2024\nStatus: Deferido"
-                android:textColor="#FFFFFF"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/typeLabel2"
-                tools:layout_editor_absoluteY="276dp"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/typeLabel4"
-                android:layout_width="313dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/background_green"
-                android:text="Solicitação: N°555654 \nTipo: Denúncia\nData: 29/10/2024\nStatus: Deferido"
-                android:textColor="#FFFFFF"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/typeLabel3"
-                tools:layout_editor_absoluteY="276dp"
-                tools:ignore="MissingConstraints" />
-
-
-
-
+                tools:ignore="MissingConstraints"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
