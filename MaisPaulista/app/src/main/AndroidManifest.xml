@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
 
     <application
         android:allowBackup="true"
@@ -30,9 +34,9 @@
             android:name=".FrequentQuestionActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterResquestsActivity"
+            android:name=".Register_RequestsActivity"
             android:exported="false" />
-            android:windowSoftInputMode="adjustResize"
+
         <activity
             android:name=".MyRequestsActivity"
             android:exported="false" />

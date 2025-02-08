@@ -9,13 +9,8 @@
     android:background="#FFFFFF"
     tools:context=".CadastroActivity">
 
-    <!-- Botão voltar -->
-    <!-- Substitua pelo ícone correto -->
-    android:contentDescription="@string/back_arrow"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    android:layout_marginTop="16dp"
-    android:layout_marginStart="16dp" />
+
+
 
     <!-- Título -->
 

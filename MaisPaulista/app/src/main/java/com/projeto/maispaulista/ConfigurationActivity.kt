@@ -54,14 +54,39 @@ class ConfigurationActivity : AppCompatActivity() {
             insets
         }
 
+        val backArrow = findViewById<ImageView>(R.id.backArrow)
+        backArrow.setOnClickListener {
+            val intent = Intent(this, Variaveis.currentActivity)
+            startActivity(intent)
+            finish()
+        }
+
+        window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
+
         loadUserData()
         val registerButton: Button = findViewById(R.id.registerButton)
         registerButton.setOnClickListener {
             updateUserData()
+
+
+
         }
 
         setupBottomNavigation()
     }
+
+
+
+    override fun onBackPressed() {
+        val intent = Intent(this, Variaveis.currentActivity)
+        startActivity(intent)
+        finish()
+    }
+
 
     private fun loadUserData() {
         val currentUser = Variaveis.uid
@@ -82,6 +107,7 @@ class ConfigurationActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateUserData() {
         val user = User(
             nome = nomeEdit.text.toString(),
@@ -101,6 +127,8 @@ class ConfigurationActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)

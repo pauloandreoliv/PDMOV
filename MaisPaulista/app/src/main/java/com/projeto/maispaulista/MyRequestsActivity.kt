@@ -10,5 +10,9 @@ class MyRequestsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_myrequests)  // Define o layout da Activity
 
 
+
+
+
     }
+
 }

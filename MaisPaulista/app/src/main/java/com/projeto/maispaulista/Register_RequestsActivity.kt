@@ -1,13 +1,17 @@
 package com.projeto.maispaulista
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -16,6 +20,7 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -28,11 +33,15 @@ import com.projeto.maispaulista.service.RequestService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 import java.io.File
+import java.io.FileOutputStream
+import android.Manifest
 
-// Activity para registro de solicitações
-class RegisterResquestsActivity : AppCompatActivity() {
+import android.widget.*
+
+
+class Register_RequestsActivity   : AppCompatActivity() {
+    private val REQUEST_WRITE_STORAGE = 112
 
     private val requestService: RequestService by lazy {
         val firestore = FirebaseFirestore.getInstance()
@@ -57,10 +66,13 @@ class RegisterResquestsActivity : AppCompatActivity() {
         imagemTextView = findViewById(R.id.imagemTextView)
         imagemButton = findViewById(R.id.registerButton)
 
+        checkStoragePermissions()
+
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         backArrow.setOnClickListener {
             val intent = Intent(this, PrincipalActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
@@ -92,47 +104,24 @@ class RegisterResquestsActivity : AppCompatActivity() {
             val tipoItem = tipoSolicitacaoSpinner.selectedItem.toString()
             val descricao = descricaoEditText.text.toString()
             val imagemNome = imagemTextView.text.toString()
-            salvarSolicitacao(tipoItem, descricao, imagemNome)
+
+            // Verificar se todos os campos estão completos
+            if (tipoItem.isNotEmpty() && descricao.isNotEmpty() && imagemNome.isNotEmpty()) {
+                salvarSolicitacao(tipoItem, descricao, imagemNome)
+            } else {
+                showAlertDialog(
+                    this@Register_RequestsActivity,
+                    "Campos Incompletos",
+                    "Por favor, preencha todos os campos."
+                )
+            }
         }
 
         setupBottomNavigation()
     }
 
-    private fun openImagePicker() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            val selectedImageUri: Uri? = data?.data
-            selectedImageUri?.let {
-                val filePath = getRealPathFromURI(it)
-                val fileName = filePath?.let { path -> File(path).name }
-                imagemTextView.text = fileName ?: "Imagem selecionada"
-            }
-        }
-    }
-
-    private fun getRealPathFromURI(uri: Uri): String? {
-        var filePath: String? = null
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        cursor?.let {
-            if (it.moveToFirst()) {
-                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                filePath = it.getString(columnIndex)
-            }
-            it.close()
-        }
-        return filePath
-    }
-
-
     override fun onBackPressed() {
-
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, PrincipalActivity::class.java)
         startActivity(intent)
         finish()
     }
@@ -142,12 +131,16 @@ class RegisterResquestsActivity : AppCompatActivity() {
             val success = requestService.addRequest(tipoItem, descricao, imagemNome)
             if (success) {
                 showAlertDialog(
-                    this@RegisterResquestsActivity,
+                    this@Register_RequestsActivity,
                     "Solicitação registrada com sucesso",
-                    "Acompanhe o status no seviço “Acompanhar solicitação” na tela principal."
+                    "Acompanhe o status no serviço “Acompanhar solicitação” na tela principal."
                 )
             } else {
-                Toast.makeText(this@RegisterResquestsActivity, "Erro ao enviar solicitação", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@Register_RequestsActivity,
+                    "Erro ao enviar solicitação",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -162,6 +155,91 @@ class RegisterResquestsActivity : AppCompatActivity() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+    private fun openImagePicker() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    private fun checkStoragePermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQUEST_WRITE_STORAGE)
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_WRITE_STORAGE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            val selectedImageUri: Uri? = data?.data
+            selectedImageUri?.let {
+                // Verificar a permissão antes de salvar a imagem
+                val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    Manifest.permission.READ_MEDIA_IMAGES
+                } else {
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                }
+
+                if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+                    val imageName = saveImageToCustomFolder(it)
+                    imagemTextView.text = imageName
+                } else {
+                    // Solicitar permissão novamente
+                    requestPermissions(arrayOf(permission), REQUEST_WRITE_STORAGE)
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_WRITE_STORAGE && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permissão de armazenamento concedida", Toast.LENGTH_SHORT).show()
+        } else {
+            // Permissão negada
+            Toast.makeText(
+                this,
+                "Permissão de armazenamento negada. O aplicativo pode não funcionar corretamente.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun saveImageToCustomFolder(imageUri: Uri): String {
+        val inputStream = contentResolver.openInputStream(imageUri)
+        val originalFileName = getFileNameFromUri(imageUri) ?: "imagem_${System.currentTimeMillis()}.jpg"
+        val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
+
+        // Caminho correto no armazenamento interno do app
+        val imagesFolder = File(filesDir, "Banco_imagens_solicitacao")
+        if (!imagesFolder.exists()) {
+            imagesFolder.mkdirs()
+        }
+
+        val jpegFileName = originalFileName.replace(".heic", ".jpg", true)
+        val imageFile = File(imagesFolder, jpegFileName)
+        val outputStream = FileOutputStream(imageFile)
+
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+
+        return jpegFileName
+    }
+
+    private fun getFileNameFromUri(uri: Uri): String? {
+        var fileName: String? = null
+        val cursor = contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                fileName = cursor.getString(cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+            }
+        }
+        return fileName }
 
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)

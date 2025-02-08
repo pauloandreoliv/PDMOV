@@ -101,8 +101,6 @@ class CadastroActivity : AppCompatActivity() {
             }
         }
 
-
-
     }
 
     override fun onBackPressed() {

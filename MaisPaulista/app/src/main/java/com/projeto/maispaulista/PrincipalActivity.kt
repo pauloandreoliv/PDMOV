@@ -73,7 +73,7 @@ class PrincipalActivity : AppCompatActivity() {
     //logica de redirecionamentos
     private fun setupClickListeners() {
         val redirecionamentos = mapOf(
-            R.id.registrarSolicitacao to RegisterResquestsActivity::class.java,
+            R.id.registrarSolicitacao to Register_RequestsActivity::class.java,
             R.id.acompanharSolicitacao to MyRequestsActivity::class.java,
             R.id.MyConsultas to MyConsultationsActivity::class.java,
             R.id.agendarConsultas to ScheduleConsultationsActivity::class.java,
@@ -116,7 +116,7 @@ class PrincipalActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        val intent = Intent(this, Variaveis.currentActivity)
+        val intent = Intent(this,  MainActivity::class.java)
         startActivity(intent)
         finish()
     }

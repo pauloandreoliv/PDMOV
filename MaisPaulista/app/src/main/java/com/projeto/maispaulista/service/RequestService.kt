@@ -9,7 +9,7 @@ class RequestService(
 ) {
 
     suspend fun addRequest(tipoItem: String, descricao: String, imagemNome: String): Boolean {
-        val request = RequestModel(userId = userId, tipoItem = tipoItem, descricao = descricao, imagemNome = imagemNome)
+        val request = RequestModel(userId = userId, tipoItem = tipoItem, descricao = descricao, imagemNome = imagemNome, status = "Pendente")
         return repository.addRequest(request)
     }
 

@@ -4,7 +4,8 @@ data class RequestModel(
     val userId: String,
     val tipoItem: String,
     val descricao: String,
-    val imagemNome: String // Nome do arquivo de imagem
+    val imagemNome: String,//
+    val status: String
 ) {
-    constructor() : this("", "", "", "") // Construtor sem parâmetros necessário para a desserialização
+    constructor() : this("", "", "", "", "") // Construtor sem parâmetros necessário para a desserialização
 }
