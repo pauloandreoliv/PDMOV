@@ -1,14 +1,76 @@
 package com.projeto.maispaulista
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.projeto.maispaulista.adapter.Variaveis
+import com.projeto.maispaulista.model.Consulta
+import com.projeto.maispaulista.repository.ConsultaRepository
+import com.projeto.maispaulista.service.ConsultaService
+import kotlinx.coroutines.launch
 
-class ScheduleConsultationsActivity : AppCompatActivity()  {
+
+class ScheduleConsultationsActivity : AppCompatActivity() {
+
+    private lateinit var consultaService: ConsultaService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_schedule_consultations)  // Define o layout da Activity
+        setContentView(R.layout.activity_schedule_consultations)
 
+        val db = FirebaseFirestore.getInstance()
+        val consultaRepository = ConsultaRepository(db)
+        consultaService = ConsultaService(consultaRepository)
 
+        fetchAndDisplayConsultas()
+    }
+
+    private fun fetchAndDisplayConsultas() {
+        lifecycleScope.launch {
+            try {
+                val consultas = consultaService.fetchConsultas()
+                val container = findViewById<LinearLayout>(R.id.consultaItemsContainer)
+
+                if (consultas.isEmpty()) {
+                    Log.d("FirestoreData", "Nenhuma consulta encontrada.")
+                }
+
+                consultas.forEach { consulta ->
+                    val inflater = LayoutInflater.from(this@ScheduleConsultationsActivity)
+                    val view = inflater.inflate(R.layout.consulta_item, container, false)
+
+                    val textView = view.findViewById<TextView>(R.id.typeLabel)
+                    val button = view.findViewById<Button>(R.id.buttonAgendar)
+
+                    textView.text =
+                        "${consulta.especialidade} \nDr.(a) ${consulta.doutor} \n${consulta.local} \n${consulta.data} às ${consulta.hora}"
+
+                    button.setOnClickListener {
+                        // Ação do botão, por exemplo, agendar consulta
+                    }
+
+                    container.addView(view)
+                }
+            } catch (e: Exception) {
+                Log.e("FirestoreError", "Erro ao buscar consultas: ${e.message}")
+            }
+        }
     }
 }

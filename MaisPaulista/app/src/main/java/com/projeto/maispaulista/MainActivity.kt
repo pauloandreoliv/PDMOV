@@ -16,9 +16,12 @@ import com.projeto.maispaulista.repository.UserRepository
 import com.projeto.maispaulista.service.UserService
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
+import androidx.core.content.ContextCompat
 import com.projeto.maispaulista.adapter.Variaveis
 
 
@@ -44,6 +47,12 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        // Configurar a cor de status bar
+        window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
         // Configurar clique no TextView para redirecionar à CadastroActivity

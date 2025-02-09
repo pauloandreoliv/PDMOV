@@ -5,4 +5,12 @@
         <item>Acidente</item>
         <item>Outros</item>
     </string-array>
+    <string-array name="especialidades_array">
+        <item>Escolha a Especialidade</item>
+        <item>Clinico Geral</item>
+        <item>Pediatria</item>
+        <item>Cardiologia</item>
+        <item>Ortopedia</item>
+        <item>Ginecologia</item>
+    </string-array>
 </resources>
