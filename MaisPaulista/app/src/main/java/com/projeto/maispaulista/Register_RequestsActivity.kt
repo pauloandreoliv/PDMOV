@@ -68,6 +68,7 @@ class Register_RequestsActivity   : AppCompatActivity() {
 
         checkStoragePermissions()
 
+        // Configurar o clique no botão de voltar
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         backArrow.setOnClickListener {
             val intent = Intent(this, PrincipalActivity::class.java)
@@ -75,16 +76,19 @@ class Register_RequestsActivity   : AppCompatActivity() {
             finish()
         }
 
+        // Configurar a cor de status bar
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
+        // Configurar o clique no botão de câmera
         icCamera = findViewById(R.id.ic_camera)
         icCamera.setOnClickListener {
             openImagePicker()
         }
 
+        // Configurar o Spinner
         ArrayAdapter.createFromResource(
             this,
             R.array.tipo_solicitacao_array,
@@ -94,18 +98,20 @@ class Register_RequestsActivity   : AppCompatActivity() {
             tipoSolicitacaoSpinner.adapter = adapter
         }
 
+        // Configurar o padding da view
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.registerResquestsLayout)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Configurar o clique no botão de registro
         imagemButton.setOnClickListener {
             val tipoItem = tipoSolicitacaoSpinner.selectedItem.toString()
             val descricao = descricaoEditText.text.toString()
             val imagemNome = imagemTextView.text.toString()
 
-            // Verificar se todos os campos estão completos
+
             if (tipoItem.isNotEmpty() && descricao.isNotEmpty() && imagemNome.isNotEmpty()) {
                 salvarSolicitacao(tipoItem, descricao, imagemNome)
             } else {
@@ -120,12 +126,14 @@ class Register_RequestsActivity   : AppCompatActivity() {
         setupBottomNavigation()
     }
 
+    // Sobrescrever  onBackPressed para voltar para a tela principal
     override fun onBackPressed() {
         val intent = Intent(this, PrincipalActivity::class.java)
         startActivity(intent)
         finish()
     }
 
+    // Função para salvar a solicitação
     private fun salvarSolicitacao(tipoItem: String, descricao: String, imagemNome: String) {
         CoroutineScope(Dispatchers.Main).launch {
             val success = requestService.addRequest(tipoItem, descricao, imagemNome)
@@ -145,6 +153,8 @@ class Register_RequestsActivity   : AppCompatActivity() {
         }
     }
 
+
+    // Função para exibir um AlertDialog
     private fun showAlertDialog(context: Context, title: String, message: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
@@ -155,11 +165,15 @@ class Register_RequestsActivity   : AppCompatActivity() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+
+
+    // Função para abrir o seletor de imagens
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
+    // Solicitar permissão de armazenamento
     private fun checkStoragePermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
@@ -172,6 +186,8 @@ class Register_RequestsActivity   : AppCompatActivity() {
         }
     }
 
+
+    // Sobrescrever  onActivityResult para lidar com a seleção de imagem
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -195,6 +211,7 @@ class Register_RequestsActivity   : AppCompatActivity() {
         }
     }
 
+    // Sobrescrever  onRequestPermissionsResult para lidar com a resposta da solicitação de permissão
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_WRITE_STORAGE && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -209,6 +226,7 @@ class Register_RequestsActivity   : AppCompatActivity() {
         }
     }
 
+    // Função para salvar a imagem no diretório personalizado
     private fun saveImageToCustomFolder(imageUri: Uri): String {
         val inputStream = contentResolver.openInputStream(imageUri)
         val originalFileName = getFileNameFromUri(imageUri) ?: "imagem_${System.currentTimeMillis()}.jpg"
@@ -231,6 +249,7 @@ class Register_RequestsActivity   : AppCompatActivity() {
         return jpegFileName
     }
 
+    // Função para obter o nome do arquivo a partir do URI
     private fun getFileNameFromUri(uri: Uri): String? {
         var fileName: String? = null
         val cursor = contentResolver.query(uri, null, null, null, null)
@@ -241,6 +260,7 @@ class Register_RequestsActivity   : AppCompatActivity() {
         }
         return fileName }
 
+    // Função para configurar a navegação inferior
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

@@ -41,7 +41,7 @@
             android:name=".MyRequestsActivity"
             android:exported="false" />
         <activity
-            android:name=".ResquestActivity"
+            android:name=".RequestDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".ConfigurationActivity"
