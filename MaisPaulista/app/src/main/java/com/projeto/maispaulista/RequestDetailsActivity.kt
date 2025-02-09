@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import android.widget.ImageView
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import com.projeto.maispaulista.adapter.Variaveis
 import com.projeto.maispaulista.repository.RequestRepository
 import com.projeto.maispaulista.service.RequestService
 import kotlinx.coroutines.launch
+import java.io.File
 
 class RequestDetailsActivity : AppCompatActivity() {
 
@@ -52,6 +54,7 @@ class RequestDetailsActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        setupBottomNavigation()
     }
 
     private fun fetchRequestDetails(id: String) {
@@ -60,7 +63,14 @@ class RequestDetailsActivity : AppCompatActivity() {
             request?.let {
                 // Configurar os TextViews com os detalhes da solicitação
                 findViewById<TextView>(R.id.titleTextView).text = "Solicitação\nN°${it.nunSolicitacao}"
-                findViewById<TextView>(R.id.typeLabel).text = "Status: ${it.status}\n\nTipo: ${it.tipoItem}\n\nData: ${it.data}\n\nDescrição: ${it.descricao}\n\nEndereço: implementar \n\n Imagem: ${it.imagemNome}"
+                findViewById<TextView>(R.id.typeLabel).text = "Status: ${it.status}\n\nTipo: ${it.tipoItem}\n\nData: ${it.data}\n\nDescrição: ${it.descricao}\n\nEndereço: implementar \n\nImagem: ${it.imagemNome}"
+
+                val imagePath = File(filesDir, "Banco_imagens_solicitacao/${it.imagemNome}")
+                if (imagePath.exists()) {
+                    val bitmap = BitmapFactory.decodeFile(imagePath.absolutePath)
+                    findViewById<ImageView>(R.id.imageView).setImageBitmap(bitmap)
+                }
+
             }
         }
     }
