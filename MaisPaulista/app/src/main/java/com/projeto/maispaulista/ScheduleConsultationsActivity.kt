@@ -1,5 +1,6 @@
 package com.projeto.maispaulista
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -40,6 +42,19 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         val consultaRepository = ConsultaRepository(db)
         consultaService = ConsultaService(consultaRepository)
 
+        val backArrow = findViewById<ImageView>(R.id.backArrow)
+        backArrow.setOnClickListener {
+            val intent = Intent(this, PrincipalActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        // Configurar a cor de status bar
+        window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
         // Configurar o Spinner
         val spinnerEspecialidade: Spinner = findViewById(R.id.spinnerEspecialidade)
         val adapter = ArrayAdapter.createFromResource(
@@ -58,7 +73,7 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // Não fazer nada
+
             }
         }
 
@@ -71,6 +86,21 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+    // Função para exibir um AlertDialog
+    private fun showAlertDialog(context: Context, title: String, message: String, especialidade: String) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+            // Atualizar consultas após o diálogo ser fechado
+            fetchAndDisplayConsultas(especialidade)
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
 
     private fun fetchAndDisplayConsultas(especialidade: String) {
         lifecycleScope.launch {
@@ -97,9 +127,21 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
                         lifecycleScope.launch {
                             try {
                                 consultaService.agendarConsulta(consulta, Variaveis.uid!!)
+                                showAlertDialog(
+                                    this@ScheduleConsultationsActivity,
+                                    "Agendamento Confirmado",
+                                    "Sua consulta foi agendada com sucesso!",
+                                    especialidade
+                                )
                                 Log.d("FirestoreData", "Consulta agendada com sucesso!")
                             } catch (e: Exception) {
                                 Log.e("FirestoreError", "Erro ao agendar consulta: ${e.message}")
+                                showAlertDialog(
+                                    this@ScheduleConsultationsActivity,
+                                    "Erro",
+                                    "Ocorreu um erro ao agendar a consulta. Tente novamente.",
+                                    especialidade
+                                )
                             }
                         }
                     }
@@ -108,6 +150,31 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 Log.e("FirestoreError", "Erro ao buscar consultas: ${e.message}")
+            }
+        }
+    }
+    private fun setupBottomNavigation() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_settings -> {
+                    Variaveis.currentActivity = this::class.java
+                    startActivity(Intent(this, ConfigurationActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_home -> {
+                    startActivity(Intent(this, PrincipalActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_back -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    Variaveis.uid = null
+                    true
+                }
+
+                else -> false
             }
         }
     }
