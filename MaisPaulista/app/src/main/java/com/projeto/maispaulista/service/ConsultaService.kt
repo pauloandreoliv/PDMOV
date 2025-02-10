@@ -5,7 +5,7 @@ import com.projeto.maispaulista.repository.ConsultaRepository
 
 class ConsultaService(private val repository: ConsultaRepository) {
 
-    suspend fun fetchConsultas(): List<Consulta> {
-        return repository.getConsultas()
+    suspend fun fetchConsultasByEspecialidade(especialidade: String): List<Consulta> {
+        return repository.getConsultasByEspecialidade(especialidade)
     }
 }

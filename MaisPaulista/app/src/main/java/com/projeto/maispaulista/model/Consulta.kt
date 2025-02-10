@@ -5,8 +5,8 @@ data class Consulta(
     val doutor: String,
     val local: String,
     val data: String,
-    val hora: String)
-{
-    constructor() : this("", "", "", "", "")
+    val hora: String,
+    val disponivel: Boolean
+) {
+    constructor() : this("", "", "", "", "", false)
 }
-

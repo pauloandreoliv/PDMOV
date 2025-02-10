@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
@@ -39,14 +40,44 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         val consultaRepository = ConsultaRepository(db)
         consultaService = ConsultaService(consultaRepository)
 
-        fetchAndDisplayConsultas()
+        // Configurar o Spinner
+        val spinnerEspecialidade: Spinner = findViewById(R.id.spinnerEspecialidade)
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.especialidades_array,
+            android.R.layout.simple_spinner_item
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerEspecialidade.adapter = adapter
+
+        // Configurar o listener do Spinner
+        spinnerEspecialidade.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val especialidade = parent.getItemAtPosition(position).toString()
+                fetchAndDisplayConsultas(especialidade)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Não fazer nada
+            }
+        }
+
+        // Busca inicial com "Escolha a Especialidade"
+        fetchAndDisplayConsultas("Escolha a Especialidade")
     }
 
-    private fun fetchAndDisplayConsultas() {
+    override fun onBackPressed() {
+        val intent = Intent(this, PrincipalActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun fetchAndDisplayConsultas(especialidade: String) {
         lifecycleScope.launch {
             try {
-                val consultas = consultaService.fetchConsultas()
+                val consultas = consultaService.fetchConsultasByEspecialidade(especialidade)
                 val container = findViewById<LinearLayout>(R.id.consultaItemsContainer)
+                container.removeAllViews() // Limpar o contêiner antes de adicionar novas consultas
 
                 if (consultas.isEmpty()) {
                     Log.d("FirestoreData", "Nenhuma consulta encontrada.")
