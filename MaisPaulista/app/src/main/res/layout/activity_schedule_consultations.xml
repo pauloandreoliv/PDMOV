@@ -8,107 +8,98 @@
     android:background="#FFFFFF"
     tools:context=".ScheduleConsultationsActivity">
 
-
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/requestsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
-        android:fillViewport="true"
-        android:contentDescription="Conteúdo rolável"
+        android:background="#FFFFFF"
         android:padding="0dp"
         android:layout_margin="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/requestsLayout"
-            android:layout_width="match_parent"
+        <!-- Header -->
+
+        <ImageView
+            android:id="@+id/backArrow"
+            android:layout_width="49dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="36dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_back_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="181dp"
+            android:layout_height="71dp"
+            android:src="@drawable/ic_logo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp" />
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="243dp"
+            android:layout_height="91dp"
+            android:layout_marginTop="92dp"
+            android:gravity="center"
+            android:text="Agendar\nConsulta"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/subtitleTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:padding="0dp"
-            android:layout_margin="0dp">
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:maxWidth="309dp"
+            android:padding="8dp"
+            android:text="Realize o agendamento de consultas médicas sem sair de casa"
+            android:textColor="#888888"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.47"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
-            <!-- Header -->
-
-            <!-- Campos de entrada -->
-
-
-
-            <ImageView
-                android:id="@+id/backArrow"
-                android:layout_width="49dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="36dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_back_arrow"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:layout_width="181dp"
-                android:layout_height="71dp"
-                android:src="@drawable/ic_logo"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp" />
-
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="243dp"
-                android:layout_height="91dp"
-                android:layout_marginTop="92dp"
-                android:gravity="center"
-                android:text="Agendar\nConsulta"
-                android:textColor="#000000"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/subtitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:maxWidth="309dp"
-                android:padding="8dp"
-                android:text="Realize o agendamento de consultas médicas sem sair de casa"
-                android:textColor="#888888"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.47"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/titleTextView" />
-
-            <Spinner
-                android:id="@+id/spinnerEspecialidade"
-                android:layout_width="385dp"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/edit_text"
-                app:layout_constraintTop_toBottomOf="@id/subtitleTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/consultaItemsContainer"
-                android:layout_marginTop="8dp"
+        <Spinner
+            android:id="@+id/spinnerEspecialidade"
+            android:layout_width="385dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/edit_text"
+            app:layout_constraintTop_toBottomOf="@id/subtitleTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="0dp"/>
 
+        <!-- Adicionando Scroll apenas para as consultas -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="false"
+            app:layout_constraintTop_toBottomOf="@id/spinnerEspecialidade"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <LinearLayout
                 android:id="@+id/consultaItemsContainer"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="0dp"
-                app:layout_constraintTop_toBottomOf="@id/spinnerEspecialidade"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:padding="8dp"/>
+        </ScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Bottom Navigation View -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
