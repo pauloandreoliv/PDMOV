@@ -114,7 +114,7 @@ class MyRequestsActivity : AppCompatActivity() {
 
                 R.id.navigation_back -> {
                     startActivity(Intent(this, MainActivity::class.java))
-                    Variaveis.uid = ""
+                    Variaveis.uid = null
                     true
                 }
 

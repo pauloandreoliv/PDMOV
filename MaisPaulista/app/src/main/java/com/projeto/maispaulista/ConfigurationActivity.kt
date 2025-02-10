@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
@@ -144,6 +145,7 @@ class ConfigurationActivity : AppCompatActivity() {
                 }
                 R.id.navigation_back -> {
                     startActivity(Intent(this, MainActivity::class.java))
+                    Variaveis.uid = null
                     true
                 }
                 else -> false

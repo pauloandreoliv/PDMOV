@@ -94,7 +94,14 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
                         "${consulta.especialidade} \nDr.(a) ${consulta.doutor} \n${consulta.local} \n${consulta.data} às ${consulta.hora}"
 
                     button.setOnClickListener {
-                        // Ação do botão, por exemplo, agendar consulta
+                        lifecycleScope.launch {
+                            try {
+                                consultaService.agendarConsulta(consulta, Variaveis.uid!!)
+                                Log.d("FirestoreData", "Consulta agendada com sucesso!")
+                            } catch (e: Exception) {
+                                Log.e("FirestoreError", "Erro ao agendar consulta: ${e.message}")
+                            }
+                        }
                     }
 
                     container.addView(view)
