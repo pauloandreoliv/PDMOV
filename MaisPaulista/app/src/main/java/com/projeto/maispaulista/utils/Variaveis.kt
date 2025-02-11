@@ -1,4 +1,4 @@
-package com.projeto.maispaulista.adapter
+package com.projeto.maispaulista.utils
 
 object Variaveis {
     var uid: String? = null

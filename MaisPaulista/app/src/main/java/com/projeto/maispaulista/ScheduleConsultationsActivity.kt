@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -17,16 +16,14 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
-import com.projeto.maispaulista.adapter.Variaveis
-import com.projeto.maispaulista.model.Consulta
+import com.projeto.maispaulista.utils.Variaveis
 import com.projeto.maispaulista.repository.ConsultaRepository
 import com.projeto.maispaulista.service.ConsultaService
+import com.projeto.maispaulista.utils.ConsultaUtils
 import kotlinx.coroutines.launch
 
 
@@ -41,6 +38,12 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val consultaRepository = ConsultaRepository(db)
         consultaService = ConsultaService(consultaRepository)
+
+        val consultaUtils = ConsultaUtils(db)
+
+        lifecycleScope.launch {
+            consultaUtils.updateConsultaStatusIfNeeded()
+        }
 
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         backArrow.setOnClickListener {
@@ -79,6 +82,7 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
 
         // Busca inicial com "Escolha a Especialidade"
         fetchAndDisplayConsultas("Escolha a Especialidade")
+        setupBottomNavigation()
     }
 
     override fun onBackPressed() {
@@ -115,7 +119,7 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
 
                 consultas.forEach { consulta ->
                     val inflater = LayoutInflater.from(this@ScheduleConsultationsActivity)
-                    val view = inflater.inflate(R.layout.consulta_item, container, false)
+                    val view = inflater.inflate(R.layout.consulta_item_agendar, container, false)
 
                     val textView = view.findViewById<TextView>(R.id.typeLabel)
                     val button = view.findViewById<Button>(R.id.buttonAgendar)
@@ -153,6 +157,7 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

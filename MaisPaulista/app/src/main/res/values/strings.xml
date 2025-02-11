@@ -13,4 +13,9 @@
         <item>Ortopedia</item>
         <item>Ginecologia</item>
     </string-array>
+    <string-array name="status_array">
+        <item>Todas as Consultas</item>
+        <item>Consultas Concluídas</item>
+        <item>Consultas Agendadas</item>
+    </string-array>
 </resources>

@@ -2,6 +2,7 @@ package com.projeto.maispaulista.repository
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.projeto.maispaulista.model.AgendamentoModel
 import com.projeto.maispaulista.model.Consulta
 import kotlinx.coroutines.tasks.await
 
@@ -15,19 +16,15 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
         } else {
             consultasRef.whereEqualTo("disponivel", true)
                 .whereEqualTo("especialidade", especialidade)
-                .whereEqualTo("status", "disponivel")
         }
 
         val snapshot = query.get().await()
         Log.d("FirestoreData", "Total consultas (${especialidade}): ${snapshot.size()}")
-        val consultas = snapshot.documents.map { document ->
-            document.toObject(Consulta::class.java)?.copy(id = document.id) ?: Consulta()
+        return snapshot.toObjects(Consulta::class.java).map { consulta ->
+            consulta.copy(id = snapshot.documents.find { it.id == consulta.id }?.id ?: "")
         }
-        consultas.forEach { consulta ->
-            Log.d("FirestoreData", "Consulta: $consulta")
-        }
-        return consultas
     }
+
 
     suspend fun agendarConsulta(consulta: Consulta, uid: String) {
         val consultasAgendadasRef = db.collection("consultas_agendadas")
@@ -37,9 +34,11 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
             "doutor" to consulta.doutor,
             "local" to consulta.local,
             "data" to consulta.data,
-            "hora" to consulta.hora
+            "hora" to consulta.hora,
+            "Concluida" to false,
+            "id" to consulta.id
         )
-        consultasAgendadasRef.add(agendamento).await()
+        consultasAgendadasRef.document(consulta.id).set(agendamento).await()
         Log.d("FirestoreData", "Consulta agendada com sucesso!")
     }
 
@@ -48,5 +47,37 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
         consultaDocRef.update("disponivel", false).await()
         Log.d("FirestoreData", "Status da consulta atualizado para 'disponivel = false'")
     }
+
+    suspend fun getConsultasAgendadasByUid(uid: String, status: String): List<AgendamentoModel> {
+        val agendamentosRef = db.collection("consultas_agendadas")
+        val query = when (status) {
+            "Consultas Concluídas" -> {
+                agendamentosRef.whereEqualTo("uid", uid)
+                    .whereEqualTo("Concluida", true)
+            }
+            "Consultas Agendadas" -> {
+                agendamentosRef.whereEqualTo("uid", uid)
+                    .whereEqualTo("Concluida", false)
+            }
+            else -> {
+                agendamentosRef.whereEqualTo("uid", uid)
+            }
+        }
+        val result = query.get().await()
+        return result.toObjects(AgendamentoModel::class.java)
+
+
+    }
+
+    suspend fun atualizarConsultaDisponibilidade(consultaId: String, disponivel: Boolean) {
+        val consultaRef = db.collection("consultas").document(consultaId)
+        consultaRef.update("disponivel", disponivel).await()
+    }
+
+    suspend fun removerConsultaAgendada(agendamentoId: String) {
+        val agendamentoRef = db.collection("consultas_agendadas").document(agendamentoId)
+        agendamentoRef.delete().await()
+    }
+
 
 }

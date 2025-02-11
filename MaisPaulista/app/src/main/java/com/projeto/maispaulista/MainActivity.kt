@@ -22,7 +22,10 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.projeto.maispaulista.adapter.Variaveis
+import androidx.lifecycle.lifecycleScope
+import com.projeto.maispaulista.utils.ConsultaUtils
+import com.projeto.maispaulista.utils.Variaveis
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         val userRepository = UserRepository(auth, db)
         userService = UserService(userRepository)
+
 
         // Configurar insets para o layout raiz
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootLayout)) { v, insets ->

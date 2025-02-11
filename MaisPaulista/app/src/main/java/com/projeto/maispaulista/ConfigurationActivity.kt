@@ -1,7 +1,5 @@
 package com.projeto.maispaulista
 
-import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,9 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NavUtils
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,7 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.model.User
-import com.projeto.maispaulista.adapter.Variaveis
+import com.projeto.maispaulista.utils.Variaveis
 import com.projeto.maispaulista.repository.UserRepository
 import com.projeto.maispaulista.service.UserService
 import kotlinx.coroutines.CoroutineScope

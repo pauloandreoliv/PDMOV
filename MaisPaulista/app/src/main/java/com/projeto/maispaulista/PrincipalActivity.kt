@@ -12,16 +12,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
-import com.projeto.maispaulista.adapter.BlogAdapter
+import com.projeto.maispaulista.utils.BlogAdapter
 import com.projeto.maispaulista.model.Blog
 import android.util.Log
 import androidx.core.content.ContextCompat
-import com.projeto.maispaulista.adapter.Variaveis
+import androidx.lifecycle.lifecycleScope
+import com.projeto.maispaulista.utils.ConsultaUtils
+import com.projeto.maispaulista.utils.Variaveis
+import kotlinx.coroutines.launch
 
 class PrincipalActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var blogAdapter: BlogAdapter
+    private lateinit var db: FirebaseFirestore
 
 
 
@@ -39,8 +43,6 @@ class PrincipalActivity : AppCompatActivity() {
         }
 
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }

@@ -1,4 +1,4 @@
-package com.projeto.maispaulista.adapter
+package com.projeto.maispaulista.utils
 
 import android.content.Context
 import android.content.Intent

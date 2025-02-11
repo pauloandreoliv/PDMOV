@@ -57,6 +57,7 @@ dependencies {
     implementation ("androidx.recyclerview:recyclerview:1.2.0")
     implementation ("androidx.appcompat:appcompat:1.3.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
     implementation ("org.osmdroid:osmdroid-android:6.1.10")
     implementation ("androidx.appcompat:appcompat:1.3.1")
