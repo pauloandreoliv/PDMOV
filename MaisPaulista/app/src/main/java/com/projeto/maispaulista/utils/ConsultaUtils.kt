@@ -43,13 +43,22 @@ class ConsultaUtils(
         val result = agendamentosRef.get().await()
         val agendamentos = result.toObjects(AgendamentoModel::class.java)
 
-        agendamentosRef.get().await().documents.forEach { document ->
+        val agendamentosFuturos = mutableListOf<AgendamentoModel>()
+
+        result.documents.forEach { document ->
             val agendamento = document.toObject(AgendamentoModel::class.java)
-            if (agendamento != null && isDateBeforeToday(agendamento.data)) {
-                document.reference.update("Concluida", true).await()
-            } else if (agendamento != null) {
-                notificationHelper.checkAndSendReminder(agendamento)
+            if (agendamento != null) {
+                if (isDateBeforeToday(agendamento.data)) {
+                    document.reference.update("Concluida", true).await()
+                } else {
+                    agendamentosFuturos.add(agendamento) // Adiciona para notificação
+                }
             }
+        }
+
+        // Agora passa todos os agendamentos futuros corretamente
+        if (agendamentosFuturos.isNotEmpty()) {
+            notificationHelper.checkAndSendReminders(agendamentosFuturos)
         }
     }
 

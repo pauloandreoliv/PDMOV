@@ -169,17 +169,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Callback para lidar com a resposta do usuário
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        // Verifica se a permissão foi concedida
         if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                scheduleNotificationWorker()
+                // Permissão concedida, agora podemos enviar a notificação
+                NotificationHelper(this).sendNotification("Lembrete", "Você tem uma consulta em 5 dias.")
             } else {
-                Toast.makeText(this, "Permissão de notificação negada", Toast.LENGTH_SHORT).show()
+                // Permissão negada, mostre uma mensagem ou lide com isso adequadamente
+                Toast.makeText(this, "Permissão para notificações negada", Toast.LENGTH_SHORT).show()
             }
         }
     }
