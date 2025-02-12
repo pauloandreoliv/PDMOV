@@ -67,7 +67,7 @@ class NotificationHelper(private val context: Context) {
                 NotificationCompat.BigTextStyle()
                     .bigText(content)
             )
-            .setAutoCancel(true)  /
+            .setAutoCancel(true)
 
         val notificationManager = NotificationManagerCompat.from(context)
 

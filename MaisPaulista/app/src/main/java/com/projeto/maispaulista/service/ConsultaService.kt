@@ -27,12 +27,6 @@ class ConsultaService(private val repository: ConsultaRepository, private val ut
         repository.removerConsultaAgendada(agendamentoId)
     }
 
-    suspend fun verificarEEnviarLembretes() {
-        val consultas = repository.getConsultasByEspecialidade("Todas")
-        consultas.forEach { consulta ->
-            utils.updateConsultaStatusIfNeeded()
-        }
-    }
 
 }
 

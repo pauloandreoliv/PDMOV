@@ -36,6 +36,7 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule_consultations)
 
+
         val db = FirebaseFirestore.getInstance()
         val consultaRepository = ConsultaRepository(db)
 
@@ -46,6 +47,7 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         consultaService = ConsultaService(consultaRepository, consultaUtils)
         lifecycleScope.launch {
             consultaUtils.updateConsultaStatusIfNeeded()
+            fetchAndDisplayConsultas("Escolha a Especialidade")
         }
 
         val backArrow = findViewById<ImageView>(R.id.backArrow)
@@ -75,16 +77,19 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         spinnerEspecialidade.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val especialidade = parent.getItemAtPosition(position).toString()
-                fetchAndDisplayConsultas(especialidade)
+
+                // Atualizar o status das consultas antes de buscar e exibir as consultas
+                lifecycleScope.launch {
+                    consultaUtils.updateConsultaStatusIfNeeded()
+                    fetchAndDisplayConsultas(especialidade)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-
+                // Nenhuma ação necessária quando nada for selecionado
             }
         }
 
-        // Busca inicial com "Escolha a Especialidade"
-        fetchAndDisplayConsultas("Escolha a Especialidade")
         setupBottomNavigation()
     }
 
@@ -121,45 +126,54 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
                 }
 
                 consultas.forEach { consulta ->
-                    val inflater = LayoutInflater.from(this@ScheduleConsultationsActivity)
-                    val view = inflater.inflate(R.layout.consulta_item_agendar, container, false)
+                    // Verifica se a consulta está disponível (status booleano)
+                    val isAvailable = consulta.disponivel // 'disponivel' é o campo booleano
 
-                    val textView = view.findViewById<TextView>(R.id.typeLabel)
-                    val button = view.findViewById<Button>(R.id.buttonAgendar)
+                    if (isAvailable) {  // Apenas exibe consultas que estão disponíveis
+                        val inflater = LayoutInflater.from(this@ScheduleConsultationsActivity)
+                        val view = inflater.inflate(R.layout.consulta_item_agendar, container, false)
 
-                    textView.text =
-                        "${consulta.especialidade} \nDr.(a) ${consulta.doutor} \n${consulta.local} \n${consulta.data} às ${consulta.hora}"
+                        val textView = view.findViewById<TextView>(R.id.typeLabel)
+                        val button = view.findViewById<Button>(R.id.buttonAgendar)
 
-                    button.setOnClickListener {
-                        lifecycleScope.launch {
-                            try {
-                                consultaService.agendarConsulta(consulta, Variaveis.uid!!)
-                                showAlertDialog(
-                                    this@ScheduleConsultationsActivity,
-                                    "Agendamento Confirmado",
-                                    "Sua consulta foi agendada com sucesso!",
-                                    especialidade
-                                )
-                                Log.d("FirestoreData", "Consulta agendada com sucesso!")
-                            } catch (e: Exception) {
-                                Log.e("FirestoreError", "Erro ao agendar consulta: ${e.message}")
-                                showAlertDialog(
-                                    this@ScheduleConsultationsActivity,
-                                    "Erro",
-                                    "Ocorreu um erro ao agendar a consulta. Tente novamente.",
-                                    especialidade
-                                )
+                        textView.text =
+                            "${consulta.especialidade} \nDr.(a) ${consulta.doutor} \n${consulta.local} \n${consulta.data} às ${consulta.hora}"
+
+                        button.setOnClickListener {
+                            lifecycleScope.launch {
+                                try {
+                                    consultaService.agendarConsulta(consulta, Variaveis.uid!!)
+                                    showAlertDialog(
+                                        this@ScheduleConsultationsActivity,
+                                        "Agendamento Confirmado",
+                                        "Sua consulta foi agendada com sucesso!",
+                                        especialidade
+                                    )
+                                    Log.d("FirestoreData", "Consulta agendada com sucesso!")
+                                } catch (e: Exception) {
+                                    Log.e("FirestoreError", "Erro ao agendar consulta: ${e.message}")
+                                    showAlertDialog(
+                                        this@ScheduleConsultationsActivity,
+                                        "Erro",
+                                        "Ocorreu um erro ao agendar a consulta. Tente novamente.",
+                                        especialidade
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    container.addView(view)
+                        container.addView(view)
+                    } else {
+                        // Se a consulta não estiver disponível, você pode ignorá-la ou adicionar uma mensagem
+                        Log.d("FirestoreData", "Consulta indisponível: ${consulta.doutor}")
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("FirestoreError", "Erro ao buscar consultas: ${e.message}")
             }
         }
     }
+
 
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
