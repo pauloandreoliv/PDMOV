@@ -3,8 +3,11 @@ package com.projeto.maispaulista.service
 import com.projeto.maispaulista.model.AgendamentoModel
 import com.projeto.maispaulista.model.Consulta
 import com.projeto.maispaulista.repository.ConsultaRepository
+import com.projeto.maispaulista.utils.ConsultaUtils
 
-class ConsultaService(private val repository: ConsultaRepository) {
+
+
+class ConsultaService(private val repository: ConsultaRepository, private val utils: ConsultaUtils) {
 
     suspend fun fetchConsultasByEspecialidade(especialidade: String): List<Consulta> {
         return repository.getConsultasByEspecialidade(especialidade)
@@ -24,6 +27,12 @@ class ConsultaService(private val repository: ConsultaRepository) {
         repository.removerConsultaAgendada(agendamentoId)
     }
 
+    suspend fun verificarEEnviarLembretes() {
+        val consultas = repository.getConsultasByEspecialidade("Todas")
+        consultas.forEach { consulta ->
+            utils.updateConsultaStatusIfNeeded()
+        }
+    }
 
 }
 

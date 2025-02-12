@@ -6,8 +6,8 @@ import com.projeto.maispaulista.model.AgendamentoModel
 import com.projeto.maispaulista.model.Consulta
 import kotlinx.coroutines.tasks.await
 
-class ConsultaRepository(private val db: FirebaseFirestore) {
 
+class ConsultaRepository(private val db: FirebaseFirestore) {
 
     suspend fun getConsultasByEspecialidade(especialidade: String): List<Consulta> {
         val consultasRef = db.collection("consultas")
@@ -68,7 +68,6 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
 
 
     }
-
     suspend fun atualizarConsultaDisponibilidade(consultaId: String, disponivel: Boolean) {
         val consultaRef = db.collection("consultas").document(consultaId)
         consultaRef.update("disponivel", disponivel).await()
@@ -78,6 +77,5 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
         val agendamentoRef = db.collection("consultas_agendadas").document(agendamentoId)
         agendamentoRef.delete().await()
     }
-
 
 }

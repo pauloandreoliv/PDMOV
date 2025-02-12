@@ -16,22 +16,36 @@ import com.projeto.maispaulista.repository.UserRepository
 import com.projeto.maispaulista.service.UserService
 import android.app.AlertDialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.projeto.maispaulista.utils.ConsultaUtils
+import com.projeto.maispaulista.utils.NotificationHelper
+import com.projeto.maispaulista.utils.NotificationWorker
 import com.projeto.maispaulista.utils.Variaveis
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var userService: UserService
+
+    companion object {
+        private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1001
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +59,8 @@ class MainActivity : AppCompatActivity() {
         val userRepository = UserRepository(auth, db)
         userService = UserService(userRepository)
 
+        checkNotificationPermission()
+
 
         // Configurar insets para o layout raiz
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootLayout)) { v, insets ->
@@ -52,6 +68,9 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Criação do canal de notificação
+        NotificationHelper.createNotificationChannel(this)
 
         // Configurar a cor de status bar
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
@@ -99,6 +118,17 @@ class MainActivity : AppCompatActivity() {
                         if (currentUser != null) {
                             val uid = currentUser.uid
                             Variaveis.uid = uid  // Armazene o UID no Singleton
+
+                            // Configuração do WorkManager
+                            val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
+                                .build()
+
+                            WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                                "NotificationWork",
+                                ExistingPeriodicWorkPolicy.REPLACE,
+                                workRequest
+                            )
+
                             Log.d("Login", "Login realizado com sucesso. UID: $uid")
 
                             // Exibir alerta de sucesso e redirecionar
@@ -118,4 +148,51 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    NOTIFICATION_PERMISSION_REQUEST_CODE
+                )
+            } else {
+                scheduleNotificationWorker()
+            }
+        } else {
+            scheduleNotificationWorker()
+        }
+    }
+
+    // Callback para lidar com a resposta do usuário
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                scheduleNotificationWorker()
+            } else {
+                Toast.makeText(this, "Permissão de notificação negada", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun scheduleNotificationWorker() {
+        val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "NotificationWork",
+            ExistingPeriodicWorkPolicy.REPLACE,
+            workRequest
+        )
+    }
+
 }

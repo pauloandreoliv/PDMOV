@@ -1,13 +1,29 @@
 package com.projeto.maispaulista.utils
 
+import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.google.firebase.firestore.FirebaseFirestore
+import com.projeto.maispaulista.R
 import com.projeto.maispaulista.model.AgendamentoModel
 import com.projeto.maispaulista.model.Consulta
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
+import java.util.jar.Manifest
 
-class ConsultaUtils(private val db: FirebaseFirestore) {
+class ConsultaUtils(
+    private val db: FirebaseFirestore,
+    private val notificationHelper: NotificationHelper
+) {
 
     suspend fun updateConsultaStatusIfNeeded() {
         val consultasRef = db.collection("consultas")
@@ -16,19 +32,23 @@ class ConsultaUtils(private val db: FirebaseFirestore) {
 
         consultas.forEach { consulta ->
             if (isDateBeforeToday(consulta.data)) {
-                consultasRef.document(consulta.id).update("disponivel", false)
+                consultasRef.document(consulta.id).update("disponivel", false).await()
             }
         }
     }
 
     suspend fun updateAgendamentoStatusIfNeeded() {
-        val agendamentosRef = db.collection("consultas_agendadas")
+        val uid = Variaveis.uid ?: return
+        val agendamentosRef = db.collection("consultas_agendadas").whereEqualTo("uid", uid)
         val result = agendamentosRef.get().await()
         val agendamentos = result.toObjects(AgendamentoModel::class.java)
 
-        agendamentos.forEach { agendamento ->
-            if (isDateBeforeToday(agendamento.data)) {
-                agendamentosRef.document(agendamento.id).update("Concluida", true).await()
+        agendamentosRef.get().await().documents.forEach { document ->
+            val agendamento = document.toObject(AgendamentoModel::class.java)
+            if (agendamento != null && isDateBeforeToday(agendamento.data)) {
+                document.reference.update("Concluida", true).await()
+            } else if (agendamento != null) {
+                notificationHelper.checkAndSendReminder(agendamento)
             }
         }
     }

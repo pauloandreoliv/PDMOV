@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import com.projeto.maispaulista.repository.ConsultaRepository
 import com.projeto.maispaulista.service.ConsultaService
 import com.projeto.maispaulista.utils.ConsultaUtils
+import com.projeto.maispaulista.utils.NotificationHelper
 
 class MyConsultationsActivity : AppCompatActivity() {
 
@@ -35,9 +36,13 @@ class MyConsultationsActivity : AppCompatActivity() {
 
         val db = FirebaseFirestore.getInstance()
         val consultaRepository = ConsultaRepository(db)
-        consultaService = ConsultaService(consultaRepository)
 
-        val consultaUtils = ConsultaUtils(db)
+
+        val notificationHelper = NotificationHelper(this)
+
+        val consultaUtils = ConsultaUtils(db, notificationHelper)
+
+        consultaService = ConsultaService(consultaRepository, consultaUtils)
 
         lifecycleScope.launch {
             consultaUtils.updateAgendamentoStatusIfNeeded()
