@@ -1,6 +1,6 @@
 package com.projeto.maispaulista.service
 
-import com.projeto.maispaulista.model.AgendamentoModel
+import com.projeto.maispaulista.model.Agendamento
 import com.projeto.maispaulista.model.Consulta
 import com.projeto.maispaulista.repository.ConsultaRepository
 import com.projeto.maispaulista.utils.ConsultaUtils
@@ -13,7 +13,7 @@ class ConsultaService(private val repository: ConsultaRepository, private val ut
         return repository.getConsultasByEspecialidade(especialidade)
     }
 
-    suspend fun fetchConsultasAgendadasByUid(uid: String, status: String): List<AgendamentoModel> {
+    suspend fun fetchConsultasAgendadasByUid(uid: String, status: String): List<Agendamento> {
         return repository.getConsultasAgendadasByUid(uid, status)
     }
 

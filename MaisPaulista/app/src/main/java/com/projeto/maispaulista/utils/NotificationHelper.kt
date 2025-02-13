@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.projeto.maispaulista.R
-import com.projeto.maispaulista.model.AgendamentoModel
+import com.projeto.maispaulista.model.Agendamento
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 
 class NotificationHelper(private val context: Context) {
 
-    fun checkAndSendReminders(agendamentos: List<AgendamentoModel>) {
+    fun checkAndSendReminders(agendamentos: List<Agendamento>) {
 
         agendamentos.forEach { agendamento ->
             Log.d("NotificationHelper", "Agendamento: ${agendamento.data}, Diferença de dias: ${getDaysDifference(agendamento.data)}")

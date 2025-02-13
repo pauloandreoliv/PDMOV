@@ -2,7 +2,7 @@ package com.projeto.maispaulista.repository
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import com.projeto.maispaulista.model.AgendamentoModel
+import com.projeto.maispaulista.model.Agendamento
 import com.projeto.maispaulista.model.Consulta
 import kotlinx.coroutines.tasks.await
 
@@ -48,7 +48,7 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
         Log.d("FirestoreData", "Status da consulta atualizado para 'disponivel = false'")
     }
 
-    suspend fun getConsultasAgendadasByUid(uid: String, status: String): List<AgendamentoModel> {
+    suspend fun getConsultasAgendadasByUid(uid: String, status: String): List<Agendamento> {
         val agendamentosRef = db.collection("consultas_agendadas")
         val query = when (status) {
             "Consultas Concluídas" -> {
@@ -64,7 +64,7 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
             }
         }
         val result = query.get().await()
-        return result.toObjects(AgendamentoModel::class.java)
+        return result.toObjects(Agendamento::class.java)
 
 
     }

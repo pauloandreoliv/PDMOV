@@ -1,24 +1,11 @@
 package com.projeto.maispaulista.utils
 
-import android.app.Activity
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import com.google.firebase.firestore.FirebaseFirestore
-import com.projeto.maispaulista.R
-import com.projeto.maispaulista.model.AgendamentoModel
+import com.projeto.maispaulista.model.Agendamento
 import com.projeto.maispaulista.model.Consulta
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
-import java.util.jar.Manifest
 
 class ConsultaUtils(
     private val db: FirebaseFirestore,
@@ -41,12 +28,12 @@ class ConsultaUtils(
         val uid = Variaveis.uid ?: return
         val agendamentosRef = db.collection("consultas_agendadas").whereEqualTo("uid", uid)
         val result = agendamentosRef.get().await()
-        val agendamentos = result.toObjects(AgendamentoModel::class.java)
+        val agendamentos = result.toObjects(Agendamento::class.java)
 
-        val agendamentosFuturos = mutableListOf<AgendamentoModel>()
+        val agendamentosFuturos = mutableListOf<Agendamento>()
 
         result.documents.forEach { document ->
-            val agendamento = document.toObject(AgendamentoModel::class.java)
+            val agendamento = document.toObject(Agendamento::class.java)
             if (agendamento != null) {
                 if (isDateBeforeToday(agendamento.data)) {
                     document.reference.update("Concluida", true).await()

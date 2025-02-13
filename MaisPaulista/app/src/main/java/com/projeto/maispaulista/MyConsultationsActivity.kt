@@ -94,7 +94,7 @@ class MyConsultationsActivity : AppCompatActivity() {
 
                 agendamentos.forEach { agendamento ->
                     val inflater = LayoutInflater.from(this@MyConsultationsActivity)
-                    val view = inflater.inflate(R.layout.consulta_item_cancelar, container, false)
+                    val view = inflater.inflate(R.layout.item_consulta_cancelar, container, false)
 
                     val textView = view.findViewById<TextView>(R.id.typeLabel)
                     val button = view.findViewById<Button>(R.id.buttoncancelar)
