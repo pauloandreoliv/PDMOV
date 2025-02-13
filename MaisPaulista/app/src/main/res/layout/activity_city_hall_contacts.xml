@@ -8,7 +8,6 @@
     android:background="#FFFFFF"
     tools:context=".CityHallContactsActivity">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,11 +21,9 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF">
 
-            <!-- Header -->
+            <!-- Cabeçalho -->
 
             <!-- Campos de entrada -->
-
-
 
             <ImageView
                 android:id="@+id/backArrow"
@@ -80,215 +77,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
-
+            <!-- Adicione o contêiner para os contatos -->
             <LinearLayout
-                android:layout_width="313dp"
-                android:id="@+id/linearLayout2"
+                android:id="@+id/containerLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/background_white_with_brown_border"
                 android:orientation="vertical"
-                android:padding="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linearLayout"
-                tools:layout_editor_absoluteY="276dp">
-
-                <TextView
-                    android:id="@+id/typeLabel3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Secretaria de Educação"
-                    android:textColor="#000000"
-                    android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp" /> <!-- Margem inferior para espaçamento -->
-
-                <TextView
-                    android:id="@+id/typeLabel4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="Telefone: (81) 98888-9999 \nWhatsApp: (81) 98888-9999 \nE-mail: sma@paulista.pe.gov.br"
-                    android:textColor="#000000" />
-
-                <!-- LinearLayout Horizontal para as imagens -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:gravity="end">
-
-                    <ImageView
-                        android:id="@+id/ic_cell1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_cell"
-                        android:layout_marginEnd="8dp" />
-
-                    <ImageView
-                        android:id="@+id/ic_msg1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_msg"
-                        android:layout_marginEnd="8dp" />
-
-                    <ImageView
-                        android:id="@+id/ic_wpp1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_wpp"
-                        android:layout_marginEnd="8dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="313dp"
-                android:id="@+id/linearLayout"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/background_white_with_brown_border"
-                android:orientation="vertical"
-                android:padding="16dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 app:layout_constraintTop_toBottomOf="@id/subtitleTextView"
-                tools:layout_editor_absoluteY="276dp">
-
-                <TextView
-                    android:id="@+id/typeLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Secretaria de Educação"
-                    android:textColor="#000000"
-                    android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp" /> <!-- Margem inferior para espaçamento -->
-
-                <TextView
-                    android:id="@+id/typeLabel1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="Telefone: (81) 98888-9999 \nWhatsApp: (81) 98888-9999 \nE-mail: sma@paulista.pe.gov.br"
-                    android:textColor="#000000" />
-
-                <!-- LinearLayout Horizontal para as imagens -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:gravity="end">
-
-                    <ImageView
-                        android:id="@+id/ic_cell2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_cell"
-                        android:layout_marginEnd="8dp" />
-
-                    <ImageView
-                        android:id="@+id/ic_msg2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_msg"
-                        android:layout_marginEnd="8dp" />
-
-                    <ImageView
-                        android:id="@+id/ic_wpp2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_wpp"
-                        android:layout_marginEnd="8dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="313dp"
-                android:id="@+id/linearLayout3"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/background_white_with_brown_border"
-                android:orientation="vertical"
-                android:padding="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linearLayout2"
-                tools:layout_editor_absoluteY="276dp">
-
-                <TextView
-                    android:id="@+id/typeLabel5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Secretaria de Educação"
-                    android:textColor="#000000"
-                    android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp" /> <!-- Margem inferior para espaçamento -->
-
-                <TextView
-                    android:id="@+id/typeLabel6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="Telefone: (81) 98888-9999 \nWhatsApp: (81) 98888-9999 \nE-mail: sma@paulista.pe.gov.br"
-                    android:textColor="#000000" />
-
-                <!-- LinearLayout Horizontal para as imagens -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:gravity="end">
-
-                    <ImageView
-                        android:id="@+id/ic_cell3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_cell"
-                        android:layout_marginEnd="8dp" />
-
-                    <ImageView
-                        android:id="@+id/ic_msg3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_msg"
-                        android:layout_marginEnd="8dp" />
-
-                    <ImageView
-                        android:id="@+id/ic_wpp3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_wpp"
-                        android:layout_marginEnd="8dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
