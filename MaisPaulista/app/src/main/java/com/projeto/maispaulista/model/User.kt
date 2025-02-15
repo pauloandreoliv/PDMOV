@@ -4,8 +4,9 @@ data class User(
     val nome: String,
     val email: String,
     val password: String,
-    val cpfCnpj: String
+    val cpf: String,
+    val endereco: String
 ) {
     // Construtor sem argumentos necessário para Firestore
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "", "", "")
 }

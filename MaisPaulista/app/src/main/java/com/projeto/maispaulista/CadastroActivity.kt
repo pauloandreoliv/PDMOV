@@ -4,6 +4,8 @@ package com.projeto.maispaulista
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
@@ -63,13 +65,56 @@ class CadastroActivity : AppCompatActivity() {
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
         locationHelper = LocationHelper(this, addressEditText)
 
+
+        etCpfCNPJ.addTextChangedListener(object : TextWatcher {
+            private var isUpdating = false
+            private val mask = "###.###.###-##"
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable) {
+                if (isUpdating) {
+                    isUpdating = false
+                    return
+                }
+
+                var str = s.toString().filter { it.isDigit() }
+
+                if (str.length > 11) {
+                    str = str.substring(0, 11)
+                }
+
+                val formatted = StringBuilder()
+                var i = 0
+                for (m in mask.toCharArray()) {
+                    if (m != '#' && str.length > i) {
+                        formatted.append(m)
+                        continue
+                    }
+                    try {
+                        formatted.append(str[i])
+                    } catch (e: Exception) {
+                        break
+                    }
+                    i++
+                }
+
+                isUpdating = true
+                etCpfCNPJ.setText(formatted)
+                etCpfCNPJ.setSelection(formatted.length)
+            }
+        })
+
         btnCadastrar.setOnClickListener {
             val email = etEmail.text.toString()
             val senha = etSenha.text.toString()
             val nome = etNome.text.toString()
-            val cpfCnpj = etCpfCNPJ.text.toString()
+            val cpf = etCpfCNPJ.text.toString()
+            val endereco = addressEditText.text.toString()
 
-            if (email.isEmpty() || senha.isEmpty() || nome.isEmpty() || cpfCnpj.isEmpty()) {
+            if (email.isEmpty() || senha.isEmpty() || nome.isEmpty() || cpf.isEmpty()) {
                 Toast.makeText(baseContext, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -83,7 +128,13 @@ class CadastroActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            userService.cadastrarUsuario(email, senha, nome, cpfCnpj) { success, _ ->
+            if (cpf.length < 14) {
+                Toast.makeText(baseContext, "CPF incompleto", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
+            userService.cadastrarUsuario(email, senha, nome, cpf, endereco) { success, _ ->
                 runOnUiThread {
                     if (success) {
                         Toast.makeText(

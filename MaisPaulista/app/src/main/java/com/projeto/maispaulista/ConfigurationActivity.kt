@@ -97,7 +97,7 @@ class ConfigurationActivity : AppCompatActivity() {
             user?.let {
                 Log.d("UserData", "Nome: ${it.nome}, Email: ${it.email}")
                 nomeEdit.setText(it.nome)
-                cpfEdit.setText(it.cpfCnpj)
+                cpfEdit.setText(it.cpf)
                 emailTextView.text = it.email
                 currentPassword = it.password // Armazenar a senha atual
             } ?: Log.e("UserData", "Usuário não encontrado no Firestore!")
@@ -110,7 +110,9 @@ class ConfigurationActivity : AppCompatActivity() {
             nome = nomeEdit.text.toString(),
             email = emailTextView.text.toString(),
             password = currentPassword, // Usar a senha atual
-            cpfCnpj = cpfEdit.text.toString()
+            cpf = cpfEdit.text.toString(),
+            endereco = "Endereço atualizado"
+
         )
 
         CoroutineScope(Dispatchers.Main).launch {

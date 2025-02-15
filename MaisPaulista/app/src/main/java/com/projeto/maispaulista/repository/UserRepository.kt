@@ -82,24 +82,6 @@ class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFir
         }
     }
 
-    suspend fun reauthenticateUser(password: String): Boolean {
-        val currentUser = auth.currentUser ?: return false
-        val email = currentUser.email ?: return false
-
-        // Log de credenciais usadas para reautenticação (não faça isso em produção por motivos de segurança)
-        Log.d("UserRepository", "Reautenticando usuário com email: $email e senha fornecida.")
-
-        val credential = EmailAuthProvider.getCredential(email, password)
-        return try {
-            currentUser.reauthenticate(credential).await()
-            Log.d("UserRepository", "Reautenticação bem-sucedida.")
-            true
-        } catch (e: Exception) {
-            Log.e("UserRepository", "Erro ao reautenticar usuário: ${e.message}")
-            e.printStackTrace()
-            false
-        }
-    }
 
     suspend fun updateUser(user: User, callback: (Boolean, String?) -> Unit) {
         val userId = auth.currentUser?.uid ?: return callback(false, "Usuário não autenticado.")

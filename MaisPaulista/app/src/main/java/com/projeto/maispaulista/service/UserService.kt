@@ -12,15 +12,16 @@ class UserService(private val repository: UserRepository) {
         email: String,
         password: String,
         nome: String,
-        cpfCnpj: String,
+        cpf: String,
+        endereco: String,
         callback: (Boolean, String?) -> Unit
     ) {
-        if (email.isEmpty() || password.isEmpty() || nome.isEmpty() || cpfCnpj.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty() || nome.isEmpty() || cpf.isEmpty()) {
             callback(false, "Por favor, preencha todos os campos.")
             return
         }
 
-        val user = User(nome = nome, email = email, password = password, cpfCnpj = cpfCnpj)
+        val user = User(nome = nome, email = email, password = password, cpf = cpf, endereco = endereco)
         repository.createUser(email, password, user) { success, error ->
             if (success) {
                 Log.d("UserService", "Usuário cadastrado com sucesso.")
