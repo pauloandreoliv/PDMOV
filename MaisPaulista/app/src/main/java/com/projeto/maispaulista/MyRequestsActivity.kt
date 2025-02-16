@@ -16,6 +16,7 @@ import com.projeto.maispaulista.utils.Variaveis
 import com.projeto.maispaulista.model.RequestModel
 import com.projeto.maispaulista.repository.RequestRepository
 import com.projeto.maispaulista.service.RequestService
+import com.projeto.maispaulista.utils.NetworkUtils
 import kotlinx.coroutines.launch
 
 class MyRequestsActivity : AppCompatActivity() {
@@ -28,6 +29,12 @@ class MyRequestsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_myrequests)
 
         requestsContainer = findViewById(R.id.requestsContainer)
+
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            fetchRequests()
+        } else {
+            NetworkUtils.showNoNetworkDialog(this)
+        }
 
         // Inicializar Firestore e Repositório
         val firestore = FirebaseFirestore.getInstance()
@@ -54,6 +61,10 @@ class MyRequestsActivity : AppCompatActivity() {
     }
 
     private fun fetchRequests() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            NetworkUtils.showNoNetworkDialog(this)
+            return
+        }
         lifecycleScope.launch {
             val requests = requestService.getUserRequests()
             for (request in requests) {

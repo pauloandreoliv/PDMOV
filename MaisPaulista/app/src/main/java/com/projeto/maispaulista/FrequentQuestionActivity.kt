@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.projeto.maispaulista.model.Perguntas
 import com.projeto.maispaulista.service.PerguntasService
+import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.Variaveis
 
 
@@ -39,6 +40,10 @@ class FrequentQuestionActivity : AppCompatActivity() {
     }
 
     private fun loadPerguntas() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            NetworkUtils.showNoNetworkDialog(this)
+            return
+        }
         perguntasService.getPerguntas { perguntas ->
             perguntas.forEach { pergunta ->
                 addPerguntaView(pergunta)

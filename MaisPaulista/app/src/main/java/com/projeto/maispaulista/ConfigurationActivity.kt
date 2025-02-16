@@ -21,6 +21,7 @@ import com.projeto.maispaulista.model.User
 import com.projeto.maispaulista.utils.Variaveis
 import com.projeto.maispaulista.repository.UserRepository
 import com.projeto.maispaulista.service.UserService
+import com.projeto.maispaulista.utils.NetworkUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -67,10 +68,11 @@ class ConfigurationActivity : AppCompatActivity() {
         loadUserData()
         val registerButton: Button = findViewById(R.id.registerButton)
         registerButton.setOnClickListener {
+            if (!NetworkUtils.isNetworkAvailable(this)) {
+                NetworkUtils.showNoNetworkDialog(this)
+                return@setOnClickListener
+            }
             updateUserData()
-
-
-
         }
 
         setupBottomNavigation()

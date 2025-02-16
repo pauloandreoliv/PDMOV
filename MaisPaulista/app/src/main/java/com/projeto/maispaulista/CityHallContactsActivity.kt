@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.projeto.maispaulista.model.Contato
 import com.projeto.maispaulista.service.ContatoService
+import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.Variaveis
 
 class CityHallContactsActivity : AppCompatActivity() {
@@ -48,6 +49,10 @@ class CityHallContactsActivity : AppCompatActivity() {
     }
 
     private fun loadContatos() {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            NetworkUtils.showNoNetworkDialog(this)
+            return
+        }
         contatoService.getContatos { contatos ->
             contatos.forEach { contato ->
                 addContatoView(contato)

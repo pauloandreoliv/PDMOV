@@ -22,6 +22,7 @@ import com.projeto.maispaulista.repository.RequestRepository
 import com.projeto.maispaulista.service.RequestService
 import com.projeto.maispaulista.utils.ImageUtils
 import com.projeto.maispaulista.utils.LocationHelper
+import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.Variaveis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -87,6 +88,12 @@ class Register_RequestsActivity : AppCompatActivity() {
         }
 
         imagemButton.setOnClickListener {
+
+            if (!NetworkUtils.isNetworkAvailable(this)) {
+                NetworkUtils.showNoNetworkDialog(this)
+                return@setOnClickListener
+            }
+
             val tipoItem = tipoSolicitacaoSpinner.selectedItem.toString()
             val descricao = descricaoEditText.text.toString()
             val endereco = addressEditText.text.toString()

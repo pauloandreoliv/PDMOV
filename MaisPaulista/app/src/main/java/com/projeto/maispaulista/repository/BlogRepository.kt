@@ -1,22 +1,11 @@
 package com.projeto.maispaulista.repository
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.projeto.maispaulista.model.Blog
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import com.google.firebase.firestore.Query
 
-class BlogRepository {
 
-    private val firestore = FirebaseFirestore.getInstance()
-
-    fun getBlogs(): Flow<List<Blog>> = flow {
-        try {
-            val snapshot = firestore.collection("blogs").get().await()
-            val blogs = snapshot.toObjects(Blog::class.java)
-            emit(blogs)
-        } catch (e: Exception) {
-            emit(emptyList())
-        }
+class BlogRepository(private val db: FirebaseFirestore) {
+    fun getBlogQuery(): Query {
+        return db.collection("blogs")
     }
 }

@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 import com.projeto.maispaulista.repository.ConsultaRepository
 import com.projeto.maispaulista.service.ConsultaService
 import com.projeto.maispaulista.utils.ConsultaUtils
+import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.NotificationHelper
 
 class MyConsultationsActivity : AppCompatActivity() {
@@ -67,6 +68,10 @@ class MyConsultationsActivity : AppCompatActivity() {
 
         spinnerStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (!NetworkUtils.isNetworkAvailable(this@MyConsultationsActivity)) {
+                    NetworkUtils.showNoNetworkDialog(this@MyConsultationsActivity)
+                    return
+                }
                 val status = parent?.getItemAtPosition(position).toString()
                 fetchAndDisplayConsultasAgendadas(status)
             }
@@ -83,6 +88,10 @@ class MyConsultationsActivity : AppCompatActivity() {
     }
 
     private fun fetchAndDisplayConsultasAgendadas(status: String) {
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            NetworkUtils.showNoNetworkDialog(this)
+            return
+        }
         lifecycleScope.launch {
             try {
                 val uid = Variaveis.uid!!
@@ -108,6 +117,11 @@ class MyConsultationsActivity : AppCompatActivity() {
                         button.visibility = View.GONE
                     } else {
                         button.setOnClickListener {
+                            if (!NetworkUtils.isNetworkAvailable(this@MyConsultationsActivity)) {
+                                NetworkUtils.showNoNetworkDialog(this@MyConsultationsActivity)
+                                return@setOnClickListener
+                            }
+
                             showAlertDialogupdate(
                                 this@MyConsultationsActivity,
                                 "Cancelar Consulta",

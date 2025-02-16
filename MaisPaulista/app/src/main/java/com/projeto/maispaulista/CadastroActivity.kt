@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.repository.UserRepository
 import com.projeto.maispaulista.service.UserService
 import com.projeto.maispaulista.utils.LocationHelper
+import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.Variaveis
 
 class CadastroActivity : AppCompatActivity() {
@@ -108,6 +109,11 @@ class CadastroActivity : AppCompatActivity() {
         })
 
         btnCadastrar.setOnClickListener {
+            if (!NetworkUtils.isNetworkAvailable(this)) {
+                NetworkUtils.showNoNetworkDialog(this)
+                return@setOnClickListener
+            }
+
             val email = etEmail.text.toString()
             val senha = etSenha.text.toString()
             val nome = etNome.text.toString()

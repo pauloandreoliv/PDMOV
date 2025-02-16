@@ -24,6 +24,7 @@ import com.projeto.maispaulista.utils.Variaveis
 import com.projeto.maispaulista.repository.ConsultaRepository
 import com.projeto.maispaulista.service.ConsultaService
 import com.projeto.maispaulista.utils.ConsultaUtils
+import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.NotificationHelper
 import kotlinx.coroutines.launch
 
@@ -76,6 +77,10 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         // Configurar o listener do Spinner
         spinnerEspecialidade.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (!NetworkUtils.isNetworkAvailable(this@ScheduleConsultationsActivity)) {
+                    NetworkUtils.showNoNetworkDialog(this@ScheduleConsultationsActivity)
+                    return
+                }
                 val especialidade = parent.getItemAtPosition(position).toString()
 
                 // Atualizar o status das consultas antes de buscar e exibir as consultas
@@ -84,7 +89,6 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
                     fetchAndDisplayConsultas(especialidade)
                 }
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Nenhuma ação necessária quando nada for selecionado
             }
@@ -140,6 +144,11 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
                             "${consulta.especialidade} \nDr.(a) ${consulta.doutor} \n${consulta.local} \n${consulta.data} às ${consulta.hora}"
 
                         button.setOnClickListener {
+
+                            if (!NetworkUtils.isNetworkAvailable(this@ScheduleConsultationsActivity)) {
+                                NetworkUtils.showNoNetworkDialog(this@ScheduleConsultationsActivity)
+                                return@setOnClickListener
+                            }
                             lifecycleScope.launch {
                                 try {
                                     consultaService.agendarConsulta(consulta, Variaveis.uid!!)

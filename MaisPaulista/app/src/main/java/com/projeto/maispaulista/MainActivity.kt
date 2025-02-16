@@ -31,6 +31,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.projeto.maispaulista.utils.ConsultaUtils
+import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.NotificationHelper
 import com.projeto.maispaulista.utils.NotificationWorker
 import com.projeto.maispaulista.utils.Variaveis
@@ -60,6 +61,10 @@ class MainActivity : AppCompatActivity() {
         userService = UserService(userRepository)
 
         checkNotificationPermission()
+
+        if (!NetworkUtils.isNetworkAvailable(this)) {
+            NetworkUtils.showNoNetworkDialog(this)
+        }
 
 
         // Configurar insets para o layout raiz
@@ -100,11 +105,14 @@ class MainActivity : AppCompatActivity() {
         val etSenha = findViewById<EditText>(R.id.passwordEditText)
         val bntEntrar = findViewById<Button>(R.id.loginButton)
 
-        // Clique no botão para entrar
         bntEntrar.setOnClickListener {
+            if (!NetworkUtils.isNetworkAvailable(this)) {
+                NetworkUtils.showNoNetworkDialog(this)
+                return@setOnClickListener
+            }
+
             val email = etEmail.text.toString()
             val senha = etSenha.text.toString()
-
             if (email.isEmpty() || senha.isEmpty()) {
                 showAlertDialog(this, "Informação login incompleto", "Preencha todos os campos!")
                 return@setOnClickListener
@@ -117,20 +125,17 @@ class MainActivity : AppCompatActivity() {
                         val currentUser = auth.currentUser
                         if (currentUser != null) {
                             val uid = currentUser.uid
-                            Variaveis.uid = uid  // Armazene o UID no Singleton
-
+                            Variaveis.uid = uid // Armazene o UID no Singleton
                             // Configuração do WorkManager
-                            val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
-                                .build()
-
+                            val workRequest =
+                                PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
+                                    .build()
                             WorkManager.getInstance(this).enqueueUniquePeriodicWork(
                                 "NotificationWork",
                                 ExistingPeriodicWorkPolicy.REPLACE,
                                 workRequest
                             )
-
                             Log.d("Login", "Login realizado com sucesso. UID: $uid")
-
                             // Exibir alerta de sucesso e redirecionar
                             showAlertDialog(this, "Login Realizado", "Login realizado com sucesso!")
                             Handler(Looper.getMainLooper()).postDelayed({
@@ -139,7 +144,11 @@ class MainActivity : AppCompatActivity() {
                                 finish()
                             }, 3000)
                         } else {
-                            showAlertDialog(this, "Erro de Login", "Erro ao obter informações do usuário.")
+                            showAlertDialog(
+                                this,
+                                "Erro de Login",
+                                "Erro ao obter informações do usuário."
+                            )
                         }
                     } else {
                         showAlertDialog(this, "Erro de Login", "Erro: $errorMessage")
@@ -148,6 +157,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
             if (ContextCompat.checkSelfPermission(
