@@ -147,7 +147,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:id="@+id/acompanharSolicitacao"
-                    android:layout_height="wrap_content"
+                    android:layout_height="118dp"
                     android:layout_columnWeight="1"
                     android:background="#F0D508"
                     android:clickable="true"
@@ -175,7 +175,7 @@
                 <LinearLayout
                     android:id="@+id/MyConsultas"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="118dp"
                     android:layout_columnWeight="1"
                     android:background="#F0D508"
                     android:clickable="true"
@@ -204,7 +204,7 @@
                 <LinearLayout
                     android:id="@+id/agendarConsultas"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="118dp"
                     android:layout_columnWeight="1"
                     android:background="#F0D508"
                     android:clickable="true"
@@ -232,7 +232,7 @@
                 <LinearLayout
                     android:id="@+id/perguntasFrequentes"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="118dp"
                     android:layout_columnWeight="1"
                     android:background="#F0D508"
                     android:clickable="true"
@@ -260,7 +260,7 @@
                 <LinearLayout
                     android:id="@+id/contatos"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="118dp"
                     android:layout_columnWeight="1"
                     android:background="#F0D508"
                     android:clickable="true"
