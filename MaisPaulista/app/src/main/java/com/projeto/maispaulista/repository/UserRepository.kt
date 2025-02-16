@@ -8,10 +8,11 @@ import com.google.firebase.firestore.toObject
 import com.projeto.maispaulista.model.User
 import kotlinx.coroutines.tasks.await
 
-class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFirestore ) {
+class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFirestore) {
 
     private val userCollection = db.collection("users")
 
+    // Criação de Usuário
     fun createUser(
         email: String,
         password: String,
@@ -28,10 +29,7 @@ class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFir
                             callback(true, null)
                         }
                         .addOnFailureListener { exception ->
-                            Log.e(
-                                "Cadastro",
-                                "Erro ao salvar dados no Firestore: ${exception.message}"
-                            )
+                            Log.e("Cadastro", "Erro ao salvar dados no Firestore: ${exception.message}")
                             callback(false, "Erro ao salvar dados: ${exception.message}")
                         }
                 } else {
@@ -46,6 +44,7 @@ class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFir
         }
     }
 
+    // Login de Usuário
     fun getUserRepository(
         email: String,
         password: String,
@@ -63,6 +62,7 @@ class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFir
         }
     }
 
+    // Recuperação de Dados do Usuário
     suspend fun getUser(uid: String): User? {
         Log.d("UserRepository", "Recuperando dados do usuário com UID: $uid")
         return try {
@@ -82,12 +82,10 @@ class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFir
         }
     }
 
-
+    // Atualização de Dados do Usuário
     suspend fun updateUser(user: User, callback: (Boolean, String?) -> Unit) {
         val userId = auth.currentUser?.uid ?: return callback(false, "Usuário não autenticado.")
-
         try {
-            // Atualizar dados no Firestore
             userCollection.document(userId).set(user).await()
             Log.d("UserRepository", "Dados do usuário atualizados no Firestore com sucesso.")
             callback(true, null)
@@ -97,6 +95,4 @@ class UserRepository(private val auth: FirebaseAuth, private val db: FirebaseFir
             callback(false, "Erro ao atualizar dados do usuário: ${e.message}")
         }
     }
-
-
 }

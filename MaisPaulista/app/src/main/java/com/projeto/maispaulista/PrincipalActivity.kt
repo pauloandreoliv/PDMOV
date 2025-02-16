@@ -3,6 +3,7 @@ package com.projeto.maispaulista
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +16,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.utils.BlogAdapter
 import com.projeto.maispaulista.model.Blog
 import android.util.Log
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.projeto.maispaulista.repository.BlogRepository
@@ -48,6 +51,7 @@ class PrincipalActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
+
         if (!NetworkUtils.isNetworkAvailable(this)) {
             NetworkUtils.showNoNetworkDialog(this)
         } else {
@@ -56,8 +60,6 @@ class PrincipalActivity : AppCompatActivity() {
             setupBottomNavigation()
         }
     }
-
-
 
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.blog_recycler_view)

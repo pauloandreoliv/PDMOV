@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.*
@@ -44,6 +45,23 @@ class CadastroActivity : AppCompatActivity() {
                 insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val passwordEditText: EditText = findViewById(R.id.passwordEditText)
+        val eyeImageView: ImageView = findViewById(R.id.eyeImageView)
+
+        eyeImageView.setOnClickListener {
+            if (passwordEditText.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                // Ocultar senha
+                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                eyeImageView.setImageResource(R.drawable.ic_olho_fechado)
+            } else {
+                // Mostrar senha
+                passwordEditText.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                eyeImageView.setImageResource(R.drawable.ic_olho_aberto)
+            }
+
+            passwordEditText.setSelection(passwordEditText.text.length)
         }
 
         window.statusBarColor = androidx.core.content.ContextCompat.getColor(this, android.R.color.white)
