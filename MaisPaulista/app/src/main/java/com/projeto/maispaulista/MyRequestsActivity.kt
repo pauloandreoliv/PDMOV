@@ -30,12 +30,6 @@ class MyRequestsActivity : AppCompatActivity() {
 
         requestsContainer = findViewById(R.id.requestsContainer)
 
-        if (NetworkUtils.isNetworkAvailable(this)) {
-            fetchRequests()
-        } else {
-            NetworkUtils.showNoNetworkDialog(this)
-        }
-
         // Inicializar Firestore e Repositório
         val firestore = FirebaseFirestore.getInstance()
         val requestRepository = RequestRepository(firestore)
@@ -56,16 +50,22 @@ class MyRequestsActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
-        fetchRequests()
+        // Verificar disponibilidade de rede e buscar solicitações
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            fetchRequests()
+        } else {
+            NetworkUtils.showNoNetworkDialog(this)
+        }
+
         setupBottomNavigation()
     }
 
     private fun fetchRequests() {
-        if (!NetworkUtils.isNetworkAvailable(this)) {
-            NetworkUtils.showNoNetworkDialog(this)
-            return
-        }
         lifecycleScope.launch {
+            if (!NetworkUtils.isNetworkAvailable(this@MyRequestsActivity)) {
+                NetworkUtils.showNoNetworkDialog(this@MyRequestsActivity)
+                return@launch
+            }
             val requests = requestService.getUserRequests()
             for (request in requests) {
                 addRequestTextView(request)
@@ -105,7 +105,7 @@ class MyRequestsActivity : AppCompatActivity() {
             }
         }
         requestsContainer.addView(textView)
-        }
+    }
 
     // Função para configurar a navegação inferior
     private fun setupBottomNavigation() {
@@ -134,5 +134,3 @@ class MyRequestsActivity : AppCompatActivity() {
         }
     }
 }
-
-
