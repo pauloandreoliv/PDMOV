@@ -118,11 +118,6 @@ class PrincipalActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
-    }
-
     override fun onStart() {
         super.onStart()
         if (NetworkUtils.isNetworkAvailable(this)) {

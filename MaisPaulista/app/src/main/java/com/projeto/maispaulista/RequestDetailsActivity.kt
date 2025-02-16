@@ -76,6 +76,14 @@ class RequestDetailsActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, MyRequestsActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+
     // Função para configurar a navegação inferior
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)

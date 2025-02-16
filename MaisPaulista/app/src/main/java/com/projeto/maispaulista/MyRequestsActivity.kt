@@ -67,7 +67,8 @@ class MyRequestsActivity : AppCompatActivity() {
                 return@launch
             }
             val requests = requestService.getUserRequests()
-            for (request in requests) {
+            val sortedRequests = requests.sortedByDescending { it.nunSolicitacao.toInt() }
+            for (request in sortedRequests) {
                 addRequestTextView(request)
             }
         }
