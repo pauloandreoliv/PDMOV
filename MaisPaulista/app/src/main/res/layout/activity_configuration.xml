@@ -92,7 +92,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/enderecoEdit" />
+                app:layout_constraintTop_toBottomOf="@id/addressLayout" />
 
 
 
@@ -105,6 +105,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@android:drawable/edit_text"
                 android:hint="CPF"
+                android:inputType="number"
                 android:padding="12dp"
                 android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -112,23 +113,41 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cpfLabel" />
 
-            <EditText
-                android:id="@+id/enderecoEdit"
+            <LinearLayout
+                android:id="@+id/addressLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
                 android:background="@android:drawable/edit_text"
-                android:drawableEnd="@drawable/maps"
-                android:drawablePadding="8dp"
-                android:hint="ENDEREÇO"
-                android:textColor="@android:color/black"
                 android:padding="12dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/enderecoLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/enderecoLabel">
+
+            <EditText
+                android:id="@+id/addressEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:textColor="@color/black"
+                android:hint="Digite seu endereço"
+                android:inputType="text" />
+
+            <ImageView
+                android:id="@+id/mapIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_map"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
 
             <TextView
                 android:id="@+id/enderecoLabel"

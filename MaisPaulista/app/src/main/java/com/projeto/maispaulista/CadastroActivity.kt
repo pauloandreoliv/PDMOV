@@ -60,14 +60,14 @@ class CadastroActivity : AppCompatActivity() {
         val etEmail = findViewById<EditText>(R.id.emailEditText)
         val etSenha = findViewById<EditText>(R.id.passwordEditText)
         val etNome = findViewById<EditText>(R.id.nameEditText)
-        val etCpfCNPJ = findViewById<EditText>(R.id.cpfCnpjEditText)
+        val etCpf = findViewById<EditText>(R.id.cpfCnpjEditText)
         val btnCadastrar = findViewById<Button>(R.id.registerButton)
         addressEditText = findViewById(R.id.addressEditText)
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
         locationHelper = LocationHelper(this, addressEditText)
 
 
-        etCpfCNPJ.addTextChangedListener(object : TextWatcher {
+        etCpf.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
             private val mask = "###.###.###-##"
 
@@ -103,8 +103,8 @@ class CadastroActivity : AppCompatActivity() {
                 }
 
                 isUpdating = true
-                etCpfCNPJ.setText(formatted)
-                etCpfCNPJ.setSelection(formatted.length)
+                etCpf.setText(formatted)
+                etCpf.setSelection(formatted.length)
             }
         })
 
@@ -117,7 +117,7 @@ class CadastroActivity : AppCompatActivity() {
             val email = etEmail.text.toString()
             val senha = etSenha.text.toString()
             val nome = etNome.text.toString()
-            val cpf = etCpfCNPJ.text.toString()
+            val cpf = etCpf.text.toString()
             val endereco = addressEditText.text.toString()
 
             if (email.isEmpty() || senha.isEmpty() || nome.isEmpty() || cpf.isEmpty() || endereco.isEmpty()) {

@@ -25,6 +25,7 @@ class LocationHelper(private val activity: Activity, private val addressEditText
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     var isManualEdit = false
+    var currentLocation: String? = null
 
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -36,13 +37,23 @@ class LocationHelper(private val activity: Activity, private val addressEditText
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
+                Log.d("LocationHelper", "onLocationResult chamado")
                 for (location in locationResult.locations) {
+                    Log.d("LocationHelper", "Localização obtida: ${location.latitude}, ${location.longitude}")
                     if (!isManualEdit) {
                         val latitude = location.latitude
                         val longitude = location.longitude
+                        Log.d("LocationHelper", "Obtendo endereço para Latitude = $latitude, Longitude = $longitude")
+
                         val address = getAddressFromLocation(latitude, longitude)
-                        addressEditText.setText(address)
-                        Log.d("EditTextUpdate", "Endereço definido no EditText: $address")
+                        if (address != "Endereço não encontrado" && address != "Erro ao buscar endereço") {
+                            currentLocation = address // Atualiza a variável currentLocation com o endereço
+                            Log.d("LocationHelper", "Endereço obtido: $address")
+                            onLocationReceived?.invoke(address)
+                            setAddress(address) // Define o endereço no EditText
+                        } else {
+                            Log.e("LocationHelper", "Erro ao obter endereço: $address")
+                        }
                     }
                 }
             }
@@ -63,14 +74,32 @@ class LocationHelper(private val activity: Activity, private val addressEditText
         })
     }
 
+    private var onLocationReceived: ((String) -> Unit)? = null
+
+    fun setOnLocationReceivedListener(callback: (String) -> Unit) {
+        onLocationReceived = callback
+    }
+
+
+    fun setAddress(address: String) {
+        activity.runOnUiThread {
+            addressEditText.setText(address)
+            Log.d("LocationHelper", "Endereço definido: $address")
+        }
+    }
+
     fun checkLocationAndEnableGPS() {
         if (checkLocationPermission()) {
+            Log.d("LocationHelper", "Permissão de localização concedida")
             if (isLocationEnabled()) {
+                Log.d("LocationHelper", "GPS está ativado")
                 startLocationUpdates()
             } else {
+                Log.d("LocationHelper", "GPS não está ativado, solicitando ativação")
                 enableGPS()
             }
         } else {
+            Log.d("LocationHelper", "Permissão de localização não concedida, solicitando permissão")
             requestLocationPermission()
         }
     }
@@ -92,12 +121,8 @@ class LocationHelper(private val activity: Activity, private val addressEditText
 
     fun isLocationEnabled(): Boolean {
         val locationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val isEnabled =
-            locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-                LocationManager.NETWORK_PROVIDER
-            )
-        Log.d("LocationEnabled", "GPS ativado: $isEnabled")
-        return isEnabled
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
     fun enableGPS() {
@@ -111,15 +136,17 @@ class LocationHelper(private val activity: Activity, private val addressEditText
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
 
         task.addOnSuccessListener {
+            Log.d("LocationHelper", "GPS ativado com sucesso")
             startLocationUpdates()
         }
 
         task.addOnFailureListener { exception ->
             if (exception is ResolvableApiException) {
                 try {
+                    Log.d("LocationHelper", "Solicitando ativação do GPS")
                     exception.startResolutionForResult(activity, LOCATION_SETTINGS_REQUEST_CODE)
                 } catch (sendEx: IntentSender.SendIntentException) {
-                    Log.e("enableGPS", "Erro ao abrir configurações de localização", sendEx)
+                    Log.e("LocationHelper", "Erro ao abrir configurações de localização", sendEx)
                 }
             }
         }
@@ -132,11 +159,13 @@ class LocationHelper(private val activity: Activity, private val addressEditText
             fastestInterval = 5000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
+        Log.d("LocationHelper", "Iniciando atualizações de localização")
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
     private fun getAddressFromLocation(latitude: Double, longitude: Double): String {
         val geocoder = Geocoder(activity, Locale.getDefault())
+        Log.d("Geocoder", "Iniciando busca de endereço para Latitude = $latitude, Longitude = $longitude")
         return try {
             val addresses = geocoder.getFromLocation(latitude, longitude, 1)
             if (!addresses.isNullOrEmpty()) {
@@ -153,7 +182,9 @@ class LocationHelper(private val activity: Activity, private val addressEditText
         }
     }
 
+
     fun checkLocationPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
+
 }

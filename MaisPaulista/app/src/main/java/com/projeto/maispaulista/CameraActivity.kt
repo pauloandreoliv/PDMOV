@@ -5,8 +5,10 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -33,6 +35,12 @@ class CameraActivity : AppCompatActivity() {
         captureButton = findViewById(R.id.button_capture)
         cancelButton = findViewById(R.id.button_cancel)
         galleryButton = findViewById(R.id.button_gallery)
+
+        // Configurar a cor de status bar
+        window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
 
         if (!ImageUtils.checkCameraPermissions(this)) {
             ImageUtils.requestCameraPermissions(this)

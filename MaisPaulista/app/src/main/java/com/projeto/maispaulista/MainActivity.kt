@@ -185,8 +185,7 @@ class MainActivity : AppCompatActivity() {
         // Verifica se a permissão foi concedida
         if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permissão concedida, agora podemos enviar a notificação
-                NotificationHelper(this).sendNotification("Lembrete", "Você tem uma consulta em 5 dias.")
+                Toast.makeText(this, "Permissão para notificações ativada", Toast.LENGTH_SHORT).show()
             } else {
                 // Permissão negada, mostre uma mensagem ou lide com isso adequadamente
                 Toast.makeText(this, "Permissão para notificações negada", Toast.LENGTH_SHORT).show()
