@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.repository.RequestRepository
 import com.projeto.maispaulista.service.RequestService
@@ -106,6 +107,7 @@ class Register_RequestsActivity : AppCompatActivity() {
 
         // Verifica permissão e GPS ao abrir a tela
         locationHelper.checkLocationAndEnableGPS()
+        setupBottomNavigation()
     }
 
 
@@ -256,6 +258,32 @@ class Register_RequestsActivity : AppCompatActivity() {
                     val imageName = data?.getStringExtra("imageName")
                     imagemTextView.text = imageName
                 }
+            }
+        }
+    }
+
+    private fun setupBottomNavigation() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_settings -> {
+                    Variaveis.currentActivity = this::class.java
+                    startActivity(Intent(this, ConfigurationActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_home -> {
+                    startActivity(Intent(this, PrincipalActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_back -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    Variaveis.uid = null
+                    true
+                }
+
+                else -> false
             }
         }
     }

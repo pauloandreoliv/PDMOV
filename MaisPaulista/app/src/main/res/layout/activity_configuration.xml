@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:id="@+id/configurationLayout"
     android:background="#FFFFFF"
-    tools:context=".ConfigurationActivity">
+    tools:context=".ConfigurationActivity"
+    android:fitsSystemWindows="true"    >
 
 
     <ScrollView

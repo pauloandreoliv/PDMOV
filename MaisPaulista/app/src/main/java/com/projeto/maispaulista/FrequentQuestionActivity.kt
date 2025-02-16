@@ -10,8 +10,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.projeto.maispaulista.model.Perguntas
 import com.projeto.maispaulista.service.PerguntasService
+import com.projeto.maispaulista.utils.Variaveis
 
 
 class FrequentQuestionActivity : AppCompatActivity() {
@@ -33,6 +35,7 @@ class FrequentQuestionActivity : AppCompatActivity() {
         }
 
         loadPerguntas()
+        setupBottomNavigation()
     }
 
     private fun loadPerguntas() {
@@ -59,5 +62,31 @@ class FrequentQuestionActivity : AppCompatActivity() {
         typeLabel1.text = pergunta.resposta
 
         containerLayout.addView(perguntaLayout)
+    }
+
+    private fun setupBottomNavigation() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_settings -> {
+                    Variaveis.currentActivity = this::class.java
+                    startActivity(Intent(this, ConfigurationActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_home -> {
+                    startActivity(Intent(this, PrincipalActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_back -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    Variaveis.uid = null
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 }

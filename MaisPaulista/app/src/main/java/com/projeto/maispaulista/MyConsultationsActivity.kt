@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.utils.Variaveis
 import kotlinx.coroutines.launch
@@ -72,6 +73,7 @@ class MyConsultationsActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+        setupBottomNavigation()
     }
 
     override fun onBackPressed() {
@@ -158,5 +160,31 @@ class MyConsultationsActivity : AppCompatActivity() {
         }
         val dialog: AlertDialog = builder.create()
         dialog.show()
+    }
+
+    private fun setupBottomNavigation() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_settings -> {
+                    Variaveis.currentActivity = this::class.java
+                    startActivity(Intent(this, ConfigurationActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_home -> {
+                    startActivity(Intent(this, PrincipalActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_back -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    Variaveis.uid = null
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 }

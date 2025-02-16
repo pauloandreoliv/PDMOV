@@ -17,8 +17,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.projeto.maispaulista.model.Contato
 import com.projeto.maispaulista.service.ContatoService
+import com.projeto.maispaulista.utils.Variaveis
 
 class CityHallContactsActivity : AppCompatActivity() {
 
@@ -42,6 +44,7 @@ class CityHallContactsActivity : AppCompatActivity() {
         }
 
         loadContatos()
+        setupBottomNavigation()
     }
 
     private fun loadContatos() {
@@ -102,5 +105,30 @@ class CityHallContactsActivity : AppCompatActivity() {
         }
 
         containerLayout.addView(contatoLayout)
+    }
+    private fun setupBottomNavigation() {
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_settings -> {
+                    Variaveis.currentActivity = this::class.java
+                    startActivity(Intent(this, ConfigurationActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_home -> {
+                    startActivity(Intent(this, PrincipalActivity::class.java))
+                    true
+                }
+
+                R.id.navigation_back -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    Variaveis.uid = null
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 }
