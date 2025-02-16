@@ -152,4 +152,8 @@ class LocationHelper(private val activity: Activity, private val addressEditText
             "Erro ao buscar endereço"
         }
     }
+
+    fun checkLocationPermissions(): Boolean {
+        return ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
 }

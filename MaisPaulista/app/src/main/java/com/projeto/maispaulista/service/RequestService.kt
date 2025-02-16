@@ -13,7 +13,7 @@ class RequestService(
     private val userId: String
 ) {
 
-    suspend fun addRequest(tipoItem: String, descricao: String, imagemNome: String): Boolean {
+    suspend fun addRequest(tipoItem: String, descricao: String, imagemNome: String, endereco: String): Boolean {
         val dataAtual = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
 
@@ -25,7 +25,8 @@ class RequestService(
             descricao = descricao,
             imagemNome = imagemNome,
             status = "Pendente",
-            data = dataAtual  // Passando a data como String
+            data = dataAtual,
+            endereco = endereco
         )
         return repository.addRequest(request)
     }

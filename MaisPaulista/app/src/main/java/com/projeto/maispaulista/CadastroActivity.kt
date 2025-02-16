@@ -114,7 +114,7 @@ class CadastroActivity : AppCompatActivity() {
             val cpf = etCpfCNPJ.text.toString()
             val endereco = addressEditText.text.toString()
 
-            if (email.isEmpty() || senha.isEmpty() || nome.isEmpty() || cpf.isEmpty()) {
+            if (email.isEmpty() || senha.isEmpty() || nome.isEmpty() || cpf.isEmpty() || endereco.isEmpty()) {
                 Toast.makeText(baseContext, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -148,7 +148,7 @@ class CadastroActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             baseContext,
-                            "Erro desconhecido durante o cadastro.",
+                            "E-mail ja cadastrado.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }

@@ -104,18 +104,14 @@
         android:layout_marginEnd="32dp"
         android:background="@android:drawable/edit_text"
         android:hint="CPF"
-        android:inputType="text"
+        android:inputType="number"
         android:padding="12dp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
-    <!-- Campo Endereço com ícone de mapa -->
 
-    <!-- Outros campos -->
-
-    <!-- Botão Cadastrar -->
 
     <LinearLayout
         android:id="@+id/addressLayout"

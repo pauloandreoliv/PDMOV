@@ -137,21 +137,21 @@
                     android:textColor="@android:color/black" />
 
                 <ImageView
-                    android:id="@+id/ic_camera"
+                    android:id="@+id/cameraImageView"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="12dp"
                     android:src="@drawable/ic_camera"
                     android:contentDescription="Ícone da câmera" />
-            </LinearLayout>
 
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/DescriçãoEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@android:drawable/edit_text"
                 android:hint="Descrição"
@@ -162,23 +162,39 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/descricaoLabel" />
 
-            <EditText
+
+            <LinearLayout
                 android:id="@+id/enderecoEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
-                android:background="@android:drawable/edit_text"
-                android:drawableEnd="@drawable/maps"
-                android:drawablePadding="8dp"
-                android:hint="ENDEREÇO"
-                android:padding="12dp"
-                android:textColor="@android:color/black"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/enderecoLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/enderecoLabel">
+
+                <EditText
+                    android:id="@+id/addressEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/edit_text"
+                    android:hint="Digite seu endereço"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black" />
+
+                <ImageView
+                    android:id="@+id/mapIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_map"
+                    android:contentDescription="Ícone do mapa" />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/enderecoLabel"
@@ -212,6 +228,11 @@
                 android:text="DESCRIÇÃO"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tipoSolicitacaoSpinner" />
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/previewView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

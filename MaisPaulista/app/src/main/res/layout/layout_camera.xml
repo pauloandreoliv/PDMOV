@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Cabeçalho -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFEB3B"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="181dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_logoo" />
+    </LinearLayout>
+
+    <!-- Pré-visualização da câmera -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_below="@id/header"
+        android:layout_above="@id/footer" />
+
+    <!-- Rodapé com botões -->
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#FFEB3B"
+        android:layout_alignParentBottom="true"
+        android:padding="16dp">
+
+        <ImageButton
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Cancelar"
+            android:src="@drawable/ic_cancel"
+            android:backgroundTint="#FFEB3B"
+            android:layout_margin="8dp" />
+
+        <ImageButton
+            android:id="@+id/button_capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_capture"
+            android:contentDescription="Tirar Foto"
+            android:backgroundTint="#FFEB3B"
+            android:layout_margin="8dp" />
+
+        <ImageButton
+            android:id="@+id/button_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Galeria"
+            android:src="@drawable/ic_gallery"
+            android:backgroundTint="#FFEB3B"
+            android:layout_margin="8dp" />
+    </LinearLayout>
+</RelativeLayout>

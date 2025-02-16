@@ -8,8 +8,9 @@ data class RequestModel(
     val descricao: String = "",
     val imagemNome: String = "",
     val status: String = "",
-    val data: String = ""
+    val data: String = "",
+    val endereco: String = ""
 ) {
     // Construtor sem parâmetros necessário para a desserialização
-    constructor() : this("",0, "", "", "", "", "", "")
+    constructor() : this("",0, "", "", "", "", "", "", "")
 }
