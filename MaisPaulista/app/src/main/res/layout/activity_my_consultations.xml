@@ -71,31 +71,35 @@
 
         <Spinner
             android:id="@+id/spinnerStatus"
-            android:layout_width="385dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@android:drawable/edit_text"
             app:layout_constraintTop_toBottomOf="@id/subtitleTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="0dp"/>
+            android:layout_marginBottom="0dp"
+            app:layout_constraintWidth_percent="0.9"/>
+
 
         <!-- Adicionando Scroll apenas para as consultas -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="false"
-            app:layout_constraintTop_toBottomOf="@id/spinnerStatus"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerStatus"
+            app:layout_constraintVertical_bias="0.0">
 
             <LinearLayout
                 android:id="@+id/consultaItemsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="8dp"/>
+                android:padding="8dp" />
         </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

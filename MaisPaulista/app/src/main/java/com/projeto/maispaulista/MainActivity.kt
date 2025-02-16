@@ -32,6 +32,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.projeto.maispaulista.utils.AuthUtils
 import com.projeto.maispaulista.utils.ConsultaUtils
 import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.NotificationHelper
@@ -156,7 +157,6 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        // Serviço de login
         // Serviço de login
         userService.verificarUsuario(email, senha) { success, errorMessage ->
             runOnUiThread {

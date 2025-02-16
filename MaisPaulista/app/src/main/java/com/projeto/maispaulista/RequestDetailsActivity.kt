@@ -11,10 +11,12 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.utils.Variaveis
 import com.projeto.maispaulista.repository.RequestRepository
 import com.projeto.maispaulista.service.RequestService
+import com.projeto.maispaulista.utils.AuthUtils
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -25,6 +27,7 @@ class RequestDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_details)
+        AuthUtils.checkAuthentication(this)
 
         // Inicializar Firestore e Repositório
         val firestore = FirebaseFirestore.getInstance()
@@ -65,7 +68,7 @@ class RequestDetailsActivity : AppCompatActivity() {
             request?.let {
                 // Configurar os TextViews com os detalhes da solicitação
                 findViewById<TextView>(R.id.titleTextView).text = "Solicitação\nN°${it.nunSolicitacao}"
-                findViewById<TextView>(R.id.typeLabel).text = "Status: ${it.status}\n\nTipo: ${it.tipoItem}\n\nData: ${it.data}\n\nDescrição: ${it.descricao}\n\nEndereço: implementar \n\nImagem: ${it.imagemNome}"
+                findViewById<TextView>(R.id.typeLabel).text = "Status: ${it.status}\n\nTipo: ${it.tipoItem}\n\nData: ${it.data}\n\nDescrição: ${it.descricao}\n\nEndereço: ${it.endereco} \n\nImagem: ${it.imagemNome}"
 
                 val imagePath = File(filesDir, "Banco_imagens_solicitacao/${it.imagemNome}")
                 if (imagePath.exists()) {
@@ -101,8 +104,9 @@ class RequestDetailsActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_back -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    FirebaseAuth.getInstance().signOut() // Sai da autenticação
                     Variaveis.uid = null
+                    startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
 

@@ -20,8 +20,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.FirebaseAuth
 import com.projeto.maispaulista.repository.BlogRepository
 import com.projeto.maispaulista.service.BlogService
+import com.projeto.maispaulista.utils.AuthUtils
 import com.projeto.maispaulista.utils.ConsultaUtils
 import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.Variaveis
@@ -37,6 +39,7 @@ class PrincipalActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_principal)
+        AuthUtils.checkAuthentication(this)
 
 
         // Ajuste de margens para barra de status e navegação
@@ -109,8 +112,9 @@ class PrincipalActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_back -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    FirebaseAuth.getInstance().signOut() // Sai da autenticação
                     Variaveis.uid = null
+                    startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
                 else -> false

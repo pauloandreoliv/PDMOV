@@ -17,6 +17,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import com.projeto.maispaulista.utils.AuthUtils
 import com.projeto.maispaulista.utils.ImageUtils
 import java.io.File
 
@@ -35,6 +36,8 @@ class CameraActivity : AppCompatActivity() {
         captureButton = findViewById(R.id.button_capture)
         cancelButton = findViewById(R.id.button_cancel)
         galleryButton = findViewById(R.id.button_gallery)
+
+        AuthUtils.checkAuthentication(this)
 
         // Configurar a cor de status bar
         window.statusBarColor = ContextCompat.getColor(this, R.color.status_bar_color)

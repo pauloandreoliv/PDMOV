@@ -17,9 +17,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.repository.RequestRepository
 import com.projeto.maispaulista.service.RequestService
+import com.projeto.maispaulista.utils.AuthUtils
 import com.projeto.maispaulista.utils.ImageUtils
 import com.projeto.maispaulista.utils.LocationHelper
 import com.projeto.maispaulista.utils.NetworkUtils
@@ -47,6 +49,7 @@ class Register_RequestsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_requests)
+        AuthUtils.checkAuthentication(this)
 
         tipoSolicitacaoSpinner = findViewById(R.id.tipoSolicitacaoSpinner)
         descricaoEditText = findViewById(R.id.DescriçãoEdit)
@@ -292,8 +295,9 @@ class Register_RequestsActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_back -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    FirebaseAuth.getInstance().signOut() // Sai da autenticação
                     Variaveis.uid = null
+                    startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
 

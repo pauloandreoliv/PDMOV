@@ -12,8 +12,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.projeto.maispaulista.model.Perguntas
 import com.projeto.maispaulista.service.PerguntasService
+import com.projeto.maispaulista.utils.AuthUtils
 import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.Variaveis
 
@@ -26,6 +28,7 @@ class FrequentQuestionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_frequent_questions)
+        AuthUtils.checkAuthentication(this)
 
         containerLayout = findViewById(R.id.containerLayout)
 
@@ -94,8 +97,9 @@ class FrequentQuestionActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_back -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    FirebaseAuth.getInstance().signOut() // Sai da autenticação
                     Variaveis.uid = null
+                    startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
 

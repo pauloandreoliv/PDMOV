@@ -26,6 +26,7 @@ import com.projeto.maispaulista.model.User
 import com.projeto.maispaulista.utils.Variaveis
 import com.projeto.maispaulista.repository.UserRepository
 import com.projeto.maispaulista.service.UserService
+import com.projeto.maispaulista.utils.AuthUtils
 import com.projeto.maispaulista.utils.LocationHelper
 import com.projeto.maispaulista.utils.NetworkUtils
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +46,7 @@ class ConfigurationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_configuration)
+        AuthUtils.checkAuthentication(this)
 
         val auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
@@ -266,8 +268,9 @@ class ConfigurationActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_back -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    FirebaseAuth.getInstance().signOut() // Sai da autenticação
                     Variaveis.uid = null
+                    startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
                 else -> false

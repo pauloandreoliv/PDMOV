@@ -18,8 +18,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.projeto.maispaulista.model.Contato
 import com.projeto.maispaulista.service.ContatoService
+import com.projeto.maispaulista.utils.AuthUtils
 import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.Variaveis
 
@@ -32,6 +34,7 @@ class CityHallContactsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_city_hall_contacts)
+        AuthUtils.checkAuthentication(this)
 
         containerLayout = findViewById(R.id.containerLayout)
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
@@ -134,8 +137,9 @@ class CityHallContactsActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_back -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    FirebaseAuth.getInstance().signOut() // Sai da autenticação
                     Variaveis.uid = null
+                    startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
 

@@ -19,11 +19,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.utils.Variaveis
 import kotlinx.coroutines.launch
 import com.projeto.maispaulista.repository.ConsultaRepository
 import com.projeto.maispaulista.service.ConsultaService
+import com.projeto.maispaulista.utils.AuthUtils
 import com.projeto.maispaulista.utils.ConsultaUtils
 import com.projeto.maispaulista.utils.NetworkUtils
 import com.projeto.maispaulista.utils.NotificationHelper
@@ -36,6 +38,7 @@ class MyConsultationsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_consultations)
+        AuthUtils.checkAuthentication(this)
 
         val db = FirebaseFirestore.getInstance()
         val consultaRepository = ConsultaRepository(db)
@@ -201,8 +204,9 @@ class MyConsultationsActivity : AppCompatActivity() {
                 }
 
                 R.id.navigation_back -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    FirebaseAuth.getInstance().signOut() // Sai da autenticação
                     Variaveis.uid = null
+                    startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
 
