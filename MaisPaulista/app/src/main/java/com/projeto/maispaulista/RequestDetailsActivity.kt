@@ -41,6 +41,8 @@ class RequestDetailsActivity : AppCompatActivity() {
         }
 
 
+
+
         // Configurar a cor de status bar
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

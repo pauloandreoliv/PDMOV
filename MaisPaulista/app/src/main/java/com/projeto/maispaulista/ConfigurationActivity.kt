@@ -136,6 +136,7 @@ class ConfigurationActivity : AppCompatActivity() {
         locationHelper.checkLocationAndEnableGPS()
 
 
+
         addressEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 isManualEdit = true
