@@ -1,8 +1,10 @@
 package com.projeto.maispaulista
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.InputType
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.projeto.maispaulista.utils.BlogAdapter
 import com.projeto.maispaulista.model.Blog
 import android.util.Log
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -34,6 +37,7 @@ class PrincipalActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var blogAdapter: BlogAdapter
     private lateinit var blogService: BlogService
+    private var recyclerViewState: Parcelable? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +58,16 @@ class PrincipalActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
+        val buttonAcessar = findViewById<Button>(R.id.button_acessar)
+        buttonAcessar.setOnClickListener {
+            // Salva o estado do RecyclerView antes de abrir o link
+            recyclerViewState = recyclerView.layoutManager?.onSaveInstanceState()
+
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://www.paulista.pe.gov.br/2024/dinamico/")
+            startActivity(intent)
+        }
+
 
         if (!NetworkUtils.isNetworkAvailable(this)) {
             NetworkUtils.showNoNetworkDialog(this)
@@ -63,6 +77,8 @@ class PrincipalActivity : AppCompatActivity() {
             setupBottomNavigation()
         }
     }
+
+
 
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.blog_recycler_view)
@@ -122,6 +138,18 @@ class PrincipalActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (recyclerViewState != null) {
+            recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        recyclerViewState = recyclerView.layoutManager?.onSaveInstanceState()
+    }
+
     override fun onStart() {
         super.onStart()
         if (NetworkUtils.isNetworkAvailable(this)) {
@@ -133,4 +161,16 @@ class PrincipalActivity : AppCompatActivity() {
         super.onStop()
         blogAdapter.stopListening()
     }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val recyclerViewState = recyclerView.layoutManager?.onSaveInstanceState()
+        outState.putParcelable("RECYCLER_VIEW_STATE", recyclerViewState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val recyclerViewState = savedInstanceState.getParcelable<Parcelable>("RECYCLER_VIEW_STATE")
+        recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+    }
+
 }

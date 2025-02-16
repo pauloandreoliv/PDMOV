@@ -93,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="#A52A2A"
                     android:text="Acessar"
+                    android:id="@+id/button_acessar"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.projeto.maispaulista.utils
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -46,7 +47,9 @@ class BlogAdapter(private val context: Context, options: FirestoreRecyclerOption
 
         // Definir título e descrição
         holder.titleView.text = model.title
+        holder.titleView.setTextColor(Color.BLACK)
         holder.descriptionView.text = model.description
+        holder.descriptionView.setTextColor(Color.BLACK)
 
         // // Ação ao clicar no link
         val clickListener = View.OnClickListener {
