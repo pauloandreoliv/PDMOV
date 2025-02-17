@@ -6,12 +6,14 @@ import androidx.appcompat.app.AlertDialog
 
 object NetworkUtils {
 
+    // Função para verificar se há conexão com a internet
     fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = connectivityManager.activeNetworkInfo
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting
     }
 
+    // Função para exibir um diálogo de alerta sem conexão
     fun showNoNetworkDialog(context: Context) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Sem Conexão")

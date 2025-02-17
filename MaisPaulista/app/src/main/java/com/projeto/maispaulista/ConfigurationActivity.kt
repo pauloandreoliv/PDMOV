@@ -60,6 +60,8 @@ class ConfigurationActivity : AppCompatActivity() {
         val mapIcon = findViewById<ImageView>(R.id.mapIcon)
         locationHelper = LocationHelper(this, addressEditText)
 
+
+        // Configuração da máscara do CPF
         cpfEdit.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
             private val mask = "###.###.###-##"
@@ -101,12 +103,14 @@ class ConfigurationActivity : AppCompatActivity() {
             }
         })
 
+        // Configuração da cor de status bar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.configurationLayout)) { v, insets ->
             val systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Configuração do botão de voltar
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         backArrow.setOnClickListener {
             val intent = Intent(this, Variaveis.currentActivity)
@@ -114,6 +118,7 @@ class ConfigurationActivity : AppCompatActivity() {
             finish()
         }
 
+        // Configuração da cor de status bar
         window.statusBarColor = androidx.core.content.ContextCompat.getColor(this, android.R.color.white)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -121,38 +126,40 @@ class ConfigurationActivity : AppCompatActivity() {
 
         loadUserData()
 
+        // Configuração do ícone de mapa
         mapIcon.setOnClickListener {
             Log.d("ConfigActivity", "Ícone de mapa clicado")
             locationHelper.isManualEdit = false
             locationHelper.checkLocationAndEnableGPS()
         }
 
+        // Configuração do listener para receber o endereço
         locationHelper.setOnLocationReceivedListener { address ->
             Log.d("ConfigActivity", "Endereço recebido no listener: $address")
             runOnUiThread {
                 addressEditText.setText(address)
-                addressEditText.error = null // Remove erro caso tenha sido definido antes
+                addressEditText.error = null
             }
         }
 
         locationHelper.checkLocationAndEnableGPS()
 
 
-
+        // Configuração do listener para o EditText de endereço
         addressEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 isManualEdit = true
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Não é necessário fazer nada aqui
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Não é necessário fazer nada aqui
+
             }
         })
 
+        // Configuração do botão de atualizar
         val registerButton: Button = findViewById(R.id.registerButton)
         registerButton.setOnClickListener {
             if (!NetworkUtils.isNetworkAvailable(this)) {
@@ -170,12 +177,15 @@ class ConfigurationActivity : AppCompatActivity() {
         setupBottomNavigation()
     }
 
+    // Configuração do botão de voltar
     override fun onBackPressed() {
         val intent = Intent(this, Variaveis.currentActivity)
         startActivity(intent)
         finish()
     }
 
+
+    // Carregar dados do usuário
     private fun loadUserData() {
         val currentUser = Variaveis.uid
         if (currentUser == null) {
@@ -198,6 +208,7 @@ class ConfigurationActivity : AppCompatActivity() {
         }
     }
 
+    // Atualizar dados do usuário
     private fun updateUserData() {
         val user = User(
             nome = nomeEdit.text.toString(),
@@ -219,6 +230,7 @@ class ConfigurationActivity : AppCompatActivity() {
         }
     }
 
+    // Solicitar permissão de localização
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LocationHelper.LOCATION_PERMISSION_REQUEST_CODE) {
@@ -237,6 +249,8 @@ class ConfigurationActivity : AppCompatActivity() {
         }
     }
 
+    // Mostrar mensagem de sucesso ao atualizar os dados
+
     private fun showUpdateSuccessDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Sucesso")
@@ -245,6 +259,7 @@ class ConfigurationActivity : AppCompatActivity() {
         builder.create().show()
     }
 
+    // Configuração do GPS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == LocationHelper.LOCATION_SETTINGS_REQUEST_CODE) {
@@ -257,6 +272,7 @@ class ConfigurationActivity : AppCompatActivity() {
         }
     }
 
+    // Barra de navegação
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

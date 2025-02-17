@@ -24,7 +24,6 @@ class NotificationWorker(
             consultaUtils.updateAgendamentoStatusIfNeeded()
         }
 
-        // Indicar que o trabalho foi concluído com sucesso
         return Result.success()
     }
 }

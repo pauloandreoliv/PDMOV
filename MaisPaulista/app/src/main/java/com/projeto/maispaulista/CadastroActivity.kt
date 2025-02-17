@@ -47,9 +47,11 @@ class CadastroActivity : AppCompatActivity() {
             insets
         }
 
+        // Configuração da senha
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
         val eyeImageView: ImageView = findViewById(R.id.eyeImageView)
 
+        // Ocultar a senha ao iniciar a tela
         eyeImageView.setOnClickListener {
             if (passwordEditText.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
                 // Ocultar senha
@@ -64,17 +66,20 @@ class CadastroActivity : AppCompatActivity() {
             passwordEditText.setSelection(passwordEditText.text.length)
         }
 
+        // Configuração da barra de status
         window.statusBarColor = androidx.core.content.ContextCompat.getColor(this, android.R.color.white)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
+        // Configuração do botão de voltar
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         backArrow.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
+        // Configuração dos campos de entrada
         val etEmail = findViewById<EditText>(R.id.emailEditText)
         val etSenha = findViewById<EditText>(R.id.passwordEditText)
         val etNome = findViewById<EditText>(R.id.nameEditText)
@@ -85,6 +90,7 @@ class CadastroActivity : AppCompatActivity() {
         locationHelper = LocationHelper(this, addressEditText)
 
 
+        // Configuração do EditText do CPF
         etCpf.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
             private val mask = "###.###.###-##"
@@ -126,6 +132,7 @@ class CadastroActivity : AppCompatActivity() {
             }
         })
 
+        // configuração do botão de cadastrar
         btnCadastrar.setOnClickListener {
             if (!NetworkUtils.isNetworkAvailable(this)) {
                 NetworkUtils.showNoNetworkDialog(this)
@@ -163,6 +170,7 @@ class CadastroActivity : AppCompatActivity() {
             }
 
 
+            // Cadastrar usuário
             userService.cadastrarUsuario(email, senha, nome, cpf, endereco) { success, _ ->
                 runOnUiThread {
                     if (success) {
@@ -185,6 +193,8 @@ class CadastroActivity : AppCompatActivity() {
             }
         }
 
+
+        // Configuração do ícone de localização
         mapIcon.setOnClickListener {
             locationHelper.isManualEdit = false
             locationHelper.checkLocationAndEnableGPS()
@@ -198,6 +208,7 @@ class CadastroActivity : AppCompatActivity() {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
+    // Manipulador de eventos para a permissão de localização
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LocationHelper.LOCATION_PERMISSION_REQUEST_CODE) {
@@ -216,6 +227,7 @@ class CadastroActivity : AppCompatActivity() {
         }
     }
 
+    // Manipulador de eventos para a resposta do GPS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == LocationHelper.LOCATION_SETTINGS_REQUEST_CODE) {
@@ -228,6 +240,7 @@ class CadastroActivity : AppCompatActivity() {
         }
     }
 
+    // Manipulador de eventos para o botão de voltar
     override fun onBackPressed() {
         val intent = Intent(this,  Register_RequestsActivity::class.java)
         startActivity(intent)

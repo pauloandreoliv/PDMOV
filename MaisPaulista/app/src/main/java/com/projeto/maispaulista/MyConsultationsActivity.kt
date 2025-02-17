@@ -51,6 +51,7 @@ class MyConsultationsActivity : AppCompatActivity() {
 
         consultaService = ConsultaService(consultaRepository, consultaUtils)
 
+        // Verificar e atualizar o status das consultas agendadas
         lifecycleScope.launch {
             consultaUtils.updateAgendamentoStatusIfNeeded()
         }
@@ -61,6 +62,7 @@ class MyConsultationsActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
+        // Configurar o clique no ImageView para voltar à tela principal
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         backArrow.setOnClickListener {
             val intent = Intent(this, PrincipalActivity::class.java)
@@ -94,11 +96,14 @@ class MyConsultationsActivity : AppCompatActivity() {
         setupBottomNavigation()
     }
 
+    // Voltar à tela principal ao clicar no botão de voltar
     override fun onBackPressed() {
         val intent = Intent(this, PrincipalActivity::class.java)
         startActivity(intent)
         finish()
     }
+
+    // Carregar as consultas agendadas com base no status selecionado
 
     private fun fetchAndDisplayConsultasAgendadas(status: String) {
         if (!NetworkUtils.isNetworkAvailable(this)) {
@@ -123,6 +128,7 @@ class MyConsultationsActivity : AppCompatActivity() {
                     Log.d("FirestoreData", "Nenhuma consulta agendada encontrada.")
                 }
 
+                // Adicionar cada consulta ao contêiner
                 agendamentos.forEach { agendamento ->
                     val inflater = LayoutInflater.from(this@MyConsultationsActivity)
                     val view = inflater.inflate(R.layout.item_consulta_cancelar, container, false)
@@ -163,6 +169,7 @@ class MyConsultationsActivity : AppCompatActivity() {
         }
     }
 
+    // Exibir alerta
     private fun showAlertDialogupdate(
         context: Context,
         title: String,
@@ -177,6 +184,7 @@ class MyConsultationsActivity : AppCompatActivity() {
         builder.setMessage(message)
         builder.setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
+            // Cancelar a consulta
             lifecycleScope.launch {
                 try {
                     consultaService.cancelarConsulta(agendamentoId, agendamentoId)
@@ -196,6 +204,7 @@ class MyConsultationsActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    // Configurar a navegação inferior
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

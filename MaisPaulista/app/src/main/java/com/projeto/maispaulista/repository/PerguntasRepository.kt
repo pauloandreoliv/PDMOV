@@ -9,6 +9,7 @@ class PerguntasRepository {
     private val db = FirebaseFirestore.getInstance()
     private val collection = db.collection("perguntas")
 
+    // Função para obter todas as perguntas do Firestore
     fun getPerguntas(callback: (List<Perguntas>) -> Unit) {
         collection.get().addOnSuccessListener { result ->
             val perguntas = result.map { document -> document.toObject(Perguntas::class.java) }

@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.projeto.maispaulista.MainActivity
 
 object AuthUtils {
+    // Função para verificar se o usuário está autenticado
     fun checkAuthentication(activity: Activity) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         if (currentUser == null) {

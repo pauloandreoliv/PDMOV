@@ -12,6 +12,7 @@ class ConsultaUtils(
     private val notificationHelper: NotificationHelper
 ) {
 
+    // Função para verificar e atualizar o status da consulta
     suspend fun updateConsultaStatusIfNeeded() {
         val consultasRef = db.collection("consultas")
         val result = consultasRef.get().await()
@@ -24,6 +25,7 @@ class ConsultaUtils(
         }
     }
 
+    // Função para verificar e atualizar o status do agendamento
     suspend fun updateAgendamentoStatusIfNeeded() {
         val uid = Variaveis.uid ?: return
         val agendamentosRef = db.collection("consultas_agendadas").whereEqualTo("uid", uid)
@@ -49,6 +51,7 @@ class ConsultaUtils(
         }
     }
 
+    // Função para verificar se a data é anterior à data atual
     private fun isDateBeforeToday(dateString: String): Boolean {
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val date = format.parse(dateString)

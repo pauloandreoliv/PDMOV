@@ -29,7 +29,7 @@ class RequestDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_request_details)
         AuthUtils.checkAuthentication(this)
 
-        // Inicializar Firestore e Repositório
+
         val firestore = FirebaseFirestore.getInstance()
         val requestRepository = RequestRepository(firestore)
         val userId = Variaveis.uid ?: ""
@@ -62,6 +62,7 @@ class RequestDetailsActivity : AppCompatActivity() {
         setupBottomNavigation()
     }
 
+    // Função para buscar e exibir os detalhes da solicitação
     private fun fetchRequestDetails(id: String) {
         lifecycleScope.launch {
             val request = requestService.getRequestById(id)

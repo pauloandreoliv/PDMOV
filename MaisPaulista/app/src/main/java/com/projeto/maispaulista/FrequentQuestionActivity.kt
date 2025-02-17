@@ -52,6 +52,7 @@ class FrequentQuestionActivity : AppCompatActivity() {
 
     }
 
+    // Carrega os dados das perguntas
     private fun loadPerguntas() {
         if (!NetworkUtils.isNetworkAvailable(this)) {
             NetworkUtils.showNoNetworkDialog(this)
@@ -71,12 +72,16 @@ class FrequentQuestionActivity : AppCompatActivity() {
         }
     }
 
+    // Configuração do botão de voltar
+
     override fun onBackPressed() {
         val intent = Intent(this, PrincipalActivity::class.java)
         startActivity(intent)
         finish()
     }
 
+
+    // Adiciona a pergunta na tela
     private fun addPerguntaView(pergunta: Perguntas) {
         val perguntaLayout = LayoutInflater.from(this).inflate(R.layout.item_pergunta, containerLayout, false)
 
@@ -89,6 +94,7 @@ class FrequentQuestionActivity : AppCompatActivity() {
         containerLayout.addView(perguntaLayout)
     }
 
+    // Barra de navegação
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

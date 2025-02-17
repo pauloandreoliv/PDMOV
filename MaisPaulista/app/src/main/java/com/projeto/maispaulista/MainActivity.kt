@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
         val eyeImageView: ImageView = findViewById(R.id.eyeImageView)
 
+        // Configurar o clique no ImageView para alternar a visibilidade da senha
         eyeImageView.setOnClickListener {
             if (passwordEditText.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
                 // Ocultar senha
@@ -85,10 +86,12 @@ class MainActivity : AppCompatActivity() {
             passwordEditText.setSelection(passwordEditText.text.length)
         }
 
+        // Configurar a cor de status bar
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootLayout  )) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -129,6 +132,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun configureStatusBar() {
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -144,6 +148,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Metodo para lidar com o clique no botão de login
     private fun handleLogin(etEmail: EditText, etSenha: EditText) {
         if (!NetworkUtils.isNetworkAvailable(this)) {
             NetworkUtils.showNoNetworkDialog(this)
@@ -189,6 +194,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Configuração do WorkManager
+
     private fun configureWorkManager() {
         val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS).build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
@@ -198,6 +205,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    // Solicitar permissão para notificações
     private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
             if (ContextCompat.checkSelfPermission(
@@ -233,6 +241,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Configuração do WorkManager
     private fun scheduleNotificationWorker() {
         val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS).build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
@@ -242,6 +251,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    // Exibir alerta
     private fun showAlertDialog(context: Context, title: String, message: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)

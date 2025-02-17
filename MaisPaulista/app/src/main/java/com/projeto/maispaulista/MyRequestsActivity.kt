@@ -64,6 +64,7 @@ class MyRequestsActivity : AppCompatActivity() {
         setupBottomNavigation()
     }
 
+    // Função para buscar solicitações do usuário
     private fun fetchRequests() {
         val currentUser = Variaveis.uid
         if (currentUser == null) {
@@ -86,12 +87,14 @@ class MyRequestsActivity : AppCompatActivity() {
         }
     }
 
+    // Voltar à tela principal ao clicar no botão de voltar
     override fun onBackPressed() {
         val intent = Intent(this, PrincipalActivity::class.java)
         startActivity(intent)
         finish()
     }
 
+    //  Adiciona uma solicitação ao container
     private fun addRequestTextView(request: RequestModel) {
         val textView = TextView(this).apply {
             layoutParams = LinearLayout.LayoutParams(

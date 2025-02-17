@@ -35,6 +35,7 @@ class LocationHelper(private val activity: Activity, private val addressEditText
     init {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
 
+        // Configuração do callback de localização
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 Log.d("LocationHelper", "onLocationResult chamado")
@@ -65,11 +66,10 @@ class LocationHelper(private val activity: Activity, private val addressEditText
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // Não é necessário fazer nada aqui
+
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // Não é necessário fazer nada aqui
             }
         })
     }
@@ -81,6 +81,7 @@ class LocationHelper(private val activity: Activity, private val addressEditText
     }
 
 
+    // Função para definir o endereço no EditText
     fun setAddress(address: String) {
         activity.runOnUiThread {
             addressEditText.setText(address)
@@ -88,6 +89,7 @@ class LocationHelper(private val activity: Activity, private val addressEditText
         }
     }
 
+    // Função para verificar e solicitar permissão de localização
     fun checkLocationAndEnableGPS() {
         if (checkLocationPermission()) {
             Log.d("LocationHelper", "Permissão de localização concedida")
@@ -104,6 +106,7 @@ class LocationHelper(private val activity: Activity, private val addressEditText
         }
     }
 
+    // Função para verificar permissão de localização
     private fun checkLocationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             activity,
@@ -119,12 +122,14 @@ class LocationHelper(private val activity: Activity, private val addressEditText
         )
     }
 
+    // Função para verificar se o GPS está ativado
     fun isLocationEnabled(): Boolean {
         val locationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
+    // Função para solicitar ativação do GPS
     fun enableGPS() {
         val locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -152,6 +157,7 @@ class LocationHelper(private val activity: Activity, private val addressEditText
         }
     }
 
+    // Função para iniciar as atualizações de localização
     @SuppressLint("MissingPermission")
     fun startLocationUpdates() {
         val locationRequest = LocationRequest.create().apply {
@@ -163,6 +169,7 @@ class LocationHelper(private val activity: Activity, private val addressEditText
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
+    // Função para obter o endereço a partir das coordenadas
     private fun getAddressFromLocation(latitude: Double, longitude: Double): String {
         val geocoder = Geocoder(activity, Locale.getDefault())
         Log.d("Geocoder", "Iniciando busca de endereço para Latitude = $latitude, Longitude = $longitude")
@@ -183,6 +190,7 @@ class LocationHelper(private val activity: Activity, private val addressEditText
     }
 
 
+    // Função para parar as atualizações de localização
     fun checkLocationPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }

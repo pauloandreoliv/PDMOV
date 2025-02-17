@@ -32,6 +32,8 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_camera)
 
+
+
         cameraPreview = findViewById(R.id.camera_preview)
         captureButton = findViewById(R.id.button_capture)
         cancelButton = findViewById(R.id.button_cancel)
@@ -45,12 +47,14 @@ class CameraActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
+        // verificação de permissão
         if (!ImageUtils.checkCameraPermissions(this)) {
             ImageUtils.requestCameraPermissions(this)
         } else {
             startCameraPreview()
         }
 
+        // Configuração dos botões
         captureButton.setOnClickListener {
             takePicture()
         }
@@ -68,6 +72,7 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+    // Configuração da câmera
     private fun startCameraPreview() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
@@ -87,6 +92,7 @@ class CameraActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+    // Configuração da captura de imagem
     private fun takePicture() {
         val imageName = "imagem_${System.currentTimeMillis()}.jpg"
         val imageFile = File(getExternalFilesDir(null), imageName)
@@ -112,12 +118,14 @@ class CameraActivity : AppCompatActivity() {
             }
         )
     }
+    // Configuração do botão de voltar
     override fun onBackPressed() {
         val intent = Intent(this, PrincipalActivity::class.java)
         startActivity(intent)
         finish()
     }
 
+    // Configuração do botão de galeria
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -125,7 +133,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
 
-
+    // Manipulador de eventos para a permissão da câmera
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -146,6 +154,7 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+    // Manipulador de eventos para a permissão da galeria
     private fun showPermissionDeniedDialog(message: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Permissão Negada")
@@ -161,6 +170,7 @@ class CameraActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    // Abre as configurações do aplicativo
     private fun openAppSettings() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         val uri: Uri = Uri.fromParts("package", packageName, null)
@@ -169,6 +179,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
 
+    // Manipulador de eventos para a seleção de imagem da galeria
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {

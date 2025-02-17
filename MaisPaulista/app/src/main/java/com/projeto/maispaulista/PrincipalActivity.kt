@@ -53,11 +53,13 @@ class PrincipalActivity : AppCompatActivity() {
             insets
         }
 
+        // Configurar a cor de status bar
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
+        // Configurar o clique no botão de acessar o link externo
         val buttonAcessar = findViewById<Button>(R.id.button_acessar)
         buttonAcessar.setOnClickListener {
             // Salva o estado do RecyclerView antes de abrir o link
@@ -68,7 +70,7 @@ class PrincipalActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
+        // Verificar disponibilidade de rede e configurar o RecyclerView
         if (!NetworkUtils.isNetworkAvailable(this)) {
             NetworkUtils.showNoNetworkDialog(this)
             setupRecyclerView()
@@ -83,6 +85,7 @@ class PrincipalActivity : AppCompatActivity() {
 
 
 
+    // inicia configuração dos blogs
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.blog_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -100,6 +103,7 @@ class PrincipalActivity : AppCompatActivity() {
         recyclerView.adapter = blogAdapter
     }
 
+    // Inicia os cliques
     private fun setupClickListeners() {
         val redirecionamentos = mapOf(
             R.id.registrarSolicitacao to Register_RequestsActivity::class.java,
@@ -117,6 +121,7 @@ class PrincipalActivity : AppCompatActivity() {
         }
     }
 
+    // Botão de navegação
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

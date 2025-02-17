@@ -22,19 +22,7 @@ object ImageUtils {
     const val PICK_IMAGE_REQUEST = 1
     const val REQUEST_IMAGE_CAPTURE = 114
 
-    fun checkAndRequestPermissions(activity: Activity) {
-        val permissions = mutableListOf<String>()
-        if (!checkStoragePermissions(activity)) {
-            permissions.add(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
-        if (!checkCameraPermissions(activity)) {
-            permissions.add(Manifest.permission.CAMERA)
-        }
-        if (permissions.isNotEmpty()) {
-            ActivityCompat.requestPermissions(activity, permissions.toTypedArray(), REQUEST_WRITE_STORAGE)
-        }
-    }
-
+    // Função para verificar permissões de armazenamento
     fun checkStoragePermissions(activity: Activity): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED
@@ -43,14 +31,17 @@ object ImageUtils {
         }
     }
 
+    // Função para verificar permissões de câmera
     fun checkCameraPermissions(activity: Activity): Boolean {
         return ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
+    // Função para solicitar permissões de câmera
     fun requestCameraPermissions(activity: Activity) {
         ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
     }
 
+    // Função para solicitar permissões de armazenamento
     fun requestStoragePermissions(activity: Activity) {
         val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Manifest.permission.READ_MEDIA_IMAGES
@@ -60,17 +51,7 @@ object ImageUtils {
         ActivityCompat.requestPermissions(activity, arrayOf(permission), REQUEST_WRITE_STORAGE)
     }
 
-    fun showImageSourceDialog(context: Context, onOptionSelected: (Boolean) -> Unit) {
-        val options = arrayOf("Câmera", "Galeria")
-        AlertDialog.Builder(context).apply {
-            setTitle("Escolha uma opção")
-            setItems(options) { _, which ->
-                onOptionSelected(which == 0)
-            }
-            show()
-        }
-    }
-
+    // Função para exibir um diálogo de permissão negada
     fun saveImageToCustomFolder(context: Context, imageUri: Uri): String {
         val inputStream = context.contentResolver.openInputStream(imageUri)
         val originalFileName = getFileNameFromUri(context, imageUri) ?: "imagem_${System.currentTimeMillis()}.jpg"
@@ -90,6 +71,7 @@ object ImageUtils {
         return jpegFileName
     }
 
+    // Função para obter o nome do arquivo a partir do URI
     private fun getFileNameFromUri(context: Context, uri: Uri): String? {
         val cursor = context.contentResolver.query(uri, null, null, null, null)
         return cursor?.use {

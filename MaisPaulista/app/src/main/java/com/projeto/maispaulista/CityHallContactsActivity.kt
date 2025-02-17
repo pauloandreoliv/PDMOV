@@ -47,6 +47,7 @@ class CityHallContactsActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), REQUEST_CALL_PHONE_PERMISSION)
         }
 
+        // Configuração do botão de voltar
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         backArrow.setOnClickListener {
             val intent = Intent(this, PrincipalActivity::class.java)
@@ -58,6 +59,8 @@ class CityHallContactsActivity : AppCompatActivity() {
         setupBottomNavigation()
     }
 
+
+    // Carregar dados do contato
     private fun loadContatos() {
         if (!NetworkUtils.isNetworkAvailable(this)) {
             NetworkUtils.showNoNetworkDialog(this)
@@ -77,12 +80,14 @@ class CityHallContactsActivity : AppCompatActivity() {
         }
     }
 
+    // Configuração do botão de voltar
     override fun onBackPressed() {
         val intent = Intent(this, PrincipalActivity::class.java)
         startActivity(intent)
         finish()
     }
 
+    // Adicionar contato na tela
     private fun addContatoView(contato: Contato) {
         val contatoLayout = LayoutInflater.from(this).inflate(R.layout.item_contato, containerLayout, false)
 
@@ -95,6 +100,7 @@ class CityHallContactsActivity : AppCompatActivity() {
         setorTextView.text = contato.setor
         contatoTextView.text = "Telefone: ${contato.telefone} \nWhatsApp: ${contato.whatsapp} \nE-mail: ${contato.email}"
 
+        // Configuração do botão de telefone
         icCell.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${contato.telefone}"))
@@ -104,6 +110,7 @@ class CityHallContactsActivity : AppCompatActivity() {
             }
         }
 
+        // Configuração do botão de e-mail
         icMsg.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "message/rfc822"
@@ -120,6 +127,7 @@ class CityHallContactsActivity : AppCompatActivity() {
         }
 
 
+        // Configuração do botão de WhatsApp
         icWpp.setOnClickListener {
             val url = "https://api.whatsapp.com/send?phone=${contato.whatsapp}"
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -128,6 +136,8 @@ class CityHallContactsActivity : AppCompatActivity() {
 
         containerLayout.addView(contatoLayout)
     }
+
+    // Barra de navegação
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

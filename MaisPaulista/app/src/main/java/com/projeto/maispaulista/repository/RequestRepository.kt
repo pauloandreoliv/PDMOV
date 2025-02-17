@@ -9,6 +9,7 @@ import kotlinx.coroutines.tasks.await
 class RequestRepository(private val firestore: FirebaseFirestore) {
 
 
+    // Função para adicionar uma solicitação ao Firestore
         suspend fun addRequest(request: RequestModel): Boolean {
             return try {
                 val documentReference = firestore.collection("requests").document()
@@ -20,6 +21,7 @@ class RequestRepository(private val firestore: FirebaseFirestore) {
             }
         }
 
+    // Função para obter todas as solicitações do Firestore
         suspend fun getRequestsByUser(userId: String): List<RequestModel> {
             return try {
                 val snapshot = firestore.collection("requests")
@@ -32,7 +34,7 @@ class RequestRepository(private val firestore: FirebaseFirestore) {
             }
         }
 
-
+    // Função para contar documentos em uma coleção do Firestore
         suspend fun countDocumentsInCollection(collectionName: String): Long {
             return try {
                 val snapshot = firestore.collection(collectionName).get().await()
@@ -42,6 +44,7 @@ class RequestRepository(private val firestore: FirebaseFirestore) {
             }
         }
 
+    // Função para obter uma solicitação pelo ID do Firestore
     suspend fun getRequestById(id: String): RequestModel? {
         return try {
             val document = firestore.collection("requests").document(id).get().await()

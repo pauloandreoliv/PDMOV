@@ -61,6 +61,7 @@ class Register_RequestsActivity : AppCompatActivity() {
         locationHelper = LocationHelper(this, addressEditText)
 
 
+        // Configuração do clique no botão de câmera
         icCamera.setOnClickListener {
             if (ImageUtils.checkCameraPermissions(this)) {
                 openCameraActivity()
@@ -69,6 +70,7 @@ class Register_RequestsActivity : AppCompatActivity() {
             }
         }
 
+        // Ajuste de margens para barra de status e navegação
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.registerResquestsLayout)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -80,6 +82,7 @@ class Register_RequestsActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
+        // Configurar o clique no ImageView para voltar à tela principal
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         backArrow.setOnClickListener {
             val intent = Intent(this, PrincipalActivity::class.java)
@@ -99,6 +102,7 @@ class Register_RequestsActivity : AppCompatActivity() {
 
         imagemButton.setOnClickListener {
 
+            // Verificar disponibilidade de rede
             if (!NetworkUtils.isNetworkAvailable(this)) {
                 NetworkUtils.showNoNetworkDialog(this)
                 return@setOnClickListener
@@ -126,6 +130,7 @@ class Register_RequestsActivity : AppCompatActivity() {
         }
 
 
+        // Configurar o clique no ImageView para abrir o mapa
         mapIcon.setOnClickListener {
             locationHelper.isManualEdit = false
             locationHelper.checkLocationAndEnableGPS()
@@ -136,13 +141,14 @@ class Register_RequestsActivity : AppCompatActivity() {
         setupBottomNavigation()
     }
 
-
+    // Voltar à tela principal ao clicar no botão de voltar
     override fun onBackPressed() {
         val intent = Intent(this, PrincipalActivity::class.java)
         startActivity(intent)
         finish()
     }
 
+    // Função para salvar a solicitação
     private fun salvarSolicitacao(tipoItem: String, descricao: String, imagemNome: String, endereco: String) {
         CoroutineScope(Dispatchers.Main).launch {
             val success = requestService.addRequest(tipoItem, descricao, imagemNome, endereco)
@@ -157,6 +163,8 @@ class Register_RequestsActivity : AppCompatActivity() {
             }
         }
     }
+
+    // Função para abrir a câmera
     private fun openCameraActivity() {
         try {
             val intent = Intent(this, CameraActivity::class.java)
@@ -167,7 +175,7 @@ class Register_RequestsActivity : AppCompatActivity() {
         }
     }
 
-
+    // Função para abrir a galeria
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -176,9 +184,9 @@ class Register_RequestsActivity : AppCompatActivity() {
 
 
 
+    // Verifica permissão de localização e atualiza a localização atual se a permissão foi concedida
     override fun onResume() {
         super.onResume()
-        // Verifica permissão de localização e atualiza a localização atual se a permissão foi concedida
         if (locationHelper.checkLocationPermissions()) {
             if (locationHelper.isLocationEnabled()) {
                 locationHelper.startLocationUpdates()
@@ -188,6 +196,7 @@ class Register_RequestsActivity : AppCompatActivity() {
         }
     }
 
+    // Verifica permissões
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
@@ -222,6 +231,7 @@ class Register_RequestsActivity : AppCompatActivity() {
         }
     }
 
+    // Exibe um diálogo informando que a permissão foi negada
     private fun showPermissionDeniedDialog(message: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Permissão Negada")
@@ -237,6 +247,7 @@ class Register_RequestsActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    // Abre as configurações do aplicativo
     private fun openAppSettings() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         val uri: Uri = Uri.fromParts("package", packageName, null)
@@ -258,12 +269,12 @@ class Register_RequestsActivity : AppCompatActivity() {
     }
 
 
+    // Função para lidar com os resultados da atividade
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             LocationHelper.LOCATION_SETTINGS_REQUEST_CODE -> {
                 if (resultCode == RESULT_OK) {
-                    // GPS ativado, pode prosseguir
                     locationHelper.startLocationUpdates()
                 } else {
                     Toast.makeText(this, "GPS não ativado", Toast.LENGTH_SHORT).show()
@@ -288,6 +299,8 @@ class Register_RequestsActivity : AppCompatActivity() {
         }
     }
 
+
+    // Configurar a navegação
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

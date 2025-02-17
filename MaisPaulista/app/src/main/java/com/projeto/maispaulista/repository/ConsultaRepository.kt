@@ -9,6 +9,8 @@ import kotlinx.coroutines.tasks.await
 
 class ConsultaRepository(private val db: FirebaseFirestore) {
 
+
+// Função para obter consultas por especialidade
     suspend fun getConsultasByEspecialidade(especialidade: String): List<Consulta> {
         val consultasRef = db.collection("consultas")
         val query = if (especialidade == "Escolha a Especialidade") {
@@ -25,7 +27,7 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
         }
     }
 
-
+    // Função para agendar uma consulta
     suspend fun agendarConsulta(consulta: Consulta, uid: String) {
         val consultasAgendadasRef = db.collection("consultas_agendadas")
         val agendamento = hashMapOf(
@@ -42,12 +44,14 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
         Log.d("FirestoreData", "Consulta agendada com sucesso!")
     }
 
+    // Função para atualizar a disponibilidade de uma consulta
     suspend fun atualizarDisponibilidadeConsulta(consultaId: String) {
         val consultaDocRef = db.collection("consultas").document(consultaId)
         consultaDocRef.update("disponivel", false).await()
         Log.d("FirestoreData", "Status da consulta atualizado para 'disponivel = false'")
     }
 
+    // Função para obter consultas agendadas por UID
     suspend fun getConsultasAgendadasByUid(uid: String, status: String): List<Agendamento> {
         val agendamentosRef = db.collection("consultas_agendadas")
         val query = when (status) {
@@ -68,11 +72,14 @@ class ConsultaRepository(private val db: FirebaseFirestore) {
 
 
     }
+
+    // Função para Atualizar a disponibilidade de uma consulta agendada
     suspend fun atualizarConsultaDisponibilidade(consultaId: String, disponivel: Boolean) {
         val consultaRef = db.collection("consultas").document(consultaId)
         consultaRef.update("disponivel", disponivel).await()
     }
 
+    // Função para remover uma consulta agendada
     suspend fun removerConsultaAgendada(agendamentoId: String) {
         val agendamentoRef = db.collection("consultas_agendadas").document(agendamentoId)
         agendamentoRef.delete().await()

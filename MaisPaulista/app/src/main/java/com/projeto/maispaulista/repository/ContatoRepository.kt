@@ -9,6 +9,7 @@ class ContatoRepository {
     private val db = FirebaseFirestore.getInstance()
     private val collection = db.collection("contatos_prefeitura")
 
+    // Função para obter todos os contatos do Firestore
     fun getContatos(callback: (List<Contato>) -> Unit) {
         collection.get().addOnSuccessListener { result ->
             val contatos = result.map { document -> document.toObject(Contato::class.java) }

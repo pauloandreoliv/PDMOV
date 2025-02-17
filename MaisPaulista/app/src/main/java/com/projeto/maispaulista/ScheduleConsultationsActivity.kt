@@ -111,6 +111,8 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         setupBottomNavigation()
     }
 
+
+    // Voltar à tela principal ao clicar no botão de voltar
     override fun onBackPressed() {
         val intent = Intent(this, PrincipalActivity::class.java)
         startActivity(intent)
@@ -132,6 +134,7 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
     }
 
 
+    // Função para buscar e exibir as consultas
     private fun fetchAndDisplayConsultas(especialidade: String) {
         lifecycleScope.launch {
             try {
@@ -187,7 +190,6 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
 
                         container.addView(view)
                     } else {
-                        // Se a consulta não estiver disponível, você pode ignorá-la ou adicionar uma mensagem
                         Log.d("FirestoreData", "Consulta indisponível: ${consulta.doutor}")
                     }
                 }
@@ -197,7 +199,7 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         }
     }
 
-
+    // Função para configurar a navegação inferior
     private fun setupBottomNavigation() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

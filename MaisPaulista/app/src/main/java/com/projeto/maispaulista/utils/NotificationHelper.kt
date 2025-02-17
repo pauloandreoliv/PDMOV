@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit
 
 class NotificationHelper(private val context: Context) {
 
+    // Logica de envio de notificação
     fun checkAndSendReminders(agendamentos: List<Agendamento>) {
 
         agendamentos.forEach { agendamento ->
@@ -41,6 +42,7 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
+    // Função para enviar a notificação
     fun sendNotification(title: String, content: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // Verificar se a permissão de notificação foi concedida
@@ -57,6 +59,7 @@ class NotificationHelper(private val context: Context) {
     }
 
 
+    // Função para exibir a notificação
     private fun showNotification(title: String, content: String) {
         val builder = NotificationCompat.Builder(context, "Channel ID")
             .setSmallIcon(R.drawable.notification_icon)
@@ -78,6 +81,7 @@ class NotificationHelper(private val context: Context) {
 
 
 
+    // Função para calcular a diferença em dias entre a data atual e a data da consulta
     private fun getDaysDifference(dateString: String): Long {
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val consultaDate = Calendar.getInstance().apply {
@@ -100,6 +104,7 @@ class NotificationHelper(private val context: Context) {
     }
 
 
+    // Função para criar o canal de notificação
     companion object {
         private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1
 
