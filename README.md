@@ -31,12 +31,12 @@ Bem-vindo ao repositório do aplicativo móvel oficial da **Prefeitura de Paulis
 
 ### Tela de Login
 
-![alt text](image.png)
-
+![image](https://github.com/user-attachments/assets/417f8260-cb6b-4898-88d2-7377f97804a6)
 
 ### Tela de Cadastro 
+![image](https://github.com/user-attachments/assets/64cf809f-e0dd-4642-b402-16da5a702435)
 
-![alt text](image-1.png)
+
 
 
 
