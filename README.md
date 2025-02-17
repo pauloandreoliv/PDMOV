@@ -2,7 +2,7 @@
 
 Bem-vindo ao repositório do aplicativo móvel oficial da **Prefeitura de Paulista, Pernambuco**. Este aplicativo foi desenvolvido para facilitar o acesso dos cidadãos aos serviços municipais, notícias e informações relevantes sobre a cidade. Com uma interface intuitiva e funcionalidades práticas, o aplicativo visa melhorar a comunicação entre a prefeitura e os moradores de Paulista.
 
-## Funcionalidades Principais
+## O que Podemos Encontrar no Aplicativo?
 
 ### 1. **Notícias e Acesso ao Site da Cidade**
 - **Notícias:** Fique por dentro das últimas notícias e eventos da cidade. O aplicativo oferece uma seção dedicada para notícias atualizadas diretamente da prefeitura.
@@ -26,68 +26,82 @@ Bem-vindo ao repositório do aplicativo móvel oficial da **Prefeitura de Paulis
 ### 5. **Contatos da Cidade**
 - **Contatos:** Encontre os contatos oficiais da prefeitura, incluindo telefones, e-mails e endereços de diferentes secretarias e departamentos.
 
-
 ## Telas e Video
 
-Link do video funcinando -> 
+Link do video funcionando -> https://drive.google.com/drive/folders/159u89Xn0rb5poWHHsD7Iq67QWtIJYj7b?usp=drive_link
 
-### Tela de Login
+### Tela de Login e Tela de Cadastro 
+
+A tela de Login permite aos usuários acessar suas contas inserindo suas credenciais de login (e-mail e senha). 
+A tela de Cadastro os novos usuários podem criar uma conta fornecendo informações básicas como nome, e-mail, senha, CPF e endereço onde este pode ser buscado de forma automatica (padrão) ajustado manualmente ou resetado caso clicado no icone de mapa. 
 
 ![image](https://github.com/user-attachments/assets/417f8260-cb6b-4898-88d2-7377f97804a6)
-
-### Tela de Cadastro 
 ![image](https://github.com/user-attachments/assets/64cf809f-e0dd-4642-b402-16da5a702435)
 
 ### Tela Principal 
+
+A tela principal serve como o ponto de entrada para o aplicativo, exibindo as principais funcionalidades e informações de forma organizada. Nela é possivel navegar entre as funcionalidades e Blogs disponiveis no site da prefeitura de Paulista.
 
 ![image](https://github.com/user-attachments/assets/89ec48d7-edda-4302-b35a-fcba41667176)
 ![image](https://github.com/user-attachments/assets/333d9439-37f2-4f08-803a-a01c1bfb73b5)
 
 ### Tela Minhas Configuração
 
+Nesta tela, os usuários podem ajustar Nome, CPF e endereço onde este pode ser buscado de forma automatica (padrão) ajustado manualmente ou resetado caso clicado no icone de mapa. 
+
 ![image](https://github.com/user-attachments/assets/ac710f8b-97a7-4aae-b48d-149ad14556f5)
 
-### Tela Registrar Solicitação 
+### Tela Registrar Solicitação e Câmera
+
+Os usuários podem registrar novas solicitações preenchendo um formulario que possui o **Tipo** (Urgencia, Acidenten e Outros), **Descrição**, o **Endereço** onde este pode ser buscado de forma automatica (padrão) ajustado manualmente ou resetado caso clicado no icone de mapa e **Imagem** onde este pode tirar uma foto no momento ou selecionar da galeria.
 
 ![image](https://github.com/user-attachments/assets/5e5abd9c-7b77-4c79-9c77-ee24d9e3309e)
-
-### Tela de Camera
-
 ![image](https://github.com/user-attachments/assets/b96ae5bd-7f8b-4cbc-a6bb-71aa2828c069)
 
 ### Tela de Acompanhar Solicitação
 
+Os usuários podem acompanhar o status de suas solicitações, visualizando o progresso e atualizações. Caso queira mais detalhes sobre a solicitação, basta clicar na solicitação que deseja.
+
 ![image](https://github.com/user-attachments/assets/79431fe9-440c-4c54-9607-f78d2cc57dff)
 ![image](https://github.com/user-attachments/assets/6f71e5b9-8d78-4903-a773-3204a39939be)
 
-### Tela de Detalhes da Dolicitação 
+### Tela de Detalhes da Solicitação 
+  
+Ao selecionar uma solicitação na tela de acompanhamento, os usuários são direcionados para esta tela, onde podem visualizar informações detalhadas sobre a solicitação
 
 ![image](https://github.com/user-attachments/assets/e56ef625-0125-49ee-9360-0c3e810627f7)
 
 ### Tela de Agendar Consulta 
+Permite que os usuários agendem consultas filtrando por especialidade. As especialidades disponiveis são:
+- Clínico Geral
+- Pediatria
+- Cardiologia
+- Ortopedia
+- Ginecologia
+
+Obs: Quando o usuario clica em agendar, a consulta não fica mais disponivel para nenhum usuario. 
 
 ![image](https://github.com/user-attachments/assets/f9db5db9-2197-4514-8239-79943a273f13)
 
 ### Tela de Minhas Consultas 
 
+Exibe uma lista das consultas agendadas pelo usuário, permitindo visualizar por filtro consultas concluidas (que ja se passaram da data) e consultas que ainda vão ser realizadas. Alem disso, possui um sistema de cancelamento e de notificações por datas proximas da consulta. 
+Obs: Quando o usuario clica em cancelar, a consulta volta a fica disponivel para todos os usuario. 
+
 ![image](https://github.com/user-attachments/assets/013fced2-0bc8-4306-99b5-bc2cb349df8d)
 
 ### Tela de Perguntas Frequentes 
+
+Uma seção com respostas para as perguntas mais comuns dos usuários sobre o aplicativo. 
 
 ![image](https://github.com/user-attachments/assets/6cc4f404-3b09-40c0-b657-e041134bf3c2)
 
 ### Tela de Contatos
 
+Fornece informações de contato da prefeitura, incluindo números de telefone, e-mail e WhatsApp.
+Quando clica no respectivos icone, é rediceionado para o meio de comunicação.
 
-
-
-
-
-
-
-
-
-
+![image](https://github.com/user-attachments/assets/cba8583a-3ccf-498e-ad2e-ebceb0cdfea6)
 
 ## Dispositivos Utilizados
 
@@ -104,7 +118,6 @@ O aplicativo utiliza os seguintes dispositivos do smartphone para oferecer uma e
    - Busca automática da localização do usuário para serviços baseados em geolocalização.
    - Possibilidade de alterar ou redefinir a localização manualmente.
 
----
 
 ## Funcionalidades
 
@@ -129,11 +142,12 @@ O aplicativo utiliza os seguintes dispositivos do smartphone para oferecer uma e
    - Pop-ups para alertar o usuário sobre informações importantes que acontecem no aplicativo
    (ex.: erro de autenticação, consultas agendadas e canceladas, requisições finalizadas, etc.)
 
-### 6. **Redirecionamento para Contatos**
+### 6. **Redirecionamento**
    - Redirecionamento para sites e aplicativos de contatos, como:
      - **Telefone:** Ligar diretamente para a prefeitura.
      - **WhatsApp:** Enviar mensagens via WhatsApp.
      - **E-mail:** Enviar e-mails diretamente.
+     - **Sites:** Portal de noticias da Prefeitura de Paulista 
 
 ### 7. **Busca por Consultas**
    - Busca de consultas baseada na **especialidade médica**.
@@ -146,7 +160,8 @@ O aplicativo utiliza os seguintes dispositivos do smartphone para oferecer uma e
      - **Indeferido:** Vermelho.
    - Detalhes completos da requisição, incluindo descrição, data de envio e status atual.
 
-
+### 9. **Acesso A Internet**
+   - O Aplicativo só funcionará se estiver conectado a internet.  
 
 ## Banco de Dados
 No projeto foi utilizado os serviços de autenticação e o Firestore do Firebase para gerenciar os dados e a segurança dos nossos usuários. A escolha desses serviços trouxe diversos benefícios e simplificou significativamente o processo de desenvolvimento.
@@ -159,6 +174,24 @@ O serviço de autenticação do Firebase nos permitiu implementar um sistema seg
 
 Para o gerenciamento dos dados, optamos pelo Firestore devido à sua capacidade de escalabilidade e flexibilidade. O Firestore é um banco de dados NoSQL, que nos permitiu armazenar e sincronizar dados em tempo real.
 
+## Principais Depêndencias
+
+Esse projeto contém várias dependências para o desenvolvimento. Mas podemos destacar: 
+
+  - Firebase
+    - com.google.firebase:firebase-auth-ktx: Autenticação do Firebase.
+    - com.google.firebase:firebase-firestore-ktx: Firestore (banco de dados NoSQL).
+    - com.firebaseui:firebase-ui-firestore: UI para facilitar integração com Firestore.
+    - platform(libs.firebase.bom): BOM (Bill of Materials) para gerenciamento de versões do Firebase.
+
+  - Google Play Services
+    - com.google.android.gms:play-services-location: Serviços de localização
+   
+  - CameraX
+    - androidx.camera:camera-core
+    - androidx.camera:camera-camera2
+    - androidx.camera:camera-lifecycle
+    - androidx.camera:camera-view
 
 ## Permissões 
 
@@ -221,3 +254,10 @@ No desenvolvimento do nosso aplicativo mobile, diversas permissões são solicit
 
 
 ## Contribuições
+
+Pessoas que contribuiram com o desenvolvimento do projeto:
+- Diana Correia 
+- Paulo Andre
+- Gabriel Vaz
+- Arthur Pedrosa
+
