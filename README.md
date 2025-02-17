@@ -27,7 +27,9 @@ Bem-vindo ao repositório do aplicativo móvel oficial da **Prefeitura de Paulis
 - **Contatos:** Encontre os contatos oficiais da prefeitura, incluindo telefones, e-mails e endereços de diferentes secretarias e departamentos.
 
 
-## Telas
+## Telas e Video
+
+Link do video funcinando -> 
 
 ### Tela de Login
 
@@ -36,7 +38,45 @@ Bem-vindo ao repositório do aplicativo móvel oficial da **Prefeitura de Paulis
 ### Tela de Cadastro 
 ![image](https://github.com/user-attachments/assets/64cf809f-e0dd-4642-b402-16da5a702435)
 
+### Tela Principal 
 
+![image](https://github.com/user-attachments/assets/89ec48d7-edda-4302-b35a-fcba41667176)
+![image](https://github.com/user-attachments/assets/333d9439-37f2-4f08-803a-a01c1bfb73b5)
+
+### Tela Minhas Configuração
+
+![image](https://github.com/user-attachments/assets/ac710f8b-97a7-4aae-b48d-149ad14556f5)
+
+### Tela Registrar Solicitação 
+
+![image](https://github.com/user-attachments/assets/5e5abd9c-7b77-4c79-9c77-ee24d9e3309e)
+
+### Tela de Camera
+
+![image](https://github.com/user-attachments/assets/b96ae5bd-7f8b-4cbc-a6bb-71aa2828c069)
+
+### Tela de Acompanhar Solicitação
+
+![image](https://github.com/user-attachments/assets/79431fe9-440c-4c54-9607-f78d2cc57dff)
+![image](https://github.com/user-attachments/assets/6f71e5b9-8d78-4903-a773-3204a39939be)
+
+### Tela de Detalhes da Dolicitação 
+
+![image](https://github.com/user-attachments/assets/e56ef625-0125-49ee-9360-0c3e810627f7)
+
+### Tela de Agendar Consulta 
+
+![image](https://github.com/user-attachments/assets/f9db5db9-2197-4514-8239-79943a273f13)
+
+### Tela de Minhas Consultas 
+
+![image](https://github.com/user-attachments/assets/013fced2-0bc8-4306-99b5-bc2cb349df8d)
+
+### Tela de Perguntas Frequentes 
+
+![image](https://github.com/user-attachments/assets/6cc4f404-3b09-40c0-b657-e041134bf3c2)
+
+### Tela de Contatos
 
 
 
