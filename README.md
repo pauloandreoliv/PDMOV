@@ -160,6 +160,8 @@ O aplicativo utiliza os seguintes dispositivos do smartphone para oferecer uma e
      - **Indeferido:** Vermelho.
    - Detalhes completos da requisição, incluindo descrição, data de envio e status atual.
 
+### 9. **Acesso A Internet**
+   - O Aplicativo só funcionará se estiver conectado a internet.  
 
 ## Banco de Dados
 No projeto foi utilizado os serviços de autenticação e o Firestore do Firebase para gerenciar os dados e a segurança dos nossos usuários. A escolha desses serviços trouxe diversos benefícios e simplificou significativamente o processo de desenvolvimento.
