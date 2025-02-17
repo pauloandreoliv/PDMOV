@@ -2,7 +2,7 @@
 
 Bem-vindo ao repositório do aplicativo móvel oficial da **Prefeitura de Paulista, Pernambuco**. Este aplicativo foi desenvolvido para facilitar o acesso dos cidadãos aos serviços municipais, notícias e informações relevantes sobre a cidade. Com uma interface intuitiva e funcionalidades práticas, o aplicativo visa melhorar a comunicação entre a prefeitura e os moradores de Paulista.
 
-## Funcionalidades Principais
+## O que Podemos Encontrar no Aplicativo?
 
 ### 1. **Notícias e Acesso ao Site da Cidade**
 - **Notícias:** Fique por dentro das últimas notícias e eventos da cidade. O aplicativo oferece uma seção dedicada para notícias atualizadas diretamente da prefeitura.
