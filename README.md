@@ -2,6 +2,14 @@
 
 Bem-vindo ao repositório do projeto de um aplicativo móvel desenvolvido para **Prefeitura de Paulista, Pernambuco**. Este aplicativo foi desenvolvido para facilitar o acesso dos cidadãos aos serviços municipais, notícias e informações relevantes sobre a cidade. Com uma interface intuitiva e funcionalidades práticas, o aplicativo visa melhorar a comunicação entre a prefeitura e os moradores de Paulista.
 
+## Contribuições
+
+Pessoas que contribuiram com o desenvolvimento do projeto:
+- Diana Correia 
+- Paulo André
+- Gabriel Vaz
+- Arthur Pedrosa
+
 ## O que Podemos Encontrar no Aplicativo?
 
 ### 1. **Notícias e Acesso ao Site da Cidade**
@@ -251,13 +259,3 @@ No desenvolvimento do nosso aplicativo mobile, diversas permissões são solicit
 **Descrição:** Permissão para gravar áudio através do microfone do dispositivo.
 
 **Motivo:** Necessária para funcionalidades que envolvem gravação de voz, chamadas de áudio, reconhecimento de fala e interação com o usuário através de comandos de voz.
-
-
-## Contribuições
-
-Pessoas que contribuiram com o desenvolvimento do projeto:
-- Diana Correia 
-- Paulo Andre
-- Gabriel Vaz
-- Arthur Pedrosa
-
