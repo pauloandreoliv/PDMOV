@@ -28,7 +28,7 @@ Bem-vindo ao repositório do aplicativo móvel oficial da **Prefeitura de Paulis
 
 ## Telas e Video
 
-Link do video funcinando -> 
+Link do video funcionando -> 
 
 ### Tela de Login e Tela de Cadastro 
 
@@ -85,7 +85,7 @@ Obs: Quando o usuario clica em agendar, a consulta não fica mais disponivel par
 
 ### Tela de Minhas Consultas 
 
-Exibe uma lista das consultas agendadas pelo usuário, permitindo visualizar por filtro consultas concluidas (que ja se passaram da data) e consultas que ainda vão ser realizadas. Alem disso, possui um sistema de cancelamento e de notificaçõess por datas proximas da consulta. 
+Exibe uma lista das consultas agendadas pelo usuário, permitindo visualizar por filtro consultas concluidas (que ja se passaram da data) e consultas que ainda vão ser realizadas. Alem disso, possui um sistema de cancelamento e de notificações por datas proximas da consulta. 
 Obs: Quando o usuario clica em cancelar, a consulta volta a fica disponivel para todos os usuario. 
 
 ![image](https://github.com/user-attachments/assets/013fced2-0bc8-4306-99b5-bc2cb349df8d)
@@ -142,11 +142,12 @@ O aplicativo utiliza os seguintes dispositivos do smartphone para oferecer uma e
    - Pop-ups para alertar o usuário sobre informações importantes que acontecem no aplicativo
    (ex.: erro de autenticação, consultas agendadas e canceladas, requisições finalizadas, etc.)
 
-### 6. **Redirecionamento para Contatos**
+### 6. **Redirecionamento**
    - Redirecionamento para sites e aplicativos de contatos, como:
      - **Telefone:** Ligar diretamente para a prefeitura.
      - **WhatsApp:** Enviar mensagens via WhatsApp.
      - **E-mail:** Enviar e-mails diretamente.
+     - **Sites:** Portal de noticias da Prefeitura de Paulista 
 
 ### 7. **Busca por Consultas**
    - Busca de consultas baseada na **especialidade médica**.
