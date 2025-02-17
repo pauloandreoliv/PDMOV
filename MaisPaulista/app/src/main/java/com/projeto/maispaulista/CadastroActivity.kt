@@ -152,6 +152,11 @@ class CadastroActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (!isValidEmail(email)) {
+                Toast.makeText(baseContext, "E-mail inválido!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             if (cpf.length < 14) {
                 Toast.makeText(baseContext, "CPF incompleto", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -187,6 +192,10 @@ class CadastroActivity : AppCompatActivity() {
 
         // Verifica permissão e GPS ao abrir a tela
         locationHelper.checkLocationAndEnableGPS()
+    }
+
+    fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
