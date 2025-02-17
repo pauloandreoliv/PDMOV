@@ -220,7 +220,7 @@ class CadastroActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this, Variaveis.currentActivity)
+        val intent = Intent(this,  Register_RequestsActivity::class.java)
         startActivity(intent)
         finish()
     }

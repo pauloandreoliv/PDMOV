@@ -104,6 +104,15 @@ class Register_RequestsActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            val currentUser = Variaveis.uid
+            if (currentUser == null) {
+                Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+                FirebaseAuth.getInstance().signOut()
+                Variaveis.uid = null
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+
+
             val tipoItem = tipoSolicitacaoSpinner.selectedItem.toString()
             val descricao = descricaoEditText.text.toString()
             val endereco = addressEditText.text.toString()

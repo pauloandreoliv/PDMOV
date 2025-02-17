@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -39,6 +40,14 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule_consultations)
         AuthUtils.checkAuthentication(this)
+
+        val currentUser = Variaveis.uid
+        if (currentUser == null) {
+            Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+            FirebaseAuth.getInstance().signOut()
+            Variaveis.uid = null
+            startActivity(Intent(this, MainActivity::class.java))
+        }
 
 
         val db = FirebaseFirestore.getInstance()
@@ -84,6 +93,8 @@ class ScheduleConsultationsActivity : AppCompatActivity() {
                     NetworkUtils.showNoNetworkDialog(this@ScheduleConsultationsActivity)
                     return
                 }
+
+
                 val especialidade = parent.getItemAtPosition(position).toString()
 
                 // Atualizar o status das consultas antes de buscar e exibir as consultas

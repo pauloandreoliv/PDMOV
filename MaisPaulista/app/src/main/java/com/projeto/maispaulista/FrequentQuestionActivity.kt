@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -55,6 +56,13 @@ class FrequentQuestionActivity : AppCompatActivity() {
         if (!NetworkUtils.isNetworkAvailable(this)) {
             NetworkUtils.showNoNetworkDialog(this)
             return
+        }
+        val currentUser = Variaveis.uid
+        if (currentUser == null) {
+            Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+            FirebaseAuth.getInstance().signOut()
+            Variaveis.uid = null
+            return startActivity(Intent(this, MainActivity::class.java))
         }
         perguntasService.getPerguntas { perguntas ->
             perguntas.forEach { pergunta ->

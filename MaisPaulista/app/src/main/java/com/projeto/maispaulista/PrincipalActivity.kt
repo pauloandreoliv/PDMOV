@@ -71,11 +71,14 @@ class PrincipalActivity : AppCompatActivity() {
 
         if (!NetworkUtils.isNetworkAvailable(this)) {
             NetworkUtils.showNoNetworkDialog(this)
-        } else {
             setupRecyclerView()
-            setupClickListeners()
-            setupBottomNavigation()
         }
+
+        setupRecyclerView()
+        setupClickListeners()
+        setupBottomNavigation()
+
+
     }
 
 
@@ -87,7 +90,7 @@ class PrincipalActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val repository = BlogRepository(db)
         blogService = BlogService(repository)
-
+2
         val query = blogService.getBlogQuery()
         val options = FirestoreRecyclerOptions.Builder<Blog>()
             .setQuery(query, Blog::class.java)

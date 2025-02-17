@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -64,11 +65,19 @@ class MyRequestsActivity : AppCompatActivity() {
     }
 
     private fun fetchRequests() {
+        val currentUser = Variaveis.uid
+        if (currentUser == null) {
+            Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+            FirebaseAuth.getInstance().signOut()
+            Variaveis.uid = null
+            startActivity(Intent(this, MainActivity::class.java))
+        }
         lifecycleScope.launch {
             if (!NetworkUtils.isNetworkAvailable(this@MyRequestsActivity)) {
                 NetworkUtils.showNoNetworkDialog(this@MyRequestsActivity)
                 return@launch
             }
+
             val requests = requestService.getUserRequests()
             val sortedRequests = requests.sortedByDescending { it.nunSolicitacao.toInt() }
             for (request in sortedRequests) {

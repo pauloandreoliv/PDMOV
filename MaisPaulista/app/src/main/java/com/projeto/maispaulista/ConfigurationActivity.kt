@@ -180,7 +180,9 @@ class ConfigurationActivity : AppCompatActivity() {
         val currentUser = Variaveis.uid
         if (currentUser == null) {
             Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
-            return
+            FirebaseAuth.getInstance().signOut()
+            Variaveis.uid = null
+            return startActivity(Intent(this, MainActivity::class.java))
         }
         Log.d("ConfigurationActivity", "Carregando dados para UID: $currentUser")
         CoroutineScope(Dispatchers.Main).launch {

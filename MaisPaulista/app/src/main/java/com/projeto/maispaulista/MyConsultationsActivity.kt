@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -103,6 +104,13 @@ class MyConsultationsActivity : AppCompatActivity() {
         if (!NetworkUtils.isNetworkAvailable(this)) {
             NetworkUtils.showNoNetworkDialog(this)
             return
+        }
+        val currentUser = Variaveis.uid
+        if (currentUser == null) {
+            Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+            FirebaseAuth.getInstance().signOut()
+            Variaveis.uid = null
+            return startActivity(Intent(this, MainActivity::class.java))
         }
         lifecycleScope.launch {
             try {

@@ -63,6 +63,13 @@ class CityHallContactsActivity : AppCompatActivity() {
             NetworkUtils.showNoNetworkDialog(this)
             return
         }
+        val currentUser = Variaveis.uid
+        if (currentUser == null) {
+            Toast.makeText(this, "Usuário não autenticado!", Toast.LENGTH_SHORT).show()
+            FirebaseAuth.getInstance().signOut()
+            Variaveis.uid = null
+            return startActivity(Intent(this, MainActivity::class.java))
+        }
         contatoService.getContatos { contatos ->
             contatos.forEach { contato ->
                 addContatoView(contato)
