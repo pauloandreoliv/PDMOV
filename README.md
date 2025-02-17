@@ -174,6 +174,24 @@ O serviço de autenticação do Firebase nos permitiu implementar um sistema seg
 
 Para o gerenciamento dos dados, optamos pelo Firestore devido à sua capacidade de escalabilidade e flexibilidade. O Firestore é um banco de dados NoSQL, que nos permitiu armazenar e sincronizar dados em tempo real.
 
+## Principais Depêndencias
+
+Esse projeto contém várias dependências para o desenvolvimento. Mas podemos destacar: 
+
+  - Firebase
+    - com.google.firebase:firebase-auth-ktx: Autenticação do Firebase.
+    - com.google.firebase:firebase-firestore-ktx: Firestore (banco de dados NoSQL).
+    - com.firebaseui:firebase-ui-firestore: UI para facilitar integração com Firestore.
+    - platform(libs.firebase.bom): BOM (Bill of Materials) para gerenciamento de versões do Firebase.
+
+  - Google Play Services
+    - com.google.android.gms:play-services-location: Serviços de localização
+   
+  - CameraX
+    - androidx.camera:camera-core
+    - androidx.camera:camera-camera2
+    - androidx.camera:camera-lifecycle
+    - androidx.camera:camera-view
 
 ## Permissões 
 
