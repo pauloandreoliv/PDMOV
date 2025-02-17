@@ -242,7 +242,7 @@ class CadastroActivity : AppCompatActivity() {
 
     // Manipulador de eventos para o botão de voltar
     override fun onBackPressed() {
-        val intent = Intent(this,  Register_RequestsActivity::class.java)
+        val intent = Intent(this,  MainActivity::class.java)
         startActivity(intent)
         finish()
     }
